@@ -1,0 +1,12 @@
+################################################################################################
+WARNING: Set generated strings for passwords, when uploading this file to the production server
+################################################################################################
+
+POSTGRES_PASSWORD=secretpass
+POSTGRES_USER=urbana_user
+POSTGRES_DB=urbana_db
+
+DJANGO_SECRET_KEY=some_secret_key_string
+
+# used to enable features needed only for dev environment
+OUTSIDE=development
