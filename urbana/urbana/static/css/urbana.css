@@ -1,0 +1,40 @@
+body {
+
+}
+
+.main {
+    padding-top: 65px; /* $navbar-height + $padding-vertical; */
+    min-height: 700px;
+}
+
+
+.navbar {
+    background-color: white;
+}
+
+.breadcrumb {
+    /*margin-top:65px;*/
+}
+
+/*.nav>li>a {
+    font-size: 15pt;
+    color: red;
+}*/
+
+.nav {
+    font-size: 15pt;
+}
+
+/*.nav > li > a {
+}*/
+
+/*.index-row {
+    margin-top: 65px;
+    background-color: rgba(152, 210, 240, 0.4);;
+    text-align: center;
+}
+
+.index-row h1 {
+    color: black;
+}*/
+

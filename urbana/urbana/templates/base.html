@@ -1,4 +1,4 @@
-{% load static wagtailuserbar %}
+{% load home_tags static wagtailuserbar %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -11,8 +11,11 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {# Global stylesheets #}
+        <!-- Loading stylesheets dependencies -->
+        <link href="{% static 'css/vendor/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Global stylesheets -->
         <link rel="stylesheet" type="text/css" href="{% static 'css/urbana.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap_theme/bootswatch-paper-bootstrap.css' %}">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -27,11 +30,32 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+
         {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+        {% block menu %}
+            {% get_site_root as site_root %}
+            {% top_menu parent=site_root calling_page=self %}
+        {% endblock %}
 
-        {# Global javascript #}
+        <div class="main container">
+
+            <div style="">{% breadcrumbs %}</div>
+
+            {% block heading %}
+                <div class="page-header">
+                    <h1>{{ self.title }}</h1>
+                </div>
+            {% endblock %}
+
+            {% block content %}{% endblock %}
+
+        </div>
+
+        <!-- Loading js dependencies -->
+        <script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"></script>
+        <script src="{% static 'css/vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
+        <!-- Global javascript -->
         <script type="text/javascript" src="{% static 'js/urbana.js' %}"></script>
 
         {% block extra_js %}
