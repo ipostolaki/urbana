@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags home_tags %}
 
 {% block heading %}
 <!-- empty -->
@@ -13,5 +13,7 @@
             {{ self.body|richtext }}
         </div>
     {% endif %}
+
+    {% urban_blog_listing_homepage %}
 
 {% endblock %}

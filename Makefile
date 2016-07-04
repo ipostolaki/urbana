@@ -25,7 +25,7 @@ django_bash_exec_current_container:
 	docker-compose exec django bash
 
 django_bash_run_another_container:
-	docker-compose run --rm django bash
+	docker-compose run --rm --no-deps django bash
 
 django_shell:
 	docker-compose exec django ./manage.py shell_plus
