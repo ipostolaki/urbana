@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if self.body %}
+        <div class="body-content">
+            {% include "home/includes/streamfield.html" with content=self.body %}
+        </div>
+    {% endif %}
+
+    {% include "home/includes/related_links.html" with related_links=self.related_links.all only %}
+{% endblock %}

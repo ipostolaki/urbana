@@ -55,6 +55,8 @@ a.list-group-item {
 }
 
 
+/*About index page*/
+
 .description-jumbotron {
     margin-top: 45px;
     background-color: rgba(152, 210, 240, 0.4);
@@ -66,3 +68,39 @@ a.list-group-item {
     text-align: left;
     margin-left: 35px;
 }
+
+
+
+/* body image styles - classes supplied by rich text editor */
+.body-content {
+    width: 100%;
+    overflow: hidden;
+    clear: both;
+    margin-bottom: 1em;
+    img {
+        margin-bottom: 2%;
+        margin-top: 2%;
+    }
+
+    img.full-width {
+        width: 100%;
+    }
+
+    img.left{
+        width: 45%;
+        margin-right: 5%;
+        float: left;
+    }
+
+    img.right{
+        width: 45%;
+        margin-left: 5%;
+        float: right;
+    }
+
+    h1, h2, h3, h4, h5 {
+        clear: both;
+    }
+}
+
+

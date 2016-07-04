@@ -14,6 +14,9 @@
         </div>
     {% endif %}
 
-    {% urban_blog_listing_homepage %}
+    {# blog_listing_inclusion blog_type panel_heading #}
+    {% blog_listing_inclusion 'urban' 'Ultime stiri urbane' %}
+    {% blog_listing_inclusion 'network' 'Ultime stirile retelei' %}
+
 
 {% endblock %}

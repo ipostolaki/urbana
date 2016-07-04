@@ -1,6 +1,6 @@
 from django import template
 
-from home.models import Page, UrbanBlogPage
+from home.models import Page, UrbanBlogPage, AboutNetworkNewsPage
 
 register = template.Library()
 
@@ -65,13 +65,20 @@ def breadcrumbs(context):
     }
 
 
-# Blog feed for home page
+# Urban Blog feed for home page
 @register.inclusion_tag(
-    'home/tags/urban_blog_listing_homepage.html',
+    'home/tags/blog_listing_inclusion.html',
     takes_context=True
 )
-def urban_blog_listing_homepage(context, count=2):
-    posts = UrbanBlogPage.objects.live().order_by('-date')
+def blog_listing_inclusion(context, blog_type, panel_heading, count=2):
+
+    if blog_type=='urban':
+        class_name = UrbanBlogPage
+    elif blog_type=='network':
+        class_name = AboutNetworkNewsPage
+
+    posts = class_name.objects.live().order_by('-date')
+
     return {
         'posts': posts[:count].select_related('feed_image'),
         # required by the pageurl tag that we want to use within this template

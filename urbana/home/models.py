@@ -87,6 +87,9 @@ class AbstractStreamfieldPage(Page):
         StreamFieldPanel('body'),
     ]
 
+    def get_template(self, request):
+        return "home/abstract_streamfield_page.html"
+
 # ––––––––––––––––––––––––––––––––––––––––––––––––
 # Common abstract classes needed for "pages related links" feature
 
@@ -159,6 +162,9 @@ class AbstractBlogPage(Page):
         # Find closest ancestor which is a blog index
         return self.get_ancestors().type(AbstractBlogIndexPage).last()
 
+    def get_template(self, request):
+        return "home/abstract_blog_page.html"
+
     class Meta:
         abstract = True
 
@@ -176,7 +182,7 @@ class AbstractBlogPage(Page):
 
 
 class AbstractBlogIndexPage(Page):
-    intro = RichTextField(blank=True)  # TODO: check if this field is used
+    intro = RichTextField(blank=True)
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
@@ -193,15 +199,8 @@ class AbstractBlogIndexPage(Page):
     class Meta:
         abstract = True
 
-    @property
-    def posts(self):
-        # Get list of live blog pages that are descendants of this page
-        posts = UrbanBlogPage.objects.live().descendant_of(self)
-
-        # Order by most recent date first
-        posts = posts.order_by('-date')
-
-        return posts
+    def get_template(self, request):
+        return "home/abstract_blog_index_page.html"
 
     def get_context(self, request):
         # Get posts
@@ -214,7 +213,7 @@ class AbstractBlogIndexPage(Page):
 
         # Pagination
         page = request.GET.get('page')
-        paginator = Paginator(posts, 2)  # Show 10 posts per page TODO: change to 2.
+        paginator = Paginator(posts, 3)  # Show x posts per page TODO: adjust
         try:
             posts = paginator.page(page)
         except PageNotAnInteger:
@@ -241,7 +240,15 @@ class UrbanBlogPage(AbstractBlogPage):
 
 
 class UrbanBlogIndexPage(AbstractBlogIndexPage):
-    pass
+
+    # TODO: find a way to abstract this property
+    @property
+    def posts(self):
+        # Get list of live blog pages that are descendants of this page
+        posts = UrbanBlogPage.objects.live().descendant_of(self)
+        # Order by most recent date first
+        posts = posts.order_by('-date')
+        return posts
 
 
 class UrbanBlogPageRelatedLink(Orderable, RelatedLink):
@@ -255,28 +262,61 @@ class UrbanBlogIndexPageRelatedLink(Orderable, RelatedLink):
 # ––––––––––––––––––––––––––––––––––––––––––––––––
 # Models for module About 'Despre RCU'
 
-class AboutMainPage(AbstractStreamfieldPage):
+class AboutIndexPage(Page):
     """
-    # Page with a separate template
+    # Page with a specific template
     # In template there will be css styled text with description of the RCU
     # Also this page should contain generated listing of all sub pages
     """
     description = models.CharField(max_length=800, help_text="RCU descriere")
 
     content_panels = Page.content_panels + [
-        FieldPanel('description', classname="full")
+        FieldPanel('description')
     ]
 
     def get_context(self, request):
-
         context = super().get_context(request)
-
-        context_updates = {
-            'sub_pages': self.get_children().live(),
-            # required by the pageurl tag that we want to use within this template
-            'request': request
-            }
-
-        context.update(context_updates)
-
+        context['sub_pages'] = self.get_children().live()
         return context
+
+
+class AboutSubPage(AbstractStreamfieldPage):
+    # members page
+    # istoric page
+    # same template – as for parent class
+    pass
+
+
+# ––––––––––––––––––––––––––––––––––––––––––––––––
+# Network Blog Models
+
+
+class AboutNetworkNewsIndexPage(AbstractBlogIndexPage):
+    # Another blog - stirile retelei
+    # Index page, visible in menu
+    # Contains listing of posts
+
+    @property
+    def posts(self):
+        # Get list of live blog pages that are descendants of this page
+        posts = AboutNetworkNewsPage.objects.live().descendant_of(self)
+        # Order by most recent date first
+        posts = posts.order_by('-date')
+        return posts
+
+
+class AboutNetworkNewsPagesTag(TaggedItemBase):
+    content_object = ParentalKey('home.AboutNetworkNewsPage', related_name='tagged_items')
+
+
+class AboutNetworkNewsPage(AbstractBlogPage):
+    tags = ClusterTaggableManager(through=AboutNetworkNewsPagesTag, blank=True)
+
+
+class AboutNetworkNewsPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.AboutNetworkNewsPage', related_name='related_links')
+
+
+class AboutNetworkNewsIndexPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.AboutNetworkNewsIndexPage', related_name='related_links')
+

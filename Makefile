@@ -10,6 +10,10 @@ run:
 run-detached:
 	docker-compose up -d
 
+restart-django-detached:
+	docker-compose stop django
+	docker-compose up -d django
+
 stop:
 	docker-compose stop
 
@@ -34,3 +38,7 @@ django_shell:
 
 logs:
 	docker-compose logs -f --tail=all
+
+start-pg:
+# start existing pg container
+	docker-compose up pg_database
