@@ -288,13 +288,15 @@ class AboutSubPage(AbstractStreamfieldPage):
 
 
 # ––––––––––––––––––––––––––––––––––––––––––––––––
-# Network Blog Models
+# About Network Blog Models
 
 
 class AboutNetworkNewsIndexPage(AbstractBlogIndexPage):
-    # Another blog - stirile retelei
-    # Index page, visible in menu
-    # Contains listing of posts
+    """
+    Another blog - "Stirile Retelei / network news"
+    Index page, visible in menu
+    Contains listing of posts
+    """
 
     @property
     def posts(self):
@@ -320,3 +322,42 @@ class AboutNetworkNewsPageRelatedLink(Orderable, RelatedLink):
 class AboutNetworkNewsIndexPageRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('home.AboutNetworkNewsIndexPage', related_name='related_links')
 
+
+# ––––––––––––––––––––––––––––––––––––––––––––––––
+# About Initiatives Blog Models
+
+
+class AboutInitiativesIndexPage(AbstractBlogIndexPage):
+    """
+    Another blog - network initiatives
+    Index page, visible in menu
+    Contains listing of posts
+    """
+    @property
+    def posts(self):
+        # Get list of live blog pages that are descendants of this page
+        posts = AboutInitiativesPage.objects.live().descendant_of(self)
+        # Order by most recent date first
+        posts = posts.order_by('-date')
+        return posts
+
+
+class AboutInitiativesPagesTag(TaggedItemBase):
+    content_object = ParentalKey('home.AboutInitiativesPage', related_name='tagged_items')
+
+
+class AboutInitiativesPage(AbstractBlogPage):
+    tags = ClusterTaggableManager(through=AboutInitiativesPagesTag, blank=True)
+
+    # TODO: find a way to localize that
+    @classmethod
+    def get_verbose_name(cls):
+        return "Pagina cu initiativa"
+
+
+class AboutInitiativesPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.AboutInitiativesPage', related_name='related_links')
+
+
+class AboutInitiativesIndexPageRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.AboutInitiativesIndexPage', related_name='related_links')

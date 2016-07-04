@@ -14,9 +14,12 @@
         </div>
     {% endif %}
 
-    {# blog_listing_inclusion blog_type panel_heading #}
+    <!-- blog_listing_inclusion call signature -->
+    {# blog_listing_inclusion kind_of_blog panel_title #}
+
     {% blog_listing_inclusion 'urban' 'Ultime stiri urbane' %}
     {% blog_listing_inclusion 'network' 'Ultime stirile retelei' %}
+    {% blog_listing_inclusion 'initiatives' 'Proiecte curente' %}
 
 
 {% endblock %}
