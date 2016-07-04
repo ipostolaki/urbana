@@ -72,6 +72,21 @@ class DemoStreamBlock(StreamBlock):
     document = DocumentChooserBlock(icon="doc-full-inverse")
 
 
+class AbstractStreamfieldPage(Page):
+    # may be used by inheritors which need a StreamField
+    body = StreamField(DemoStreamBlock())
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+    )
+
+    class Meta:
+        abstract = True
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+
 # ––––––––––––––––––––––––––––––––––––––––––––––––
 # Common abstract classes needed for "pages related links" feature
 
@@ -161,7 +176,7 @@ class AbstractBlogPage(Page):
 
 
 class AbstractBlogIndexPage(Page):
-    intro = RichTextField(blank=True)
+    intro = RichTextField(blank=True)  # TODO: check if this field is used
 
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
@@ -236,3 +251,32 @@ class UrbanBlogPageRelatedLink(Orderable, RelatedLink):
 class UrbanBlogIndexPageRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('home.UrbanBlogIndexPage', related_name='related_links')
 
+
+# ––––––––––––––––––––––––––––––––––––––––––––––––
+# Models for module About 'Despre RCU'
+
+class AboutMainPage(AbstractStreamfieldPage):
+    """
+    # Page with a separate template
+    # In template there will be css styled text with description of the RCU
+    # Also this page should contain generated listing of all sub pages
+    """
+    description = models.CharField(max_length=800, help_text="RCU descriere")
+
+    content_panels = Page.content_panels + [
+        FieldPanel('description', classname="full")
+    ]
+
+    def get_context(self, request):
+
+        context = super().get_context(request)
+
+        context_updates = {
+            'sub_pages': self.get_children().live(),
+            # required by the pageurl tag that we want to use within this template
+            'request': request
+            }
+
+        context.update(context_updates)
+
+        return context

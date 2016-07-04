@@ -10,3 +10,4 @@ RUN pip install django==1.9.7
 RUN pip install wagtail==1.5.2
 RUN pip install psycopg2==2.6.1
 RUN pip install livereload==2.4.1
+RUN pip install django-debug-toolbar==1.4

@@ -11,5 +11,4 @@ done
 
 echo "PostgresSQL database is ready"
 python ../live.py &  # run livereload server as bg job
-python manage.py migrate
 python manage.py runserver 0.0.0.0:80

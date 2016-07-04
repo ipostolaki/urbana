@@ -14,8 +14,8 @@
         <!-- Loading stylesheets dependencies -->
         <link href="{% static 'css/vendor/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet">
         <!-- Global stylesheets -->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/urbana.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap_theme/bootswatch-paper-bootstrap.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/urbana.css' %}">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -36,6 +36,9 @@
         {% block menu %}
             {% get_site_root as site_root %}
             {% top_menu parent=site_root calling_page=self %}
+        {% endblock %}
+
+        {% block pre-container-row %}
         {% endblock %}
 
         <div class="main container">

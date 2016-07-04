@@ -4,7 +4,7 @@ body {
 
 .main {
     padding-top: 65px; /* $navbar-height + $padding-vertical; */
-    min-height: 700px;
+    /*min-height: 700px;*/
     margin-bottom: 65px;
 }
 
@@ -29,15 +29,6 @@ body {
 /*.nav > li > a {
 }*/
 
-/*.index-row {
-    margin-top: 65px;
-    background-color: rgba(152, 210, 240, 0.4);;
-    text-align: center;
-}
-
-.index-row h1 {
-    color: black;
-}*/
 
 /* Style pager */
 .col-sm-4.pages {
@@ -61,4 +52,17 @@ a.list-group-item {
             margin-bottom: 1%;
         }
     }
+}
+
+
+.description-jumbotron {
+    margin-top: 45px;
+    background-color: rgba(152, 210, 240, 0.4);
+    text-align: center;
+    margin-bottom: -45px;
+}
+
+.description-jumbotron p {
+    text-align: left;
+    margin-left: 35px;
 }

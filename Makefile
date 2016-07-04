@@ -21,10 +21,12 @@ migrations:
 
 apply_migrations: migrations migrate
 
-django_bash_exec_current_container:
+# execute bash in the currently running container
+django_exec_bash:
 	docker-compose exec django bash
 
-django_bash_run_another_container:
+# run new django container, with bash, and remove it after usage
+django_run_bash:
 	docker-compose run --rm --no-deps django bash
 
 django_shell:

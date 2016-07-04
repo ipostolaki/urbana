@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags home_tags %}
+
+{% block pre-container-row %}
+
+    <div class="jumbotron description-jumbotron">
+        <div class="row">
+            <h1>Rețeaua Civică Urbană</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-sm-push-3">
+            <p>{{ self.description }}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+    {% block heading %}<!-- empty -->{% endblock %}
+
+    <div class="list-group">
+        {% for sub_page in sub_pages %}
+            <a class="list-group-item" href="{% pageurl sub_page %}">
+                <h4 class="list-group-item-heading">{{ sub_page.title }}</h4>
+                {% if sub_page.search_description %}
+                    <p class="list-group-item-text">{{ sub_page.search_description }}</p>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}

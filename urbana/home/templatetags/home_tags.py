@@ -53,7 +53,7 @@ def top_menu_children(context, parent):
 @register.inclusion_tag('home/tags/breadcrumbs.html', takes_context=True)
 def breadcrumbs(context):
     self = context.get('self')
-    if self is None or self.depth <= 2:
+    if self is None or self.depth <= 3:
         # When on the home page, displaying breadcrumbs is irrelevant.
         ancestors = ()
     else:
