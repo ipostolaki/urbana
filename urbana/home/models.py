@@ -30,6 +30,9 @@ class HomePage(Page):
         FieldPanel('body', classname="full")
     ]
 
+    #  TODO: check that with empty system
+    parent_page_types = []  # this page should be not be added to other pages
+
 
 # ––––––––––––––––––––––––––––––––––––––––––––––––
 # Global Streamfield definition
@@ -236,10 +239,14 @@ class UrbanBlogPagesTag(TaggedItemBase):
 
 
 class UrbanBlogPage(AbstractBlogPage):
+    parent_page_types = ['home.UrbanBlogIndexPage']
     tags = ClusterTaggableManager(through=UrbanBlogPagesTag, blank=True)
 
 
 class UrbanBlogIndexPage(AbstractBlogIndexPage):
+
+    parent_page_types = ['home.HomePage']
+    subpage_types = ['home.UrbanBlogPage']
 
     # TODO: find a way to abstract this property
     @property
@@ -268,7 +275,10 @@ class AboutIndexPage(Page):
     # In template there will be css styled text with description of the RCU
     # Also this page should contain generated listing of all sub pages
     """
-    description = models.CharField(max_length=800, help_text="RCU descriere")
+
+    parent_page_types = ['home.HomePage']
+
+    description = models.CharField(max_length=800, help_text="RCU descriere")  # TODO localize
 
     content_panels = Page.content_panels + [
         FieldPanel('description')
@@ -280,10 +290,9 @@ class AboutIndexPage(Page):
         return context
 
 
-class AboutSubPage(AbstractStreamfieldPage):
-    # members page
-    # istoric page
-    # same template – as for parent class
+class StandardPage(AbstractStreamfieldPage):
+    # Universal page which may be added anywhere in the pages tree
+    # template – same as for parent class
     pass
 
 
@@ -297,6 +306,9 @@ class AboutNetworkNewsIndexPage(AbstractBlogIndexPage):
     Index page, visible in menu
     Contains listing of posts
     """
+
+    parent_page_types = ['home.AboutIndexPage']
+    subpage_types = ['home.AboutNetworkNewsPage']
 
     @property
     def posts(self):
@@ -312,6 +324,7 @@ class AboutNetworkNewsPagesTag(TaggedItemBase):
 
 
 class AboutNetworkNewsPage(AbstractBlogPage):
+    parent_page_types = ['home.AboutIndexPage']
     tags = ClusterTaggableManager(through=AboutNetworkNewsPagesTag, blank=True)
 
 
@@ -333,6 +346,10 @@ class AboutInitiativesIndexPage(AbstractBlogIndexPage):
     Index page, visible in menu
     Contains listing of posts
     """
+
+    parent_page_types = ['home.AboutIndexPage']
+    subpage_types = ['home.AboutInitiativesPage']
+
     @property
     def posts(self):
         # Get list of live blog pages that are descendants of this page
@@ -349,7 +366,9 @@ class AboutInitiativesPagesTag(TaggedItemBase):
 class AboutInitiativesPage(AbstractBlogPage):
     tags = ClusterTaggableManager(through=AboutInitiativesPagesTag, blank=True)
 
-    # TODO: find a way to localize that
+    parent_page_types = ['home.AboutIndexPage']
+
+    # TODO: localize that
     @classmethod
     def get_verbose_name(cls):
         return "Pagina cu initiativa"
