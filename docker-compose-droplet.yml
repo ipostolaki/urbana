@@ -1,0 +1,35 @@
+# Dev env compose file
+
+version: '2'
+
+volumes:
+    pgdata:
+    pglogs:
+
+services:
+
+    django:
+        build:
+            context: .
+        volumes:
+            - ./:/source
+        working_dir: /source/urbana
+        command: bash -c ". ../droplet/run_django.sh"
+        ports:
+            - 9000:80
+            - 35729:35729
+        depends_on:
+            - pg_database
+        env_file: env
+
+    pg_database:
+        image: postgres:9.5.3
+        # secret strings are in the file
+        env_file: env
+        volumes:
+            # override postgres image Dockerfile data volume
+            - pgdata:/var/lib/postgresql/data
+            - pglogs:/var/log/postgresql
+        ports:
+            # expose ports to the docker host for debug purposes
+            - 5432:5432
