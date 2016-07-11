@@ -1,6 +1,3 @@
-export COMPOSE_FILE=./../docker-compose-droplet.yml
-
-
 default: build
 
 build:

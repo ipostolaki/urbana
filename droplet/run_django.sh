@@ -10,4 +10,4 @@ do
 done
 
 echo "PostgresSQL database is ready"
-python manage.py runserver 0.0.0.0:9000
+python manage.py runserver 0.0.0.0:80

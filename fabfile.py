@@ -14,16 +14,21 @@ def deploy(stop="do", migrate="do"):
     # Pull updates from central repo
     run("cd /home/urbana/ && git fetch && git pull --no-edit")
 
+    # Re-build django container – to install there new pip reqs
+    run("cd /home/urbana/droplet && make build")
+
     # Run migrations if any
-    if migrate == 'do':
-        run("cd /home/urbana/ && make apply_nigrations")
+    # if migrate == 'do':
+    #     run("cd /home/urbana/ && make apply_nigrations")
+    # TODO: migrations may only be started when containers are running.
+    # migrate.sh needed - run actions after pg start
 
     # Start services
     start()
 
 
 def start():
-    run("cd /home/urbana/ && make run")
+    run("cd /home/urbana/ && make run-detached")
 
 
 def stop():
@@ -31,4 +36,4 @@ def stop():
 
 
 def remote_git_status():
-    run("cd /home/comeo_lab_env/comeo_project/ && git fetch && git status")
+    run("cd /home/urbana/ && git fetch && git status")
