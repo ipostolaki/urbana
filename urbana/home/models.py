@@ -324,7 +324,7 @@ class AboutNetworkNewsPagesTag(TaggedItemBase):
 
 
 class AboutNetworkNewsPage(AbstractBlogPage):
-    parent_page_types = ['home.AboutIndexPage']
+    parent_page_types = ['home.AboutNetworkNewsIndexPage']
     tags = ClusterTaggableManager(through=AboutNetworkNewsPagesTag, blank=True)
 
 
@@ -366,7 +366,7 @@ class AboutInitiativesPagesTag(TaggedItemBase):
 class AboutInitiativesPage(AbstractBlogPage):
     tags = ClusterTaggableManager(through=AboutInitiativesPagesTag, blank=True)
 
-    parent_page_types = ['home.AboutIndexPage']
+    parent_page_types = ['home.AboutInitiativesIndexPage']
 
     # TODO: localize that
     @classmethod
