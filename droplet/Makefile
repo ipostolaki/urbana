@@ -1,4 +1,4 @@
-export COMPOSE_FILE=docker-compose-droplet.yml
+export COMPOSE_FILE=../docker-compose-droplet.yml
 export COMPOSE_PROJECT_NAME=urbana
 
 default: build
