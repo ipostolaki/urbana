@@ -1,8 +1,17 @@
+"""
+TODO:
+Distinct blogs indexes
+Common class for blog page
+Common class for blog tags
+modify blog inclusion
+universal blog index?
+restrict adding reserved indexes for user
+"""
+
 from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django import forms
 
 from taggit.models import TaggedItemBase
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -13,14 +22,12 @@ from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, \
     InlinePanel, PageChooserPanel, StreamFieldPanel
 
-from wagtail.wagtailcore.blocks import TextBlock, StructBlock, StreamBlock, FieldBlock, CharBlock, RichTextBlock
-from wagtail.wagtailimages.blocks import ImageChooserBlock
-from wagtail.wagtaildocs.blocks import DocumentChooserBlock
-
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from wagtail.wagtailsearch import index
+
+from .streamfield_blocks import FullStreamBlock
 
 
 class HomePage(Page):
@@ -34,64 +41,7 @@ class HomePage(Page):
     parent_page_types = []  # this page should be not be added to other pages
 
 
-# ––––––––––––––––––––––––––––––––––––––––––––––––
-# Global Streamfield definition
 
-
-class PullQuoteBlock(StructBlock):
-    quote = TextBlock("quote title")
-    attribution = CharBlock()
-
-    class Meta:
-        icon = "openquote"
-
-
-class ImageFormatChoiceBlock(FieldBlock):
-    field = forms.ChoiceField(choices=(
-        ('left', 'Wrap left'), ('right', 'Wrap right'), ('mid', 'Mid width'), ('full', 'Full width'),
-    ))
-
-
-class HTMLAlignmentChoiceBlock(FieldBlock):
-    field = forms.ChoiceField(choices=(
-        ('normal', 'Normal'), ('full', 'Full width'),
-    ))
-
-
-class ImageBlock(StructBlock):
-    image = ImageChooserBlock()
-    caption = RichTextBlock()
-    alignment = ImageFormatChoiceBlock()
-
-
-class DemoStreamBlock(StreamBlock):
-    h2 = CharBlock(icon="title", classname="title")
-    h3 = CharBlock(icon="title", classname="title")
-    h4 = CharBlock(icon="title", classname="title")
-    intro = RichTextBlock(icon="pilcrow")
-    paragraph = RichTextBlock(icon="pilcrow")
-    aligned_image = ImageBlock(label="Aligned image", icon="image")
-    pullquote = PullQuoteBlock()
-    document = DocumentChooserBlock(icon="doc-full-inverse")
-
-
-class AbstractStreamfieldPage(Page):
-    # may be used by inheritors which need a StreamField
-    body = StreamField(DemoStreamBlock())
-
-    search_fields = Page.search_fields + (
-        index.SearchField('body'),
-    )
-
-    class Meta:
-        abstract = True
-
-    content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
-    ]
-
-    def get_template(self, request):
-        return "home/abstract_streamfield_page.html"
 
 # ––––––––––––––––––––––––––––––––––––––––––––––––
 # Common abstract classes needed for "pages related links" feature
@@ -146,7 +96,7 @@ class RelatedLink(LinkFields):
 # Abstract models common for different blogs
 
 class AbstractBlogPage(Page):
-    body = StreamField(DemoStreamBlock())
+    body = StreamField(FullStreamBlock())
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -229,6 +179,25 @@ class AbstractBlogIndexPage(Page):
 
         context['posts'] = posts
         return context
+
+
+class AbstractStreamfieldPage(Page):
+    # may be used by inheritors which need a StreamField
+    body = StreamField(FullStreamBlock())
+
+    search_fields = Page.search_fields + (
+        index.SearchField('body'),
+    )
+
+    class Meta:
+        abstract = True
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+
+    def get_template(self, request):
+        return "home/abstract_streamfield_page.html"
 
 
 # ––––––––––––––––––––––––––––––––––––––––––––––––

@@ -3,7 +3,7 @@
 version: '2'
 
 volumes:
-    pgdata2:
+    pgdata:
     pglogs:
 
 services:
@@ -28,7 +28,7 @@ services:
         env_file: env
         volumes:
             # override postgres image Dockerfile data volume
-            - pgdata2:/var/lib/postgresql/data
+            - pgdata:/var/lib/postgresql/data
             - pglogs:/var/log/postgresql
             - ./:/source
         ports:

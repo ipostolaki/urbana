@@ -37,7 +37,7 @@ django_shell:
 	docker-compose exec django ./manage.py shell_plus
 
 logs:
-	docker-compose logs -f --tail=all
+	docker-compose logs -f --tail=500
 
 start-pg:
 # start existing pg container

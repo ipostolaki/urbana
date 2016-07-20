@@ -72,11 +72,11 @@ def breadcrumbs(context):
 )
 def blog_listing_inclusion(context, kind_of_blog, panel_title, count=2):
 
-    if kind_of_blog=='urban':
+    if kind_of_blog == 'urban':
         blog_class = UrbanBlogPage
-    elif kind_of_blog=='network':
+    elif kind_of_blog == 'network':
         blog_class = AboutNetworkNewsPage
-    elif kind_of_blog=='initiatives':
+    elif kind_of_blog == 'initiatives':
         blog_class = AboutInitiativesPage
 
     posts = blog_class.objects.live().order_by('-date')
