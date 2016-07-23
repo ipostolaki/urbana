@@ -18,18 +18,6 @@
 {% endblock %}
 
 {% block content %}
-
     {% block heading %}<!-- empty -->{% endblock %}
-
-    <div class="list-group">
-        {% for sub_page in sub_pages %}
-            <a class="list-group-item" href="{% pageurl sub_page %}">
-                <h4 class="list-group-item-heading">{{ sub_page.title }}</h4>
-                {% if sub_page.search_description %}
-                    <p class="list-group-item-text">{{ sub_page.search_description }}</p>
-                {% endif %}
-            </a>
-        {% endfor %}
-    </div>
-
+    {% standard_index_listing calling_page=self %}
 {% endblock %}

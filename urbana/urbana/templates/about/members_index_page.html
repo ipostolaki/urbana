@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags home_tags wagtailimages_tags %}
+{% block heading %}<!-- empty -->{% endblock %}
+{% block content %}
+    {% for member in self.members_list %}
+    <div class="col-md-3 list-group">
+        <a href="{% pageurl member %}" class="list-group-item" style="min-height:340px;">
+            {% if member.image %}
+                {% image member.image width-230 as img %}
+                <img src="{{ img.url }}"/><br><br>
+            {% endif %}
+            <h5 class="list-group-item-heading">{{ member.title }}</h5>
+            {% if member.intro %}
+            <p class="list-group-item-text" style="max-height:60px; overflow:hidden;">
+                {{ member.intro }}
+            </p>
+            {% endif %}
+        </a>
+    </div>
+    {% endfor %}
+{% endblock %}

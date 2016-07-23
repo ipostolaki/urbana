@@ -2,6 +2,8 @@
 # Models common for different blogs of the site
 """
 
+# TODO: move these models into separate app?
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import models
 

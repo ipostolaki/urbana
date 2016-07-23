@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load i18n %}
+
+{% block content %}
+    {% include "home/includes/intro.html" with intro=self.intro only %}
+
+    {% if self.image %}
+        {% image self.image width-300 class="img-thumbnail" %}
+    {% endif %}
+
+    {% if self.description %}
+        <div class="page-header"><h3>{% trans 'Bio' %}</h3></div>
+            {{ self.description|richtext }}
+    {% endif %}
+
+    <div class="page-header"><h3>Contact</h3></div>
+    <div class="row">
+        <dl>
+            <div class="col-sm-4">
+                {% if self.telephone %}
+                    <dt>Telephone</dt>
+                    <dd>{{ self.telephone }}</dd>
+                {% endif %}
+
+                {% if self.email %}
+                    <dt>Email</dt>
+                    <dd>{{ self.email }}</dd>
+                {% endif %}
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </dl>
+    </div>
+
+{% endblock %}

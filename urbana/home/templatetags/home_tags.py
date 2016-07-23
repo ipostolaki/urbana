@@ -95,3 +95,16 @@ def blog_listing_inclusion(context, kind_of_blog, panel_title, count=2):
         # required by the pageurl tag that we want to use within this template
         'request': context['request']
     }
+
+# Retrieves all live pages which are children of the calling page
+@register.inclusion_tag(
+    'home/tags/standard_index_listing.html',
+    takes_context=True
+)
+def standard_index_listing(context, calling_page):
+    pages = calling_page.get_children().live()
+    return {
+        'pages': pages,
+        # required by the pageurl tag that we want to use within this template
+        'request': context['request'],
+    }

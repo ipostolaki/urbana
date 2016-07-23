@@ -60,5 +60,22 @@ class UrbanBlogIndexPage(AbstractBlogIndexPage):
     parent_page_types = ['home.HomePage']  # TODO: created programmatically, should not be created by editor
 
 
-
-
+# TODO: is this class used? (tag is used though)
+# class StandardIndexPage(Page):
+#     """
+#     Used for indexes of static(not blog) pages
+#     TODO: add hint description for editors.
+#     """
+#     class Meta:
+#         abstract = True
+#
+#     intro = RichTextField(blank=True)
+#
+#     search_fields = Page.search_fields + (
+#         index.SearchField('intro'),
+#     )
+#
+# StandardIndexPage.content_panels = [
+#     FieldPanel('title', classname="full title"),
+#     FieldPanel('intro', classname="full"),
+# ]

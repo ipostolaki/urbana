@@ -31,11 +31,6 @@ class TopMenuPage(Page):
         FieldPanel('description')
     ]
 
-    def get_context(self, request):
-        context = super().get_context(request)
-        context['sub_pages'] = self.get_children().live()
-        return context
-
 
 class NetworkNewsBlogIndexPage(AbstractBlogIndexPage):
     """
