@@ -34,7 +34,7 @@ django_run_bash:
 	docker-compose run --rm --no-deps django bash
 
 django_shell:
-	docker-compose exec django ./manage.py shell_plus
+	docker-compose exec django ./manage.py shell
 
 logs:
 	docker-compose logs -f --tail=500

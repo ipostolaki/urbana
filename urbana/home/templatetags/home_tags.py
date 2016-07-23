@@ -1,6 +1,7 @@
 from django import template
 
-from home.models import Page, UrbanBlogPage, AboutNetworkNewsPage, AboutInitiativesPage
+from home.models import Page, UrbanBlogIndexPage
+from about.models import NetworkNewsBlogIndexPage, InitiativesBlogIndexPage
 
 register = template.Library()
 
@@ -71,15 +72,22 @@ def breadcrumbs(context):
     takes_context=True
 )
 def blog_listing_inclusion(context, kind_of_blog, panel_title, count=2):
-
+    """
+    This inclusion is needed to render several recent posts from different blogs of the site
+    """
     if kind_of_blog == 'urban':
-        blog_class = UrbanBlogPage
+        blog_index_class = UrbanBlogIndexPage
     elif kind_of_blog == 'network':
-        blog_class = AboutNetworkNewsPage
+        blog_index_class = NetworkNewsBlogIndexPage
     elif kind_of_blog == 'initiatives':
-        blog_class = AboutInitiativesPage
+        blog_index_class = InitiativesBlogIndexPage
 
-    posts = blog_class.objects.live().order_by('-date')
+    # Here different blog indexes are used.
+    # Their posts are retrieved using AbstractBlogIndexPage posts property
+
+    blog_index = blog_index_class.objects.all().last()
+    print("DBG: {}".format(blog_index))
+    posts = blog_index.posts
 
     return {
         'posts': posts[:count].select_related('feed_image'),
