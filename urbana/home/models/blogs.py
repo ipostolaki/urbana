@@ -162,6 +162,7 @@ class UniversalBlogPage(Page):
         FieldPanel('tags'),
     ]
 
+    subpage_types = []
 
 class UniversalBlogIndexPage(AbstractBlogIndexPage):
     """

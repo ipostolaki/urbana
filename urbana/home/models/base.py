@@ -46,9 +46,11 @@ class AbstractStreamfieldPage(Page):
 
 
 class StandardPage(AbstractStreamfieldPage):
-    # Standard page which may be added by Editor when a page with rich static content is needed.
-    # template – same as for parent class
-    pass
+    """
+    Standard page which may be added by Editor when a page with rich static content is needed.
+    Template – same as for parent class.
+    """
+    subpage_types = []
 
 
 class UrbanBlogIndexPage(AbstractBlogIndexPage):

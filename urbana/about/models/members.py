@@ -3,7 +3,7 @@ from django.db import models
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailsearch import index
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 
@@ -52,3 +52,4 @@ class MemberPage(Page):
         ImageChooserPanel('image'),
     ]
     parent_page_types = ['about.MembersIndexPage']
+    subpage_types = []

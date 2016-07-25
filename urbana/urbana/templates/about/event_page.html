@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load home_tags wagtailcore_tags wagtailimages_tags %}
+{% load i18n %}
+
+{% block content %}
+    <div class="well">
+        <p class="lead">
+            {{ self.date_from }}{% if self.date_to %} to {{ self.date_to }}{% endif %}
+            {% if self.time_from %}{{ self.time_from }}{% endif %}
+            {% if self.time_to %} {% trans 'până' %} {{ self.time_to }}{% endif %}
+        </p>
+        <p><strong>{% trans 'Locație' %}: </strong>{{ self.location }}</p>
+
+        {% if self.signup_link %}
+            <p><strong>{% trans 'Registrare' %}: </strong>
+                <a href="{{ self.signup_link }}">{{self.signup_link }}</a></p>
+        {% endif %}
+    </div>
+
+    {% if self.body %}
+        <div class="body-content">
+            {% include "home/includes/streamfield.html" with content=self.body %}
+        </div>
+    {% endif %}
+
+{% endblock %}
