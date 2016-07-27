@@ -5,9 +5,10 @@
 {% block content %}
     <div class="well">
         <p class="lead">
-            {{ self.date_from }}{% if self.date_to %} to {{ self.date_to }}{% endif %}
+            {{ self.date_from }}{% if self.date_to %} - {{ self.date_to }}{% endif %}
+            <br>
             {% if self.time_from %}{{ self.time_from }}{% endif %}
-            {% if self.time_to %} {% trans 'până' %} {{ self.time_to }}{% endif %}
+            {% if self.time_to %} - {{ self.time_to }}{% endif %}
         </p>
         <p><strong>{% trans 'Locație' %}: </strong>{{ self.location }}</p>
 

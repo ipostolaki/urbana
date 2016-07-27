@@ -18,10 +18,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap_theme/bootswatch-paper-bootstrap.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/urbana.css' %}">
 
-        {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
+        {% block extra_head %}
+            {# Override this in templates to add extra definitions into head #}
         {% endblock %}
-
 
         {% if outside == 'development' %}
             <!-- livereload development server -->
@@ -31,6 +30,14 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+
+        <!-- Loading js dependencies -->
+        <script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"></script>
+        <script src="{% static 'css/vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
+        <!-- Global javascript -->
+        <script type="text/javascript" src="{% static 'js/urbana.js' %}"></script>
+
+        {% block extra_js %}{# Override this in templates to add extra javascript #}{% endblock %}
 
         {% wagtailuserbar %}
 
@@ -57,14 +64,5 @@
 
         </div>
 
-        <!-- Loading js dependencies -->
-        <script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"></script>
-        <script src="{% static 'css/vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
-        <!-- Global javascript -->
-        <script type="text/javascript" src="{% static 'js/urbana.js' %}"></script>
-
-        {% block extra_js %}
-            {# Override this in templates to add extra javascript #}
-        {% endblock %}
     </body>
 </html>

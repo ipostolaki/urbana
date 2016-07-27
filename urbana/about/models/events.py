@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 
 from django.db import models
 
@@ -16,12 +16,11 @@ class EventIndexPage(Page):
     intro = RichTextField(blank=True)
 
     @property
-    def events(self):
-        # Get list of live event pages that are descendants of this page
-        events = EventPage.objects.live().descendant_of(self)
-        # Filter events list to get ones that are either
-        # running now or start in the future
-        events = events.filter(date_from__gte=date.today())
+    def upcoming_events(self):
+        # Get list of live event pages
+        events = EventPage.objects.live()
+        # Filter events list to get ones that are either running now or start in the future
+        events = events.filter(date_from__gte=datetime.date.today())
         # Order by date
         events = events.order_by('date_from')
         return events
@@ -59,11 +58,6 @@ class EventPage(Page):
         related_name='+'
     )
 
-    search_fields = Page.search_fields + (
-        index.SearchField('location'),
-        index.SearchField('body'),
-    )
-
     @property
     def event_index(self):
         # Find closest ancestor which is an event index
@@ -81,7 +75,34 @@ class EventPage(Page):
     promote_panels = Page.promote_panels + [
         ImageChooserPanel('feed_image'),
     ]
+    search_fields = Page.search_fields + (
+        index.SearchField('location'),
+        index.SearchField('body'),
+    )
 
     parent_page_types = ['about.EventIndexPage']
     subpage_types = []
 
+
+# Helpers methods
+
+def get_events_in_range(start_date_string, end_date_string):
+    """
+    Retrieves events for given dates range.
+
+    Both start_string & end_string params are ISO8601 date stamps
+    :return: list of EventPage objects
+    """
+
+    # Get list of live event pages(objects)
+    events = EventPage.objects.live()
+    start_datestamp = datetime.datetime.strptime(start_date_string, '%Y-%m-%d')
+    end_datestamp = datetime.datetime.strptime(end_date_string, '%Y-%m-%d')
+
+    # Filter events list to get ones that are in the given range
+    # (events whose starting date fits into range)
+    events_from_start_to_end = events.filter(
+        models.Q(date_from__gte=start_datestamp), models.Q(date_from__lte=end_datestamp)
+    )
+
+    return events_from_start_to_end

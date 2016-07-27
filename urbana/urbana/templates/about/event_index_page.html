@@ -1,24 +1,57 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags home_tags wagtailimages_tags %}
+{% load wagtailcore_tags home_tags wagtailimages_tags static i18n %}
+{% block extra_head %}
+<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.0/fullcalendar.min.css'>
+{% endblock %}
+
+{% block extra_js %}
+<script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.0/fullcalendar.min.js'></script>
+<script src='http://fullcalendar.io/js/fullcalendar-2.9.0/lang-all.js'></script>
+{% endblock %}
+
+{% block heading %}<!--empty-->{% endblock %}
+
 {% block content %}
-        {% include "home/includes/intro.html" with intro=self.intro only %}
-        {% for event in self.events %}
-                <a class="list-group-item" href="{% pageurl event %}">
-                  <div class="media">
-                    {% if event.feed_image %}
-                      <div class="media-left">
-                        {% image event.feed_image width-150 as img %}
-                        <img class="media-object" src="{{ img.url }}" />
+    {% get_current_language as LANGUAGE_CODE %}
+
+    <script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            events: '/calendar-data/',
+            lang: '{{ LANGUAGE_CODE }}'
+        })
+    });
+    </script>
+
+    {% include "home/includes/intro.html" with intro=self.intro only %}
+
+    <div class="row">
+        <div class="col-md-8 col-md-push-2 col-xs-12">
+            <div id='calendar'></div>
+            <div class="page-header"><h3>Evenimente în curând</h3></div>
+
+            {% for event in self.upcoming_events %}
+                    <a class="list-group-item" href="{% pageurl event %}">
+                      <div class="media">
+                        {% if event.feed_image %}
+                          <div class="media-left">
+                            {% image event.feed_image width-150 as img %}
+                            <img class="media-object" src="{{ img.url }}" />
+                          </div>
+                        {% endif %}
+                        <div class="media-body">
+                          <h4 class="media-heading">{{ event.title }}</h4>
+                          <p><strong>{{ event.date_from }}</strong></p>
+                          {% if event.search_description %}
+                            <p>{{ event.search_description }}</p>
+                          {% endif %}
+                        </div>
                       </div>
-                    {% endif %}
-                    <div class="media-body">
-                      <h4 class="media-heading">{{ event.title }}</h4>
-                      <p><strong>{{ event.date_from }}</strong></p>
-                      {% if event.search_description %}
-                        <p>{{ event.search_description }}</p>
-                      {% endif %}
-                    </div>
-                  </div>
-                </a>
-        {% endfor %}
+                    </a>
+            {% endfor %}
+
+        </div>
+    </div>
+
 {% endblock %}
