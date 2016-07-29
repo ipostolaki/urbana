@@ -9,12 +9,12 @@ def deploy(stop="do", migrate="do"):
 
     # Stop services
     if stop == 'do':
-        stop()
+        stop_action()
 
     # Pull updates from central repo
     run("cd /home/urbana/ && git fetch && git pull --no-edit")
 
-    # Re-build django container – to install there new pip reqs
+    # Rebuild django container, to install there new pip reqs
     run("cd /home/urbana/droplet && make build")
 
     # Run migrations if any
@@ -28,11 +28,11 @@ def deploy(stop="do", migrate="do"):
 
 
 def start():
-    run("cd /home/urbana/ && make run-detached")
+    run("cd /home/urbana/droplet && make run-detached")
 
 
-def stop():
-    run("cd /home/urbana/ && make stop")
+def stop_action():
+    run("cd /home/urbana/droplet && make stop")
 
 
 def remote_git_status():

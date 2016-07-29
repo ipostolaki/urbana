@@ -7,6 +7,10 @@ from home.models import AbstractBlogIndexPage
 
 
 class TopMenuPage(Page):
+
+    # TODO rename class / add explanation visible in admin panel(should be clear that this type
+    # of page is needed for About site section)
+
     """
     Despre(About) - Page visible in top menu.
     This page should contain generated listing of all sub pages.

@@ -27,22 +27,24 @@ class HomePage(Page):
 
 
 class AbstractStreamfieldPage(Page):
-    # may be used by inheritors which need a StreamField
+    # may be used by inheritors which need a StreamField with FullStreamBlock
+    class Meta:
+        abstract = True
+
     body = StreamField(FullStreamBlock())
+
+    def get_template(self, request):
+        return "home/abstract_streamfield_page.html"
 
     search_fields = Page.search_fields + (
         index.SearchField('body'),
     )
 
-    class Meta:
-        abstract = True
-
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
     ]
 
-    def get_template(self, request):
-        return "home/abstract_streamfield_page.html"
+    subpage_types = []
 
 
 class StandardPage(AbstractStreamfieldPage):
@@ -62,22 +64,19 @@ class UrbanBlogIndexPage(AbstractBlogIndexPage):
     parent_page_types = ['home.HomePage']  # TODO: created programmatically, should not be created by editor
 
 
-# TODO: is this class used? (tag is used though)
-# class StandardIndexPage(Page):
-#     """
-#     Used for indexes of static(not blog) pages
-#     TODO: add hint description for editors.
-#     """
-#     class Meta:
-#         abstract = True
-#
-#     intro = RichTextField(blank=True)
-#
-#     search_fields = Page.search_fields + (
-#         index.SearchField('intro'),
-#     )
-#
-# StandardIndexPage.content_panels = [
-#     FieldPanel('title', classname="full title"),
-#     FieldPanel('intro', classname="full"),
-# ]
+class StandardIndexPage(Page):
+    """
+    Used for indexes of static(not blog) pages
+    TODO: add hint description for editors.
+    """
+
+    intro = RichTextField(blank=True)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('intro'),
+    )
+
+StandardIndexPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('intro', classname="full"),
+]

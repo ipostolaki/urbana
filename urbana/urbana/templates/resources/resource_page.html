@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load home_tags wagtailcore_tags %}
+{% load i18n %}
+
+{% block content %}
+
+    {{ self.description|richtext }}
+
+    {% if self.related_documents.all %}
+    <hr>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Files list' %}
+                        <span class="small">({% trans 'click to download' %})</span>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                    {% for related_document in self.related_documents.all %}
+                        <li><a href="{{ related_document.document.url }}">
+                            {{ related_document.document.filename }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
