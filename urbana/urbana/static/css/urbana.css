@@ -13,14 +13,21 @@ body {
     background-color: white;
 }
 
-.breadcrumb {
-    /*margin-top:65px;*/
+.navbar-toggle .icon-bar {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-/*.nav>li>a {
-    font-size: 15pt;
-    color: red;
-}*/
+/*
+TODO: same hover color for other buttons/links(bootstrap override)
+including mobile collapsed navbar
+*/
+.nav>li>a:hover {
+    background-color: rgba(152, 210, 240, 0.2);
+}
+
+.nav>li.active {
+    background-color: rgba(152, 210, 240, 0.2);
+}
 
 .nav {
     font-size: 15pt;

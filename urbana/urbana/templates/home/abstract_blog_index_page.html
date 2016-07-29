@@ -4,10 +4,6 @@
 
 {% block content %}
 
-    {% block heading %}
-    <!-- empty -->
-    {% endblock %}
-
     {% include "home/includes/intro.html" with intro=self.intro only %}
 
     {% if request.GET.tag|length %}

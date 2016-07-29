@@ -32,13 +32,10 @@ class AbstractBlogIndexPage(Page):
     search_fields = Page.search_fields + (
         index.SearchField('intro'),
     )
-
     content_panels = [
         FieldPanel('title', classname="full title"),
         FieldPanel('intro', classname="full"),
     ]
-
-    promote_panels = Page.promote_panels
 
     subpage_types = ['home.UniversalBlogPage']
 
@@ -162,7 +159,6 @@ class UniversalBlogPage(Page):
         FieldPanel('tags'),
     ]
 
-    subpage_types = []
 
 class UniversalBlogIndexPage(AbstractBlogIndexPage):
     """

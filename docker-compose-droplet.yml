@@ -30,7 +30,7 @@ services:
             # override postgres image Dockerfile data volume
             - pgdata:/var/lib/postgresql/data
             - pglogs:/var/log/postgresql
-            - ./:/source/dumps  # volume mounted to get dump files out of container necessary
+            - ./:/source/dumps  # volume mounted to get dump files out of container
         ports:
             # expose ports to the docker host for debug purposes
             - 5432:5432
