@@ -123,6 +123,12 @@ class UniversalBlogPage(Page):
     Blog page model used for different blog index models.
     i.e. instance of this model may become child of any blog index.
     """
+    """
+    TOOO: limit parent pages types to blogs only ?
+    Not possible for AbstractBlogIndexPage
+    Conflict with future blogs
+    """
+
     body = StreamField(FullStreamBlock())
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(

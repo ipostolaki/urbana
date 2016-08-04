@@ -86,7 +86,6 @@ def blog_listing_inclusion(context, kind_of_blog, panel_title, count=2):
     # Their posts are retrieved using AbstractBlogIndexPage posts property
 
     blog_index = blog_index_class.objects.all().last()
-    print("DBG: {}".format(blog_index))
     posts = blog_index.posts
 
     return {

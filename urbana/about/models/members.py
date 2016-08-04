@@ -19,6 +19,8 @@ class MembersIndexPage(Page):
         # thus "image" field may be accessed in template
         return [member_page.specific for member_page in members_pages]
 
+    subpage_types = ['about.MemberPage']
+
 
 class MemberPage(Page):
     first_name = models.CharField(max_length=255)
