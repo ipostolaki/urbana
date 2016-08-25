@@ -1,0 +1,50 @@
+default: build
+
+build:
+	docker-compose build
+
+run:
+	docker-compose stop django  # for restart cases, when already running
+	docker-compose up
+
+run-detached:
+	docker-compose up -d
+
+restart-django-detached:
+	docker-compose stop django
+	docker-compose up -d django
+
+stop:
+	docker-compose stop
+
+migrate:
+	docker-compose exec django ./manage.py migrate
+
+migrations:
+	docker-compose exec django ./manage.py makemigrations
+
+apply-migrations: migrations migrate
+
+django-exec-bash:
+    # execute bash in the currently running container
+	docker-compose exec django bash
+
+django-run-bash:
+    # run new django container, with bash, and remove it after usage
+	docker-compose run --rm --no-deps django bash
+
+django-shell:
+	docker-compose exec django ./manage.py shell
+
+logs:
+	docker-compose logs -f --tail=500
+
+run-pg:
+    # start existing pg container
+	docker-compose up -d pg_database
+
+pg-dump:
+	docker-compose exec pg_database bash -c 'pg_dump -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f ./dumps/latest.sql'
+
+pg-restore:
+	docker-compose exec pg_database bash -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f ./dumps/latest.sql'

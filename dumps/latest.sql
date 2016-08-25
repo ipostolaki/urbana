@@ -1905,7 +1905,7 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 139, true);
 --
 
 COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$24000$hBITIcYwjgVL$nY9W+ZnuU5cupmEEiofB4L+ocWX9brc7ZhkIDRJgnpc=	2016-07-22 17:06:34.264905+00	t	admin			admin@urbana.md	t	t	2016-07-22 17:06:30.927524+00
+1	pbkdf2_sha256$24000$hBITIcYwjgVL$nY9W+ZnuU5cupmEEiofB4L+ocWX9brc7ZhkIDRJgnpc=	2016-08-01 08:28:52.894622+00	t	admin			admin@urbana.md	t	t	2016-07-22 17:06:30.927524+00
 \.
 
 
@@ -2149,6 +2149,8 @@ SELECT pg_catalog.setval('django_migrations_id_seq', 112, true);
 
 COPY django_session (session_key, session_data, expire_date) FROM stdin;
 rso0uhiajrs9ruf1yk02kben3vl5fwn5	OTg3ZTkwYmVmNDBiOWNiZGYyOGI0N2JkODc2ODFlMTBhM2Y5NWM5Yzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyMGIyM2QwMTdjNzBkMmNlYjJiMTJkODkzZGJmZmE3ZWI4YjY3YjRmIn0=	2016-08-05 17:06:34.286913+00
+d9gsn2dzr4s86zr3fmib7styyw6apfqu	NzcwOTI3YjI4N2NkNzdlNjYyY2FhOTE5ZjYxM2NmMmExMWQ5YmM1ZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2hhc2giOiIyMGIyM2QwMTdjNzBkMmNlYjJiMTJkODkzZGJmZmE3ZWI4YjY3YjRmIn0=	2016-08-12 09:43:22.516399+00
+wejfa8cwscryxrric2g4e5k7w5kla4jk	ZTFhYTJlMDdlMTVlZmMyZmM2OTU4NDkwZjUwZDBhNTUwMTdkYWZiNjp7Il9hdXRoX3VzZXJfaGFzaCI6IjIwYjIzZDAxN2M3MGQyY2ViMmIxMmQ4OTNkYmZmYTdlYjhiNjdiNGYiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2016-08-15 08:28:52.902525+00
 \.
 
 
@@ -2175,6 +2177,7 @@ COPY home_standardindexpage (page_ptr_id, intro) FROM stdin;
 --
 
 COPY home_standardpage (page_ptr_id, body) FROM stdin;
+34	[]
 \.
 
 
@@ -2191,6 +2194,10 @@ COPY home_universalblogindexpage (page_ptr_id, intro) FROM stdin;
 --
 
 COPY home_universalblogpage (page_ptr_id, body, date, feed_image_id) FROM stdin;
+31	[]	2016-07-29	2
+32	[]	2016-07-29	2
+33	[]	2016-07-28	\N
+35	[{"value": {"alignment": "normal", "html": "<p  style=\\" margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;\\">   <a title=\\"View Ghidul Participantilor SIVAIP on Scribd\\" href=\\"https://www.scribd.com/document/318723660/Ghidul-Participantilor-SIVAIP#from_embed\\"  style=\\"text-decoration: underline;\\" >Ghidul Participantilor SIVAIP</a> by <a title=\\"View Oberliht's profile on Scribd\\" href=\\"https://www.scribd.com/user/324370701/Oberliht#from_embed\\"  style=\\"text-decoration: underline;\\" >Oberliht</a> on Scribd</p><iframe class=\\"scribd_iframe_embed\\" src=\\"https://www.scribd.com/embeds/318723660/content?start_page=1&view_mode=scroll&access_key=key-qRdwJMefiTX21zFDeTyI&show_recommendations=true&show_upsell=true\\" data-auto-height=\\"false\\" data-aspect-ratio=\\"1.414442700156986\\" scrolling=\\"no\\" id=\\"doc_18206\\" width=\\"100%\\" height=\\"600\\" frameborder=\\"0\\"></iframe>"}, "type": "aligned_html"}]	2016-08-27	\N
 \.
 
 
@@ -2250,6 +2257,7 @@ COPY resources_resourcepage (page_ptr_id, description) FROM stdin;
 COPY resources_resourcepagerelateddocument (id, sort_order, document_id, page_id) FROM stdin;
 1	0	1	25
 2	1	2	25
+3	0	1	30
 \.
 
 
@@ -2257,7 +2265,7 @@ COPY resources_resourcepagerelateddocument (id, sort_order, document_id, page_id
 -- Name: resources_resourcepagerelateddocument_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('resources_resourcepagerelateddocument_id_seq', 2, true);
+SELECT pg_catalog.setval('resources_resourcepagerelateddocument_id_seq', 3, true);
 
 
 --
@@ -2366,24 +2374,29 @@ SELECT pg_catalog.setval('wagtailcore_grouppagepermission_id_seq', 6, true);
 
 COPY wagtailcore_page (id, path, depth, numchild, title, slug, live, has_unpublished_changes, url_path, seo_title, show_in_menus, search_description, go_live_at, expire_at, expired, content_type_id, owner_id, locked, latest_revision_created_at, first_published_at) FROM stdin;
 1	0001	1	1	Root	root	t	f	/		f		\N	\N	f	1	\N	f	\N	\N
-13	00010001000200030001	5	0	Ilie Postolachi	ilie-postolachi	t	f	/home/despre/membri/ilie-postolachi/		f		\N	\N	f	41	1	f	2016-07-23 16:18:05.544139+00	2016-07-23 16:14:26.145825+00
-4	000100010002	3	5	Despre	despre	t	f	/home/despre/		t		\N	\N	f	12	1	f	2016-07-22 17:07:15.479153+00	2016-07-22 17:07:15.619947+00
 21	000100010003	3	2	Resurse	resurse	t	f	/home/resurse/		t		\N	\N	f	44	1	f	2016-07-27 18:03:24.746376+00	2016-07-27 17:44:45.100132+00
 3	00010001	2	2	Homepage	home	t	f	/home/		f		\N	\N	f	4	\N	f	\N	\N
 15	00010001000200040001	5	0	Eveniment #1	eveniment-1	t	f	/home/despre/evenimente/eveniment-1/		f		\N	\N	f	43	1	f	2016-07-27 13:33:43.615246+00	2016-07-25 17:14:33.045101+00
-6	000100010001	3	0	Știri Urbane	stiri-urbane	t	f	/home/stiri-urbane/		t		\N	\N	f	11	1	f	2016-07-22 17:29:20.548832+00	2016-07-22 17:28:34.933561+00
-5	0001000100020001	4	0	Știrile rețelei	stirile-retelei	t	f	/home/despre/stirile-retelei/		t		\N	\N	f	13	1	f	2016-07-22 17:33:35.452308+00	2016-07-22 17:26:56.847194+00
-7	0001000100020002	4	0	Inițiativele rețelei	initiativele-retelei	t	f	/home/despre/initiativele-retelei/		t		\N	\N	f	14	1	f	2016-07-22 17:33:59.04321+00	2016-07-22 17:33:09.226067+00
 17	00010001000200040003	5	0	May past event	may-past-event	t	f	/home/despre/evenimente/may-past-event/		f		\N	\N	f	43	1	f	2016-07-27 13:36:37.731173+00	2016-07-27 13:36:37.9699+00
-12	0001000100020003	4	1	Membri	membri	t	f	/home/despre/membri/		t		\N	\N	f	40	1	f	2016-07-23 16:15:26.661035+00	2016-07-23 16:13:45.117959+00
 14	0001000100020004	4	5	Evenimente în curând	evenimente	t	f	/home/despre/evenimente/		t		\N	\N	f	42	1	f	2016-07-27 13:50:21.547598+00	2016-07-25 16:44:19.296875+00
-30	00010001000300060001	5	0	Ghid #1	ghid-1	t	f	/home/resurse/ghiduri-pentru-activisti/ghid-1/		f		\N	\N	f	46	1	f	2016-07-28 11:08:57.713376+00	2016-07-28 11:08:57.874245+00
 16	00010001000200040002	5	0	Eveniment #2	eveniment-2	t	f	/home/despre/evenimente/eveniment-2/		f	Descriere vizibila la pagina de index	\N	\N	f	43	1	f	2016-07-25 17:44:21.039744+00	2016-07-25 17:14:33.045101+00
 29	0001000100030006	4	1	Ghiduri pentru activiști	ghiduri-pentru-activisti	t	f	/home/resurse/ghiduri-pentru-activisti/		t		\N	\N	f	47	1	f	2016-07-28 11:11:47.500995+00	2016-07-28 11:08:15.02512+00
 19	00010001000200040005	5	0	Eveniment nou	28-check	t	f	/home/despre/evenimente/28-check/		f		\N	\N	f	43	1	f	2016-07-27 17:35:47.260214+00	2016-07-27 17:14:35.652609+00
 18	00010001000200040004	5	0	Eveniment 2 days long	ev3	t	f	/home/despre/evenimente/ev3/		f		\N	\N	f	43	1	f	2016-07-27 17:36:23.059583+00	2016-07-27 14:57:31.806757+00
-28	0001000100030005	4	1	Modele de acte și scrisori	index-nou	t	f	/home/resurse/index-nou/		t		\N	\N	f	47	1	f	2016-07-28 11:06:38.834276+00	2016-07-28 11:00:58.806743+00
-25	00010001000300050001	5	0	Model #1	doc-1	t	f	/home/resurse/index-nou/doc-1/		f		\N	\N	f	46	1	f	2016-07-28 10:22:42.3627+00	2016-07-28 10:09:23.800133+00
+35	0001000100010002	4	0	Scribd test	scribd-test	t	f	/home/stiri-urbane/scribd-test/		f		\N	\N	f	8	1	f	2016-08-01 08:42:52.991558+00	2016-08-01 08:42:53.068947+00
+31	0001000100010001	4	0	Post urban #1	post-urban-1	t	f	/home/stiri-urbane/post-urban-1/		f		\N	\N	f	8	1	f	2016-07-29 09:55:35.098642+00	2016-07-29 09:48:27.113054+00
+7	0001000100020002	4	1	Inițiativele rețelei	initiativele-retelei	t	f	/home/despre/initiativele-retelei/		t		\N	\N	f	14	1	f	2016-07-22 17:33:59.04321+00	2016-07-22 17:33:09.226067+00
+30	00010001000300060001	5	0	Ghid #1	ghid-1	t	f	/home/resurse/ghiduri-pentru-activisti/ghid-1/		f		\N	\N	f	46	1	f	2016-08-04 12:09:32.917469+00	2016-07-28 11:08:57.874245+00
+32	00010001000200020001	5	0	Initiativa #1	initiativa-1	t	f	/home/despre/initiativele-retelei/initiativa-1/		f		\N	\N	f	8	1	f	2016-07-29 09:56:24.964123+00	2016-07-29 09:56:25.015416+00
+5	0001000100020001	4	1	Știrile rețelei	stirile-retelei	t	f	/home/despre/stirile-retelei/		t		\N	\N	f	13	1	f	2016-07-22 17:33:35.452308+00	2016-07-22 17:26:56.847194+00
+33	00010001000200010001	5	0	Noutati #1	noutati-1	t	f	/home/despre/stirile-retelei/noutati-1/		f		\N	\N	f	8	1	f	2016-07-29 09:57:40.175925+00	2016-07-29 09:57:40.198888+00
+4	000100010002	3	6	Despre	despre	t	f	/home/despre/		t		\N	\N	f	12	1	f	2016-07-22 17:07:15.479153+00	2016-07-22 17:07:15.619947+00
+34	0001000100020006	4	0	Istoric	istoric	t	f	/home/despre/istoric/		t		\N	\N	f	10	1	f	2016-07-29 12:48:00.908759+00	2016-07-29 12:48:00.942534+00
+12	0001000100020005	4	1	Membri	membri	t	f	/home/despre/membri/		t		\N	\N	f	40	1	f	2016-07-23 16:15:26.661035+00	2016-07-23 16:13:45.117959+00
+13	00010001000200050001	5	0	Ilie Postolachi	ilie-postolachi	t	f	/home/despre/membri/ilie-postolachi/		f		\N	\N	f	41	1	f	2016-07-23 16:18:05.544139+00	2016-07-23 16:14:26.145825+00
+28	0001000100030005	4	1	Modele de acte și scrisori	modele-de-acte	t	f	/home/resurse/modele-de-acte/		t		\N	\N	f	47	1	f	2016-08-01 08:30:14.787284+00	2016-07-28 11:00:58.806743+00
+25	00010001000300050001	5	0	Model #1	doc-1	t	f	/home/resurse/modele-de-acte/doc-1/		f		\N	\N	f	46	1	f	2016-07-28 10:22:42.3627+00	2016-07-28 10:09:23.800133+00
+6	000100010001	3	2	Știri Urbane	stiri-urbane	t	f	/home/stiri-urbane/		t		\N	\N	f	11	1	f	2016-07-22 17:29:20.548832+00	2016-07-22 17:28:34.933561+00
 \.
 
 
@@ -2391,7 +2404,7 @@ COPY wagtailcore_page (id, path, depth, numchild, title, slug, live, has_unpubli
 -- Name: wagtailcore_page_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailcore_page_id_seq', 30, true);
+SELECT pg_catalog.setval('wagtailcore_page_id_seq', 35, true);
 
 
 --
@@ -2421,7 +2434,6 @@ COPY wagtailcore_pagerevision (id, submitted_for_moderation, created_at, content
 47	f	2016-07-25 17:40:35.640134+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #2", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:40:09.123Z", "search_description": "", "pk": 16, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-2", "depth": 5, "date_to": null, "time_to": null, "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-2/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040002", "expired": false}	\N	16	1
 58	f	2016-07-27 14:57:31.480555+00	{"time_from": "16:00:00", "location": "some", "expired": false, "feed_image": null, "body": "[]", "go_live_at": null, "title": "Ev3", "latest_revision_created_at": null, "path": "00010001000200040004", "date_from": "2016-07-26", "content_type": 43, "date_to": "2016-07-28", "has_unpublished_changes": false, "live": true, "slug": "ev3", "expire_at": null, "time_to": "18:00:00", "signup_link": "", "owner": 1, "numchild": 0, "show_in_menus": false, "first_published_at": null, "depth": 5, "url_path": "/home/despre/evenimente/ev3/", "seo_title": "", "locked": false, "pk": 18, "search_description": ""}	\N	18	1
 37	f	2016-07-25 17:19:33.648909+00	{"feed_image": 1, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:14:32.679Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": null, "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
-80	f	2016-07-28 11:08:57.713376+00	{"go_live_at": null, "related_documents": [], "live": true, "content_type": 46, "expired": false, "pk": 30, "latest_revision_created_at": null, "seo_title": "", "numchild": 0, "owner": 1, "has_unpublished_changes": false, "title": "Ghid #1", "path": "00010001000300060001", "depth": 5, "locked": false, "show_in_menus": false, "url_path": "/home/resurse/ghiduri-pentru-activisti/ghid-1/", "slug": "ghid-1", "expire_at": null, "search_description": "", "first_published_at": null, "description": "<h5>Info text</h5>"}	\N	30	1
 48	f	2016-07-25 17:44:21.039744+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #2", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:40:35.640Z", "search_description": "Descriere vizibila la pagina de index", "pk": 16, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-2", "depth": 5, "date_to": null, "time_to": null, "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-2/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040002", "expired": false}	\N	16	1
 59	f	2016-07-27 15:01:12.013454+00	{"time_from": "16:00:00", "location": "some", "expired": false, "feed_image": null, "body": "[]", "go_live_at": null, "title": "Eveniment loooong title", "latest_revision_created_at": "2016-07-27T14:57:31.480Z", "path": "00010001000200040004", "date_from": "2016-07-26", "content_type": 43, "date_to": "2016-07-28", "has_unpublished_changes": false, "live": true, "slug": "ev3", "expire_at": null, "time_to": "18:00:00", "signup_link": "", "owner": 1, "numchild": 0, "show_in_menus": false, "first_published_at": "2016-07-27T14:57:31.806Z", "depth": 5, "url_path": "/home/despre/evenimente/ev3/", "seo_title": "", "locked": false, "pk": 18, "search_description": ""}	\N	18	1
 60	f	2016-07-27 17:14:35.487556+00	{"title": "28 check", "live": true, "feed_image": null, "latest_revision_created_at": null, "signup_link": "", "expire_at": null, "expired": false, "slug": "28-check", "locked": false, "show_in_menus": false, "first_published_at": null, "body": "[]", "date_to": null, "has_unpublished_changes": false, "numchild": 0, "url_path": "/home/despre/evenimente/28-check/", "time_to": null, "owner": 1, "content_type": 43, "path": "00010001000200040005", "time_from": null, "date_from": "2016-07-28", "pk": 19, "search_description": "", "go_live_at": null, "seo_title": "", "depth": 5, "location": "loc"}	\N	19	1
@@ -2437,21 +2449,30 @@ COPY wagtailcore_pagerevision (id, submitted_for_moderation, created_at, content
 51	f	2016-07-25 17:50:49.198417+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:49:23.690Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": "21:00:00", "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"aligned_image\\", \\"value\\": {\\"image\\": 2, \\"caption\\": \\"<p>Caption</p>\\", \\"alignment\\": \\"mid\\"}}, {\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
 55	f	2016-07-27 13:42:53.061082+00	{"numchild": 3, "content_type": 42, "search_description": "", "latest_revision_created_at": "2016-07-25T17:25:24.467Z", "has_unpublished_changes": false, "title": "Evenimente \\u00een cur\\u00e2nd", "first_published_at": "2016-07-25T16:44:19.296Z", "owner": 1, "path": "0001000100020004", "intro": "<p>Descriere index (optional)</p>", "expired": false, "locked": false, "depth": 4, "slug": "evenimente", "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "seo_title": "", "go_live_at": null, "live": true, "pk": 14}	\N	14	1
 62	f	2016-07-27 17:35:47.260214+00	{"depth": 5, "date_to": null, "time_from": null, "pk": 19, "locked": false, "signup_link": "", "first_published_at": "2016-07-27T17:14:35.652Z", "has_unpublished_changes": false, "feed_image": null, "expired": false, "seo_title": "", "date_from": "2016-07-27", "numchild": 0, "body": "[]", "content_type": 43, "slug": "28-check", "go_live_at": null, "show_in_menus": false, "latest_revision_created_at": "2016-07-27T17:15:41.742Z", "path": "00010001000200040005", "owner": 1, "url_path": "/home/despre/evenimente/28-check/", "live": true, "time_to": null, "expire_at": null, "search_description": "", "location": "loc", "title": "Eveniment nou"}	\N	19	1
-77	f	2016-07-28 11:00:58.62319+00	{"has_unpublished_changes": false, "content_type": 47, "live": true, "search_description": "", "slug": "index-nou", "numchild": 0, "url_path": "/home/resurse/index-nou/", "title": "Index nou", "latest_revision_created_at": null, "owner": 1, "pk": 28, "seo_title": "", "depth": 4, "first_published_at": null, "expired": false, "show_in_menus": true, "go_live_at": null, "locked": false, "expire_at": null, "path": "0001000100030005"}	\N	28	1
 71	f	2016-07-28 10:09:23.605695+00	{"expire_at": null, "has_unpublished_changes": false, "path": "00010001000300030001", "seo_title": "", "live": true, "url_path": "/home/resurse/modele-de-acte-si-scrisori/doc-1/", "show_in_menus": false, "numchild": 0, "content_type": 46, "expired": false, "latest_revision_created_at": null, "locked": false, "owner": 1, "pk": 25, "related_documents": [{"pk": 1, "page": 25, "sort_order": 0, "link_document": 1}], "depth": 5, "search_description": "", "first_published_at": null, "description": "", "go_live_at": null, "title": "Doc #1", "slug": "doc-1"}	\N	25	1
 40	f	2016-07-25 17:24:28.651024+00	{"locked": false, "owner": 1, "title": "Evenimente \\u00een cur\\u00e2nd", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": false, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:23:17.837Z", "search_description": "", "pk": 14, "intro": "<p><br/></p>", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
 41	f	2016-07-25 17:24:45.859409+00	{"locked": false, "owner": 1, "title": "Evenimente \\u00een cur\\u00e2nd", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:24:28.651Z", "search_description": "", "pk": 14, "intro": "<p><br/></p>", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
 63	f	2016-07-27 17:36:23.059583+00	{"depth": 5, "date_to": "2016-07-28", "time_from": "16:00:00", "pk": 18, "locked": false, "signup_link": "", "first_published_at": "2016-07-27T14:57:31.806Z", "has_unpublished_changes": false, "feed_image": null, "expired": false, "seo_title": "", "date_from": "2016-07-26", "numchild": 0, "body": "[]", "content_type": 43, "slug": "ev3", "go_live_at": null, "show_in_menus": false, "latest_revision_created_at": "2016-07-27T15:01:12.013Z", "path": "00010001000200040004", "owner": 1, "url_path": "/home/despre/evenimente/ev3/", "live": true, "time_to": "18:00:00", "expire_at": null, "search_description": "", "location": "some", "title": "Eveniment 2 days long"}	\N	18	1
 52	f	2016-07-25 17:51:22.516848+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:50:49.198Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": "21:00:00", "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"aligned_image\\", \\"value\\": {\\"image\\": 2, \\"caption\\": \\"<p>\\\\u00a0</p>\\", \\"alignment\\": \\"mid\\"}}, {\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
 72	f	2016-07-28 10:22:42.3627+00	{"title": "Model #1", "expire_at": null, "locked": false, "description": "<p>Descriere pentru model #1</p>", "latest_revision_created_at": "2016-07-28T10:09:23.605Z", "numchild": 0, "has_unpublished_changes": false, "path": "00010001000300030001", "show_in_menus": false, "seo_title": "", "go_live_at": null, "live": true, "pk": 25, "depth": 5, "search_description": "", "url_path": "/home/resurse/modele-de-acte-si-scrisori/doc-1/", "first_published_at": "2016-07-28T10:09:23.800Z", "expired": false, "slug": "doc-1", "content_type": 46, "related_documents": [{"link_document": 1, "sort_order": 0, "page": 25, "pk": 1}, {"link_document": 2, "sort_order": 1, "page": 25, "pk": null}], "owner": 1}	\N	25	1
-78	f	2016-07-28 11:06:38.834276+00	{"url_path": "/home/resurse/index-nou/", "title": "Modele de acte \\u0219i scrisori", "go_live_at": null, "has_unpublished_changes": false, "path": "0001000100030005", "depth": 4, "live": true, "show_in_menus": true, "content_type": 47, "slug": "index-nou", "expire_at": null, "search_description": "", "expired": false, "first_published_at": "2016-07-28T11:00:58.806Z", "pk": 28, "latest_revision_created_at": "2016-07-28T11:00:58.623Z", "seo_title": "", "numchild": 0, "locked": false, "owner": 1}	\N	28	1
 31	f	2016-07-23 16:15:26.661035+00	{"title": "Membri", "owner": 1, "slug": "membri", "expired": false, "show_in_menus": true, "content_type": 40, "expire_at": null, "pk": 12, "live": true, "go_live_at": null, "seo_title": "", "search_description": "", "numchild": 1, "first_published_at": "2016-07-23T16:13:45.117Z", "url_path": "/home/despre/membri/", "depth": 4, "locked": false, "latest_revision_created_at": "2016-07-23T16:13:44.943Z", "path": "0001000100020003", "has_unpublished_changes": false}	\N	12	1
 42	f	2016-07-25 17:25:24.467487+00	{"locked": false, "owner": 1, "title": "Evenimente \\u00een cur\\u00e2nd", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:24:45.859Z", "search_description": "", "pk": 14, "intro": "", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
+77	f	2016-07-28 11:00:58.62319+00	{"has_unpublished_changes": false, "content_type": 47, "live": true, "search_description": "", "slug": "index-nou", "numchild": 0, "url_path": "/home/resurse/index-nou/", "title": "Index nou", "latest_revision_created_at": null, "owner": 1, "pk": 28, "seo_title": "", "depth": 4, "first_published_at": null, "expired": false, "show_in_menus": true, "go_live_at": null, "locked": false, "expire_at": null, "path": "0001000100030005"}	\N	28	1
 57	f	2016-07-27 13:50:21.547598+00	{"numchild": 3, "content_type": 42, "search_description": "", "latest_revision_created_at": "2016-07-27T13:49:43.154Z", "has_unpublished_changes": false, "title": "Evenimente \\u00een cur\\u00e2nd", "first_published_at": "2016-07-25T16:44:19.296Z", "owner": 1, "path": "0001000100020004", "intro": "", "expired": false, "locked": false, "depth": 4, "slug": "evenimente", "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "seo_title": "", "go_live_at": null, "live": true, "pk": 14}	\N	14	1
 33	f	2016-07-23 16:18:05.544139+00	{"title": "Ilie Postolachi", "expired": false, "show_in_menus": false, "pk": 13, "live": true, "description": "<p>Descriere</p>", "go_live_at": null, "email": "ilia.postolachi@gmail.com", "numchild": 0, "intro": "intro", "depth": 5, "latest_revision_created_at": "2016-07-23T16:17:43.378Z", "telephone": "", "owner": 1, "slug": "ilie-postolachi", "content_type": 41, "expire_at": null, "image": 1, "first_published_at": "2016-07-23T16:14:26.145Z", "search_description": "", "last_name": "Postolachi", "seo_title": "", "first_name": "Ilie", "url_path": "/home/despre/membri/ilie-postolachi/", "has_unpublished_changes": false, "path": "00010001000200030001", "locked": false}	\N	13	1
 32	f	2016-07-23 16:17:43.378843+00	{"title": "Ilie Postolachi", "expired": false, "show_in_menus": false, "pk": 13, "live": true, "description": "<p>Descriere</p>", "go_live_at": null, "email": "ilia.postolachi@gmail.com", "numchild": 0, "intro": "intro", "depth": 5, "latest_revision_created_at": "2016-07-23T16:14:25.993Z", "telephone": "", "owner": 1, "slug": "ilie-postolachi", "content_type": 41, "expire_at": null, "image": null, "first_published_at": "2016-07-23T16:14:26.145Z", "search_description": "", "last_name": "Postolachi", "seo_title": "", "first_name": "Ilie", "url_path": "/home/despre/membri/ilie-postolachi/", "has_unpublished_changes": false, "path": "00010001000200030001", "locked": false}	\N	13	1
 56	f	2016-07-27 13:49:43.154474+00	{"numchild": 3, "content_type": 42, "search_description": "", "latest_revision_created_at": "2016-07-27T13:42:53.061Z", "has_unpublished_changes": false, "title": "Evenimente \\u00een cur\\u00e2nd", "first_published_at": "2016-07-25T16:44:19.296Z", "owner": 1, "path": "0001000100020004", "intro": "<p><br/></p>", "expired": false, "locked": false, "depth": 4, "slug": "evenimente", "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "seo_title": "", "go_live_at": null, "live": true, "pk": 14}	\N	14	1
 30	f	2016-07-23 16:14:25.993293+00	{"title": "Ilie Postolachi", "expired": false, "show_in_menus": false, "pk": 13, "live": true, "description": "", "go_live_at": null, "email": "ilia.postolachi@gmail.com", "numchild": 0, "intro": "", "depth": 5, "latest_revision_created_at": null, "telephone": "", "owner": 1, "slug": "ilie-postolachi", "content_type": 41, "expire_at": null, "image": null, "first_published_at": null, "search_description": "", "last_name": "Postolachi", "seo_title": "", "first_name": "Ilie", "url_path": "/home/despre/membri/ilie-postolachi/", "has_unpublished_changes": false, "path": "00010001000200030001", "locked": false}	\N	13	1
+82	f	2016-07-29 09:48:27.065294+00	{"tagged_items": [], "owner": 1, "depth": 4, "related_links": [], "path": "0001000100010001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "post-urban-1", "show_in_menus": false, "latest_revision_created_at": null, "first_published_at": null, "title": "Post urban #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": null, "search_description": "", "live": true, "url_path": "/home/stiri-urbane/post-urban-1/", "expired": false, "pk": 31, "numchild": 0, "expire_at": null, "date": "2016-07-29"}	\N	31	1
+83	f	2016-07-29 09:55:35.098642+00	{"tagged_items": [], "owner": 1, "depth": 4, "related_links": [], "path": "0001000100010001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "post-urban-1", "show_in_menus": false, "latest_revision_created_at": "2016-07-29T09:48:27.065Z", "first_published_at": "2016-07-29T09:48:27.113Z", "title": "Post urban #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": 2, "search_description": "", "live": true, "url_path": "/home/stiri-urbane/post-urban-1/", "expired": false, "pk": 31, "numchild": 0, "expire_at": null, "date": "2016-07-29"}	\N	31	1
+78	f	2016-07-28 11:06:38.834276+00	{"url_path": "/home/resurse/index-nou/", "title": "Modele de acte \\u0219i scrisori", "go_live_at": null, "has_unpublished_changes": false, "path": "0001000100030005", "depth": 4, "live": true, "show_in_menus": true, "content_type": 47, "slug": "index-nou", "expire_at": null, "search_description": "", "expired": false, "first_published_at": "2016-07-28T11:00:58.806Z", "pk": 28, "latest_revision_created_at": "2016-07-28T11:00:58.623Z", "seo_title": "", "numchild": 0, "locked": false, "owner": 1}	\N	28	1
+84	f	2016-07-29 09:56:24.964123+00	{"tagged_items": [], "owner": 1, "depth": 5, "related_links": [], "path": "00010001000200020001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "initiativa-1", "show_in_menus": false, "latest_revision_created_at": null, "first_published_at": null, "title": "Initiativa #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": 2, "search_description": "", "live": true, "url_path": "/home/despre/initiativele-retelei/initiativa-1/", "expired": false, "pk": 32, "numchild": 0, "expire_at": null, "date": "2016-07-29"}	\N	32	1
+87	f	2016-08-01 08:30:14.787284+00	{"url_path": "/home/resurse/index-nou/", "slug": "modele-de-acte", "seo_title": "", "owner": 1, "live": true, "numchild": 1, "depth": 4, "expired": false, "first_published_at": "2016-07-28T11:00:58.806Z", "latest_revision_created_at": "2016-07-28T11:06:38.834Z", "expire_at": null, "go_live_at": null, "search_description": "", "locked": false, "path": "0001000100030005", "title": "Modele de acte \\u0219i scrisori", "pk": 28, "has_unpublished_changes": false, "show_in_menus": true, "content_type": 47}	\N	28	1
+85	f	2016-07-29 09:57:40.175925+00	{"tagged_items": [], "owner": 1, "depth": 5, "related_links": [], "path": "00010001000200010001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "noutati-1", "show_in_menus": false, "latest_revision_created_at": null, "first_published_at": null, "title": "Noutati #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": null, "search_description": "", "live": true, "url_path": "/home/despre/stirile-retelei/noutati-1/", "expired": false, "pk": 33, "numchild": 0, "expire_at": null, "date": "2016-07-28"}	\N	33	1
+86	f	2016-07-29 12:48:00.908759+00	{"url_path": "/home/despre/istoric/", "slug": "istoric", "body": "[]", "seo_title": "", "owner": 1, "live": true, "numchild": 0, "depth": 4, "expired": false, "first_published_at": null, "latest_revision_created_at": null, "expire_at": null, "go_live_at": null, "search_description": "", "locked": false, "path": "0001000100020005", "title": "Istoric", "pk": 34, "has_unpublished_changes": false, "show_in_menus": true, "content_type": 10}	\N	34	1
+88	f	2016-08-01 08:42:52.991558+00	{"feed_image": null, "url_path": "/home/stiri-urbane/scribd-test/", "slug": "scribd-test", "tagged_items": [], "numchild": 0, "depth": 4, "related_links": [], "title": "Scribd test", "pk": 35, "has_unpublished_changes": false, "seo_title": "", "owner": 1, "live": true, "first_published_at": null, "show_in_menus": false, "expired": false, "latest_revision_created_at": null, "expire_at": null, "date": "2016-08-27", "search_description": "", "locked": false, "go_live_at": null, "path": "0001000100010002", "body": "[{\\"value\\": {\\"alignment\\": \\"normal\\", \\"html\\": \\"<p  style=\\\\\\" margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;\\\\\\">   <a title=\\\\\\"View Ghidul Participantilor SIVAIP on Scribd\\\\\\" href=\\\\\\"https://www.scribd.com/document/318723660/Ghidul-Participantilor-SIVAIP#from_embed\\\\\\"  style=\\\\\\"text-decoration: underline;\\\\\\" >Ghidul Participantilor SIVAIP</a> by <a title=\\\\\\"View Oberliht's profile on Scribd\\\\\\" href=\\\\\\"https://www.scribd.com/user/324370701/Oberliht#from_embed\\\\\\"  style=\\\\\\"text-decoration: underline;\\\\\\" >Oberliht</a> on Scribd</p><iframe class=\\\\\\"scribd_iframe_embed\\\\\\" src=\\\\\\"https://www.scribd.com/embeds/318723660/content?start_page=1&view_mode=scroll&access_key=key-qRdwJMefiTX21zFDeTyI&show_recommendations=true&show_upsell=true\\\\\\" data-auto-height=\\\\\\"false\\\\\\" data-aspect-ratio=\\\\\\"1.414442700156986\\\\\\" scrolling=\\\\\\"no\\\\\\" id=\\\\\\"doc_18206\\\\\\" width=\\\\\\"100%\\\\\\" height=\\\\\\"600\\\\\\" frameborder=\\\\\\"0\\\\\\"></iframe>\\"}, \\"type\\": \\"aligned_html\\"}]", "content_type": 8}	\N	35	1
+80	f	2016-07-28 11:08:57.713376+00	{"go_live_at": null, "related_documents": [], "live": true, "content_type": 46, "expired": false, "pk": 30, "latest_revision_created_at": null, "seo_title": "", "numchild": 0, "owner": 1, "has_unpublished_changes": false, "title": "Ghid #1", "path": "00010001000300060001", "depth": 5, "locked": false, "show_in_menus": false, "url_path": "/home/resurse/ghiduri-pentru-activisti/ghid-1/", "slug": "ghid-1", "expire_at": null, "search_description": "", "first_published_at": null, "description": "<h5>Info text</h5>"}	\N	30	1
+89	f	2016-08-04 12:09:32.917469+00	{"url_path": "/home/resurse/ghiduri-pentru-activisti/ghid-1/", "slug": "ghid-1", "title": "Ghid #1", "numchild": 0, "expired": false, "owner": 1, "search_description": "", "content_type": 46, "related_documents": [{"pk": null, "page": 30, "sort_order": 0, "document": 1}], "locked": false, "pk": 30, "path": "00010001000300060001", "depth": 5, "seo_title": "", "latest_revision_created_at": "2016-07-28T11:08:57.713Z", "expire_at": null, "show_in_menus": false, "has_unpublished_changes": false, "go_live_at": null, "live": true, "first_published_at": "2016-07-28T11:08:57.874Z", "description": "<h5>Info text</h5>"}	\N	30	1
 \.
 
 
@@ -2459,7 +2480,7 @@ COPY wagtailcore_pagerevision (id, submitted_for_moderation, created_at, content
 -- Name: wagtailcore_pagerevision_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailcore_pagerevision_id_seq', 81, true);
+SELECT pg_catalog.setval('wagtailcore_pagerevision_id_seq', 89, true);
 
 
 --
@@ -2498,8 +2519,8 @@ SELECT pg_catalog.setval('wagtailcore_site_id_seq', 2, true);
 --
 
 COPY wagtaildocs_document (id, title, file, created_at, uploaded_by_user_id, collection_id) FROM stdin;
-1	Document #1	documents/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf	2016-07-27 18:05:45.929773+00	1	1
 2	Amsterdam doc	documents/Pact-of-Amsterdam_v7_WEB.pdf	2016-07-28 10:22:33.445534+00	1	1
+1	Document #1	documents/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf	2016-07-27 18:05:45.929773+00	1	1
 \.
 
 
@@ -2570,8 +2591,8 @@ SELECT pg_catalog.setval('wagtailimages_filter_id_seq', 10, true);
 --
 
 COPY wagtailimages_image (id, title, file, width, height, created_at, focal_point_x, focal_point_y, focal_point_width, focal_point_height, uploaded_by_user_id, file_size, collection_id) FROM stdin;
+2	Collab	original_images/collab_econ.png	711	341	2016-07-25 17:39:59.37184+00	\N	\N	\N	\N	1	108844	1
 1	Ilia	original_images/new_size_smaller.png	674	576	2016-07-23 13:39:32.443436+00	258	351	334	318	1	583059	1
-2	Collab	original_images/collab_econ.png	711	341	2016-07-25 17:39:59.37184+00	\N	\N	\N	\N	1	\N	1
 \.
 
 
@@ -2587,17 +2608,12 @@ SELECT pg_catalog.setval('wagtailimages_image_id_seq', 2, true);
 --
 
 COPY wagtailimages_rendition (id, file, width, height, focal_point_key, filter_id, image_id) FROM stdin;
-6	images/new_size_smaller.max-165x165.png	165	141		1	1
-7	images/new_size_smaller.width-50.png	50	42		5	1
-8	images/new_size_smaller.width-300.png	300	256		4	1
-9	images/new_size_smaller.width-150.png	150	128		6	1
-10	images/new_size_smaller.width-200.png	200	170		7	1
-11	images/new_size_smaller.width-230.png	230	196		8	1
-12	images/collab_econ.max-165x165.png	165	79		1	2
-13	images/collab_econ.width-150.png	150	71		6	2
-14	images/collab_econ.max-800x600.png	711	341		3	2
-15	images/collab_econ.width-500.png	500	239		9	2
-16	images/collab_econ.width-1280.png	711	341		10	2
+17	images/collab_econ.max-165x165.png	165	79		1	2
+18	images/new_size_smaller.max-165x165.png	165	141		1	1
+19	images/new_size_smaller.width-230.png	230	196		8	1
+20	images/collab_econ.width-150.png	150	71		6	2
+21	images/new_size_smaller.width-300.png	300	256		4	1
+22	images/collab_econ.width-1280.png	711	341		10	2
 \.
 
 
@@ -2605,7 +2621,7 @@ COPY wagtailimages_rendition (id, file, width, height, focal_point_key, filter_i
 -- Name: wagtailimages_rendition_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailimages_rendition_id_seq', 16, true);
+SELECT pg_catalog.setval('wagtailimages_rendition_id_seq', 22, true);
 
 
 --

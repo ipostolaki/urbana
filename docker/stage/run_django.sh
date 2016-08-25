@@ -10,4 +10,5 @@ do
 done
 
 echo "PostgresSQL database is ready"
+python manage.py migrate  # stage env should apply migrations(git pulled) before serving application
 python manage.py runserver 0.0.0.0:80

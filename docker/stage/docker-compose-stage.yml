@@ -10,27 +10,28 @@ services:
 
     django:
         build:
-            context: .
+            context: ./../../
+            dockerfile: ./docker/stage/Dockerfile-stage
         volumes:
-            - ./:/source
-        working_dir: /source/urbana
-        command: bash -c ". ../droplet/run_django.sh"
+            - ./../../:/urbana
+        working_dir: /urbana/urbana
+        command: bash -c ". ../docker/stage/run_django.sh"
         ports:
-            - 9000:80
+            - 80:80
             - 35729:35729
         depends_on:
             - pg_database
-        env_file: env
+        env_file: stage.env
 
     pg_database:
         image: postgres:9.5.3
         # secret strings are in the file
-        env_file: env
+        env_file: stage.env
         volumes:
             # override postgres image Dockerfile data volume
             - pgdata:/var/lib/postgresql/data
             - pglogs:/var/log/postgresql
-            - ./:/source/dumps  # volume mounted to get dump files out of container
+            - ./dumps:/dumps  # volume mounted to get dump files out of container
         ports:
             # expose ports to the docker host for debug purposes
             - 5432:5432
