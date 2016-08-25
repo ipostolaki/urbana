@@ -1,29 +1,49 @@
-# System info
+# Urbana
+Site for coordination and guidance of local civil activists.
+### Features:
+- Blogs separated by topics
+- Storage of guides and related documents
+- Registered members listing
+- QA section to request knowledge from available urban experts
+- CMS for editors to manage content  
+- Forum
+
+## System info
 
 Application is based on:  
 Django, Wagtail CMS, PostgreSQL, Twitter Bootstrap
 
-#Infrastructure facts
+## Infrastructure facts
 
-Docker is used for local development process. It spins web application and database containers.    
-Docker versions used during development:  
-- docker-compose version 1.7.1, build 0a9ab35  
-- Docker version 1.11.2, build b9f10c9  
-- docker-machine version 0.7.0, build a650a40
+Docker is used for local development process. It runs web application and database containers.    
 
-Makefile is used to build and run local environment.  
+### Makefiles
+Makefiles are used to build and run system for different environments.  
+`make run` in the project root will run containers for dev environment.
+`cd ./docker/stage/ && make run` will run staging environment containers.
 
-Pip requrements are primarily written in the Dockerfile, which is used to build container for django.
+### Requirements  
+Pip requirements are primarily written in the Dockerfile, which is used to build container for django.
 
-### Deploy to server
-There is an env file, which is not stored in the git repo.
+## Deploy
+##### Env files
+For each environment there is an env file, which is not stored in the git repo.
 It keeps secrets and should be copied to the server to define contained environment variables.
+##### Fabric
+Fabric is used to deploy code to the staging/production servers.  
+Fabfile contains tasks to stop, rebuild and restart docker containers.
 
 
-### Livereload tool
+## Tools
+### Livereload 
 
 Livereload is used to update page in browser when watched files are changed.  
 **Prerequisites:**  
 - JS code embedded in every page, when site is running locally  
 - Livereload server should be running on dev machine to watch files changes(installed via pip, started together with django dev server)  
-- A livereload plugin for google chrome is needed  
+
+## Versions notes
+Docker versions used during development:  
+- docker-compose version 1.8.0, build f3628c7  
+- Docker version 1.12.0, build 8eab29e  
+- docker-machine version 0.8.0, build b85aac1 

@@ -39,9 +39,12 @@ django-shell:
 logs:
 	docker-compose logs -f --tail=500
 
-run-pg:
-    # start existing pg container
+pg-run:
+    # start pg service
 	docker-compose up -d pg_database
+
+pg-exec:
+	docker-compose exec pg_database bash
 
 pg-dump:
 	docker-compose exec pg_database bash -c 'pg_dump -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f ./dumps/latest.sql'
