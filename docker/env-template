@@ -7,6 +7,7 @@ POSTGRES_USER=urbana_user
 POSTGRES_DB=urbana_db
 
 DJANGO_SECRET_KEY=some_secret_key_string
+DJANGO_SETTINGS_MODULE=urbana.settings.env_name
 
-# used to enable features needed only for dev environment
-OUTSIDE=development
+# used to enable features needed only for specific environment
+OUTSIDE=env_name

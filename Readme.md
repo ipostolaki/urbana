@@ -3,10 +3,11 @@ Site for coordination and guidance of local civil activists.
 ### Features:
 - Blogs separated by topics
 - Storage of guides and related documents
+- Calendar with upcoming events
 - Registered members listing
-- QA section to request knowledge from available urban experts
-- CMS for editors to manage content  
+- QA module to request knowledge from available urban experts
 - Forum
+- CMS for editors to manage content  
 
 ## System info
 
@@ -19,7 +20,7 @@ Docker is used for local development process. It runs web application and databa
 
 ### Makefiles
 Makefiles are used to build and run system for different environments.  
-`make run` in the project root will run containers for dev environment.
+`make run` in the project root will run containers for dev environment.  
 `cd ./docker/stage/ && make run` will run staging environment containers.
 
 ### Requirements  
