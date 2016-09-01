@@ -1,0 +1,62 @@
+{% load i18n static wagtailuserbar home_tags %}
+
+<!DOCTYPE html>
+<html {% get_current_language as LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}">
+    <head>
+        {% block head %}
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+
+            <title>{% block title %}{{ site.name }}{% endblock %}</title>
+            <meta name="created" content="{% now "jS M Y h:i" %}" />
+            <meta name="description" content="{% block meta_description %}{% endblock meta_description %}" />
+            <meta name="keywords" content="{% block meta_keywords %}{% endblock meta_keywords %}"/>
+
+            <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+            <!--[if lt IE 9]>
+                <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+        {% endblock head %}
+
+        {% block css %}
+        {% endblock css %}
+
+        {% block extra_css %}
+        {% endblock extra_css %}
+
+        <!-- Urbana base styling -->
+        <!-- Loading stylesheets dependencies -->
+        <link href="{% static 'css/vendor/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Global stylesheets -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/bootstrap_theme/bootswatch-paper-bootstrap.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/urbana.css' %}">
+
+        {% if outside == 'development' %}
+            <!-- livereload development server -->
+            <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+        {% endif %}
+
+    </head>
+    <body>
+        {% block js %}
+        {% endblock js %}
+
+        <!-- Loading js dependencies -->
+        <script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"></script>
+        <script src="{% static 'css/vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
+
+        {% wagtailuserbar %}
+
+        {% block menu %}
+            {% get_site_root as site_root %}
+            {% top_menu parent=site_root calling_page=self %}
+        {% endblock %}
+
+        {% block body %}
+            {# The forum content will go in this 'body' block #}
+        {% endblock body %}
+
+        {% block extra_js %}
+        {% endblock extra_js %}
+    </body>
+</html>

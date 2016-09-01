@@ -10,6 +10,8 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from search import views as search_views
 from about import views as about_views
+from machina.app import board
+
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
@@ -20,6 +22,10 @@ urlpatterns = [
     url(r'^search/$', search_views.search, name='search'),
 
     url(r'calendar-data/', about_views.get_calendar_data),
+
+    # machina forum
+    url(r'^markdown/', include( 'django_markdown.urls')),
+    url(r'^forum/', include(board.urls)),
 
     url(r'', include(wagtail_urls)),
 ]

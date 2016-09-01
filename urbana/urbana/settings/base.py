@@ -12,16 +12,18 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 from __future__ import absolute_import, unicode_literals
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+from machina import get_apps as get_machina_apps
+from machina import MACHINA_MAIN_TEMPLATE_DIR
+from machina import MACHINA_MAIN_STATIC_DIR
+
+
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 OUTSIDE = os.environ.get('OUTSIDE')
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
@@ -54,7 +56,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    # Machina related apps:
+    'mptt',
+    'haystack',
+    'widget_tweaks',
+    'django_markdown',
+] + get_machina_apps()
 
 MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -68,15 +75,23 @@ MIDDLEWARE_CLASSES = [
 
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+
+    'machina.apps.forum_permission.middleware.ForumPermissionMiddleware'
 ]
 
 ROOT_URLCONF = 'urbana.urls'
+
+t = os.path.join(PROJECT_DIR, 'templates')
+print("DEBUGG")
+print(t)
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(PROJECT_DIR, 'templates'),
+            os.path.join(PROJECT_DIR, 'templates/machina'),
+            # MACHINA_MAIN_TEMPLATE_DIR
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -86,6 +101,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'urbana.shared_context_processors.environment_processor',
+                'machina.core.context_processors.metadata'
             ],
         },
     },
@@ -132,6 +148,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
+    MACHINA_MAIN_STATIC_DIR
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -147,4 +164,22 @@ WAGTAIL_SITE_NAME = "urbana"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
+BASE_URL = 'http://urbana.md'
+
+
+CACHES = {
+  'default': {
+    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+  },
+  'machina_attachments': {
+    'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+    'LOCATION': '/tmp',
+  }
+}
+
+
+HAYSTACK_CONNECTIONS = {
+  'default': {
+    'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+  },
+}
