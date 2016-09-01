@@ -25,7 +25,7 @@ including mobile collapsed navbar
     background-color: rgba(152, 210, 240, 0.2);
 }
 
-.nav>li.active {
+.nav>li.active, li.dropdownactive {
     background-color: rgba(152, 210, 240, 0.2);
 }
 
