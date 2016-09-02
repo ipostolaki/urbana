@@ -38,12 +38,15 @@
 
     </head>
     <body>
-        {% block js %}
-        {% endblock js %}
 
-        <!-- Loading js dependencies -->
+        <!-- Loading urbana base js dependencies -->
         <script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"></script>
         <script src="{% static 'css/vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
+
+        <!-- block js -->
+        {% block js %}
+        {% endblock js %}
+        <!-- endblock js -->
 
         {% wagtailuserbar %}
 
@@ -56,7 +59,9 @@
             {# The forum content will go in this 'body' block #}
         {% endblock body %}
 
+        <!-- block  extra_js -->
         {% block extra_js %}
         {% endblock extra_js %}
+        <!-- endblock  extra_js -->
     </body>
 </html>

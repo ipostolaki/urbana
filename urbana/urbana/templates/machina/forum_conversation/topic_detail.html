@@ -110,6 +110,7 @@
             {% endfor %}
         </div>
     </div>
+    {% if posts|length > 3 %}
     <div class="row">
         <div class="col-xs-6 col-md-4 topic-actions-block">
             {% include "forum_conversation/partials/topic_detail_actions.html" %}
@@ -120,4 +121,5 @@
             {% endwith %}
         </div>
     </div>
+    {% endif %}
 {% endblock content %}

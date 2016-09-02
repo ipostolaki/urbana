@@ -28,6 +28,17 @@
                         {% endif %}
                     </li>
                 {% endfor %}
+
+                <!-- static machina forum links, unrelated to wagtail -->
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Forum <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/forum/">Forum</a></li>
+                        <li><a href="/forum/forum/consultare-juridica-1/topic/create/">Consultare juridică</a></li>  <!--TODO: make a view and url-->
+                        <li><a href="/forum/forum/semnaleaza-o-problema-in-oras-2/topic/create/">Semnalează o problemă în oraș</a></li>  <!--TODO: make a view and url-->
+                    </ul>
+                </li>
+
             </ul>
             <form class="navbar-form navbar-right" role="search" action="{% url 'search' %}" method="get">
                 <div class="input-group">

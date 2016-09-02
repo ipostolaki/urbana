@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
-from __future__ import absolute_import, unicode_literals
-
 import os
 
 from machina import get_apps as get_machina_apps
@@ -81,17 +79,13 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'urbana.urls'
 
-t = os.path.join(PROJECT_DIR, 'templates')
-print("DEBUGG")
-print(t)
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(PROJECT_DIR, 'templates'),
-            os.path.join(PROJECT_DIR, 'templates/machina'),
-            # MACHINA_MAIN_TEMPLATE_DIR
+            os.path.join(PROJECT_DIR, 'templates/machina'),  # overridden forum templates
+            MACHINA_MAIN_TEMPLATE_DIR  # vendor forum templates
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -183,3 +177,20 @@ HAYSTACK_CONNECTIONS = {
     'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
   },
 }
+
+
+MACHINA_FORUM_NAME = "RCU Forum"
+
+MACHINA_DEFAULT_AUTHENTICATED_USER_FORUM_PERMISSIONS = [
+    'can_see_forum',
+    'can_read_forum',
+    'can_start_new_topics',
+    'can_reply_to_topics',
+    'can_delete_own_posts'
+    'can_edit_own_posts',
+    'can_post_without_approval',
+    'can_create_polls',
+    'can_vote_in_polls',
+    'can_download_file',
+    'can_attach_file'
+]

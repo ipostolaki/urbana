@@ -77,7 +77,8 @@
 {% endblock body %}
 
 {% block js %}
-    <script src="{% static 'js/machina.packages.min.js' %}" type="text/javascript" charset="utf-8"></script>
+    <!-- script below contains jquery, which is already included at the urbana base template-->
+    <!--<script src="{% static 'js/machina.packages.min.js' %}" type="text/javascript" charset="utf-8"></script>-->
     <script src="{% static 'js/machina.min.js' %}" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         $(function() {
