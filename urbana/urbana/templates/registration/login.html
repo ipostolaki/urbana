@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap %}
+
+{% block heading %}<!-- empty -->{% endblock %}
+
+{% block content %}
+
+<p style="padding-top:25px" class="lead text-center" class="text-center">{% trans 'Login' %}</p>
+<hr>
+
+<div class="center-block" style="width:250px;">
+
+    <form action="{% url 'auth:auth_login' %}" method="post">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+        <button type="submit" class="btn btn-primary btn-block">{% trans 'Login' %}</button>
+    </form>
+	<br>
+
+
+</div>
+
+{% endblock %}

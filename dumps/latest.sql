@@ -464,6 +464,558 @@ CREATE TABLE django_session (
 ALTER TABLE django_session OWNER TO urbana_db_user;
 
 --
+-- Name: forum_attachments_attachment; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_attachments_attachment (
+    id integer NOT NULL,
+    file character varying(100) NOT NULL,
+    comment character varying(255),
+    post_id integer NOT NULL
+);
+
+
+ALTER TABLE forum_attachments_attachment OWNER TO urbana_db_user;
+
+--
+-- Name: forum_attachments_attachment_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_attachments_attachment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_attachments_attachment_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_attachments_attachment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_attachments_attachment_id_seq OWNED BY forum_attachments_attachment.id;
+
+
+--
+-- Name: forum_conversation_post; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_conversation_post (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    poster_ip inet,
+    subject character varying(255) NOT NULL,
+    content text NOT NULL,
+    username character varying(155),
+    approved boolean NOT NULL,
+    update_reason character varying(255),
+    updates_count integer NOT NULL,
+    _content_rendered text,
+    poster_id integer,
+    topic_id integer NOT NULL,
+    updated_by_id integer,
+    anonymous_key character varying(100),
+    CONSTRAINT forum_conversation_post_updates_count_check CHECK ((updates_count >= 0))
+);
+
+
+ALTER TABLE forum_conversation_post OWNER TO urbana_db_user;
+
+--
+-- Name: forum_conversation_post_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_conversation_post_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_conversation_post_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_conversation_post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_conversation_post_id_seq OWNED BY forum_conversation_post.id;
+
+
+--
+-- Name: forum_conversation_topic; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_conversation_topic (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    subject character varying(255) NOT NULL,
+    slug character varying(300) NOT NULL,
+    type smallint NOT NULL,
+    status integer NOT NULL,
+    approved boolean NOT NULL,
+    posts_count integer NOT NULL,
+    views_count integer NOT NULL,
+    last_post_on timestamp with time zone,
+    forum_id integer NOT NULL,
+    poster_id integer,
+    CONSTRAINT forum_conversation_topic_posts_count_check CHECK ((posts_count >= 0)),
+    CONSTRAINT forum_conversation_topic_status_check CHECK ((status >= 0)),
+    CONSTRAINT forum_conversation_topic_type_check CHECK ((type >= 0)),
+    CONSTRAINT forum_conversation_topic_views_count_check CHECK ((views_count >= 0))
+);
+
+
+ALTER TABLE forum_conversation_topic OWNER TO urbana_db_user;
+
+--
+-- Name: forum_conversation_topic_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_conversation_topic_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_conversation_topic_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_conversation_topic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_conversation_topic_id_seq OWNED BY forum_conversation_topic.id;
+
+
+--
+-- Name: forum_conversation_topic_subscribers; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_conversation_topic_subscribers (
+    id integer NOT NULL,
+    topic_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE forum_conversation_topic_subscribers OWNER TO urbana_db_user;
+
+--
+-- Name: forum_conversation_topic_subscribers_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_conversation_topic_subscribers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_conversation_topic_subscribers_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_conversation_topic_subscribers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_conversation_topic_subscribers_id_seq OWNED BY forum_conversation_topic_subscribers.id;
+
+
+--
+-- Name: forum_forum; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_forum (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    name character varying(100) NOT NULL,
+    slug character varying(255) NOT NULL,
+    description text,
+    image character varying(100),
+    link character varying(200),
+    link_redirects boolean NOT NULL,
+    type smallint NOT NULL,
+    posts_count integer NOT NULL,
+    topics_count integer NOT NULL,
+    link_redirects_count integer NOT NULL,
+    last_post_on timestamp with time zone,
+    display_sub_forum_list boolean NOT NULL,
+    _description_rendered text,
+    lft integer NOT NULL,
+    rght integer NOT NULL,
+    tree_id integer NOT NULL,
+    level integer NOT NULL,
+    parent_id integer,
+    CONSTRAINT forum_forum_level_check CHECK ((level >= 0)),
+    CONSTRAINT forum_forum_lft_check CHECK ((lft >= 0)),
+    CONSTRAINT forum_forum_link_redirects_count_check CHECK ((link_redirects_count >= 0)),
+    CONSTRAINT forum_forum_posts_count_check CHECK ((posts_count >= 0)),
+    CONSTRAINT forum_forum_rght_check CHECK ((rght >= 0)),
+    CONSTRAINT forum_forum_topics_count_check CHECK ((topics_count >= 0)),
+    CONSTRAINT forum_forum_tree_id_check CHECK ((tree_id >= 0)),
+    CONSTRAINT forum_forum_type_check CHECK ((type >= 0))
+);
+
+
+ALTER TABLE forum_forum OWNER TO urbana_db_user;
+
+--
+-- Name: forum_forum_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_forum_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_forum_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_forum_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_forum_id_seq OWNED BY forum_forum.id;
+
+
+--
+-- Name: forum_member_forumprofile; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_member_forumprofile (
+    id integer NOT NULL,
+    avatar character varying(100),
+    signature text,
+    posts_count integer NOT NULL,
+    _signature_rendered text,
+    user_id integer NOT NULL,
+    CONSTRAINT forum_member_forumprofile_posts_count_check CHECK ((posts_count >= 0))
+);
+
+
+ALTER TABLE forum_member_forumprofile OWNER TO urbana_db_user;
+
+--
+-- Name: forum_member_forumprofile_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_member_forumprofile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_member_forumprofile_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_member_forumprofile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_member_forumprofile_id_seq OWNED BY forum_member_forumprofile.id;
+
+
+--
+-- Name: forum_permission_forumpermission; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_permission_forumpermission (
+    id integer NOT NULL,
+    codename character varying(150) NOT NULL,
+    name character varying(255),
+    is_global boolean NOT NULL,
+    is_local boolean NOT NULL
+);
+
+
+ALTER TABLE forum_permission_forumpermission OWNER TO urbana_db_user;
+
+--
+-- Name: forum_permission_forumpermission_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_permission_forumpermission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_permission_forumpermission_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_permission_forumpermission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_permission_forumpermission_id_seq OWNED BY forum_permission_forumpermission.id;
+
+
+--
+-- Name: forum_permission_groupforumpermission; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_permission_groupforumpermission (
+    id integer NOT NULL,
+    has_perm boolean NOT NULL,
+    forum_id integer,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE forum_permission_groupforumpermission OWNER TO urbana_db_user;
+
+--
+-- Name: forum_permission_groupforumpermission_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_permission_groupforumpermission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_permission_groupforumpermission_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_permission_groupforumpermission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_permission_groupforumpermission_id_seq OWNED BY forum_permission_groupforumpermission.id;
+
+
+--
+-- Name: forum_permission_userforumpermission; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_permission_userforumpermission (
+    id integer NOT NULL,
+    has_perm boolean NOT NULL,
+    anonymous_user boolean NOT NULL,
+    forum_id integer,
+    permission_id integer NOT NULL,
+    user_id integer
+);
+
+
+ALTER TABLE forum_permission_userforumpermission OWNER TO urbana_db_user;
+
+--
+-- Name: forum_permission_userforumpermission_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_permission_userforumpermission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_permission_userforumpermission_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_permission_userforumpermission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_permission_userforumpermission_id_seq OWNED BY forum_permission_userforumpermission.id;
+
+
+--
+-- Name: forum_polls_topicpoll; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_polls_topicpoll (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    question character varying(255) NOT NULL,
+    duration integer,
+    max_options smallint NOT NULL,
+    user_changes boolean NOT NULL,
+    topic_id integer NOT NULL,
+    CONSTRAINT forum_polls_topicpoll_duration_check CHECK ((duration >= 0)),
+    CONSTRAINT forum_polls_topicpoll_max_options_check CHECK ((max_options >= 0))
+);
+
+
+ALTER TABLE forum_polls_topicpoll OWNER TO urbana_db_user;
+
+--
+-- Name: forum_polls_topicpoll_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_polls_topicpoll_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_polls_topicpoll_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_polls_topicpoll_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_polls_topicpoll_id_seq OWNED BY forum_polls_topicpoll.id;
+
+
+--
+-- Name: forum_polls_topicpolloption; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_polls_topicpolloption (
+    id integer NOT NULL,
+    text character varying(255) NOT NULL,
+    poll_id integer NOT NULL
+);
+
+
+ALTER TABLE forum_polls_topicpolloption OWNER TO urbana_db_user;
+
+--
+-- Name: forum_polls_topicpolloption_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_polls_topicpolloption_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_polls_topicpolloption_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_polls_topicpolloption_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_polls_topicpolloption_id_seq OWNED BY forum_polls_topicpolloption.id;
+
+
+--
+-- Name: forum_polls_topicpollvote; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_polls_topicpollvote (
+    id integer NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    poll_option_id integer NOT NULL,
+    voter_id integer,
+    anonymous_key character varying(100)
+);
+
+
+ALTER TABLE forum_polls_topicpollvote OWNER TO urbana_db_user;
+
+--
+-- Name: forum_polls_topicpollvote_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_polls_topicpollvote_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_polls_topicpollvote_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_polls_topicpollvote_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_polls_topicpollvote_id_seq OWNED BY forum_polls_topicpollvote.id;
+
+
+--
+-- Name: forum_tracking_forumreadtrack; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_tracking_forumreadtrack (
+    id integer NOT NULL,
+    mark_time timestamp with time zone NOT NULL,
+    forum_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE forum_tracking_forumreadtrack OWNER TO urbana_db_user;
+
+--
+-- Name: forum_tracking_forumreadtrack_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_tracking_forumreadtrack_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_tracking_forumreadtrack_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_tracking_forumreadtrack_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_tracking_forumreadtrack_id_seq OWNED BY forum_tracking_forumreadtrack.id;
+
+
+--
+-- Name: forum_tracking_topicreadtrack; Type: TABLE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE TABLE forum_tracking_topicreadtrack (
+    id integer NOT NULL,
+    mark_time timestamp with time zone NOT NULL,
+    topic_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE forum_tracking_topicreadtrack OWNER TO urbana_db_user;
+
+--
+-- Name: forum_tracking_topicreadtrack_id_seq; Type: SEQUENCE; Schema: public; Owner: urbana_db_user
+--
+
+CREATE SEQUENCE forum_tracking_topicreadtrack_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forum_tracking_topicreadtrack_id_seq OWNER TO urbana_db_user;
+
+--
+-- Name: forum_tracking_topicreadtrack_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: urbana_db_user
+--
+
+ALTER SEQUENCE forum_tracking_topicreadtrack_id_seq OWNED BY forum_tracking_topicreadtrack.id;
+
+
+--
 -- Name: home_homepage; Type: TABLE; Schema: public; Owner: urbana_db_user
 --
 
@@ -1485,6 +2037,104 @@ ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_m
 -- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
 --
 
+ALTER TABLE ONLY forum_attachments_attachment ALTER COLUMN id SET DEFAULT nextval('forum_attachments_attachment_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_post ALTER COLUMN id SET DEFAULT nextval('forum_conversation_post_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic ALTER COLUMN id SET DEFAULT nextval('forum_conversation_topic_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic_subscribers ALTER COLUMN id SET DEFAULT nextval('forum_conversation_topic_subscribers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_forum ALTER COLUMN id SET DEFAULT nextval('forum_forum_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_member_forumprofile ALTER COLUMN id SET DEFAULT nextval('forum_member_forumprofile_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_forumpermission ALTER COLUMN id SET DEFAULT nextval('forum_permission_forumpermission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_groupforumpermission ALTER COLUMN id SET DEFAULT nextval('forum_permission_groupforumpermission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_userforumpermission ALTER COLUMN id SET DEFAULT nextval('forum_permission_userforumpermission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpoll ALTER COLUMN id SET DEFAULT nextval('forum_polls_topicpoll_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpolloption ALTER COLUMN id SET DEFAULT nextval('forum_polls_topicpolloption_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpollvote ALTER COLUMN id SET DEFAULT nextval('forum_polls_topicpollvote_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_forumreadtrack ALTER COLUMN id SET DEFAULT nextval('forum_tracking_forumreadtrack_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_topicreadtrack ALTER COLUMN id SET DEFAULT nextval('forum_tracking_topicreadtrack_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: urbana_db_user
+--
+
 ALTER TABLE ONLY home_universalblogpagerelatedlink ALTER COLUMN id SET DEFAULT nextval('home_universalblogpagerelatedlink_id_seq'::regclass);
 
 
@@ -1890,6 +2540,48 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 137	Can add resources index page	47	add_resourcesindexpage
 138	Can change resources index page	47	change_resourcesindexpage
 139	Can delete resources index page	47	delete_resourcesindexpage
+140	Can add Forum	48	add_forum
+141	Can change Forum	48	change_forum
+142	Can delete Forum	48	delete_forum
+143	Can add Topic	49	add_topic
+144	Can change Topic	49	change_topic
+145	Can delete Topic	49	delete_topic
+146	Can add Post	50	add_post
+147	Can change Post	50	change_post
+148	Can delete Post	50	delete_post
+149	Can add Attachment	51	add_attachment
+150	Can change Attachment	51	change_attachment
+151	Can delete Attachment	51	delete_attachment
+152	Can add Topic poll	52	add_topicpoll
+153	Can change Topic poll	52	change_topicpoll
+154	Can delete Topic poll	52	delete_topicpoll
+155	Can add Topic poll option	53	add_topicpolloption
+156	Can change Topic poll option	53	change_topicpolloption
+157	Can delete Topic poll option	53	delete_topicpolloption
+158	Can add Topic poll vote	54	add_topicpollvote
+159	Can change Topic poll vote	54	change_topicpollvote
+160	Can delete Topic poll vote	54	delete_topicpollvote
+161	Can add Forum track	55	add_forumreadtrack
+162	Can change Forum track	55	change_forumreadtrack
+163	Can delete Forum track	55	delete_forumreadtrack
+164	Can add Topic track	56	add_topicreadtrack
+165	Can change Topic track	56	change_topicreadtrack
+166	Can delete Topic track	56	delete_topicreadtrack
+167	Can add Forum profile	57	add_forumprofile
+168	Can change Forum profile	57	change_forumprofile
+169	Can delete Forum profile	57	delete_forumprofile
+170	Can add Forum permission	58	add_forumpermission
+171	Can change Forum permission	58	change_forumpermission
+172	Can delete Forum permission	58	delete_forumpermission
+173	Can add Group forum permission	59	add_groupforumpermission
+174	Can change Group forum permission	59	change_groupforumpermission
+175	Can delete Group forum permission	59	delete_groupforumpermission
+176	Can add User forum permission	60	add_userforumpermission
+177	Can change User forum permission	60	change_userforumpermission
+178	Can delete User forum permission	60	delete_userforumpermission
+179	Can add redirect page	61	add_redirectpage
+180	Can change redirect page	61	change_redirectpage
+181	Can delete redirect page	61	delete_redirectpage
 \.
 
 
@@ -1897,7 +2589,7 @@ COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('auth_permission_id_seq', 139, true);
+SELECT pg_catalog.setval('auth_permission_id_seq', 181, true);
 
 
 --
@@ -1905,7 +2597,12 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 139, true);
 --
 
 COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$24000$hBITIcYwjgVL$nY9W+ZnuU5cupmEEiofB4L+ocWX9brc7ZhkIDRJgnpc=	2016-08-01 08:28:52.894622+00	t	admin			admin@urbana.md	t	t	2016-07-22 17:06:30.927524+00
+5	pbkdf2_sha256$24000$Wrh4zLInSgrg$BdC2d+KsSkCVW5QUssS1kRxqfjDoLxqLQcZj+LXe77c=	2016-09-05 07:01:58.676949+00	f	me			me@urbana.md	f	t	2016-09-05 07:01:58.454922+00
+6	pbkdf2_sha256$24000$1pbL5LeQuyVk$6GEX+Croz6T/HTdegtxTl0BE6rHs7KI7lUiZNY+TtGE=	2016-09-05 07:16:24.982743+00	f	user2			user2@urbana.md	f	t	2016-09-05 07:16:24.819635+00
+4	pbkdf2_sha256$24000$5T0qNEr7LPLD$jlldXvNIrBuMvM5GC7NFQTBykh91YgPi+XxxKoVSzd4=	2016-09-05 07:58:40.816966+00	f	User1	User1	User1	user1@urbana.md	f	t	2016-09-05 06:01:55.856463+00
+1	pbkdf2_sha256$24000$hBITIcYwjgVL$nY9W+ZnuU5cupmEEiofB4L+ocWX9brc7ZhkIDRJgnpc=	2016-09-05 07:59:48.031937+00	t	admin			admin@urbana.md	t	t	2016-07-22 17:06:30.927524+00
+2	pbkdf2_sha256$24000$mTvK6hHGjDhL$OmLuvpvfTcf88jPp4a/GBhcaE08zbk3QDQ2lQjOagUk=	2016-09-02 19:41:26.605805+00	f	urbanauser	urbanauser	urbanauser	urbanauser@urbana.md	f	t	2016-09-02 17:46:37.301989+00
+3	pbkdf2_sha256$24000$fcea3KKYkcQj$/2IZGes24fglhcPNf7tym8ZrUAPERT3AHrXsoF8e9TM=	2016-09-03 09:39:16.01539+00	f	Ilie			ilie@urbana.md	f	t	2016-09-03 09:18:51.717499+00
 \.
 
 
@@ -1914,6 +2611,9 @@ COPY auth_user (id, password, last_login, is_superuser, username, first_name, la
 --
 
 COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+1	2	1
+2	2	2
+4	4	2
 \.
 
 
@@ -1921,14 +2621,14 @@ COPY auth_user_groups (id, user_id, group_id) FROM stdin;
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 4, true);
 
 
 --
 -- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('auth_user_id_seq', 1, true);
+SELECT pg_catalog.setval('auth_user_id_seq', 6, true);
 
 
 --
@@ -1951,6 +2651,33 @@ SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
 --
 
 COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2016-08-31 16:47:14.701271+00	1	Jurist Urban QA	1	Adăugat.	48	1
+2	2016-09-01 07:53:41.011357+00	1	Consultanța Juridica	2	S-a schimbat name și description.	48	1
+3	2016-09-01 07:56:02.152647+00	2	Semnalează o problemă în oraș	1	Adăugat.	48	1
+4	2016-09-01 07:56:49.371967+00	3	Forum general	1	Adăugat.	48	1
+5	2016-09-01 07:57:24.485329+00	4	Sub forum #1	1	Adăugat.	48	1
+6	2016-09-01 08:06:52.582056+00	3	Consultare	2	S-a schimbat name și description.	48	1
+7	2016-09-01 08:07:03.734979+00	4	Sub forum #1	3		48	1
+8	2016-09-01 08:07:21.949843+00	1	Consultanța Juridica	2	S-a schimbat parent și description.	48	1
+9	2016-09-01 08:07:29.224509+00	2	Semnalează o problemă în oraș	2	S-a schimbat parent și description.	48	1
+10	2016-09-01 08:10:11.628616+00	5	Forum general	1	Adăugat.	48	1
+11	2016-09-01 08:16:02.73027+00	6	Teme Urbane	1	Adăugat.	48	1
+12	2016-09-01 08:16:37.402008+00	5	Forum General	2	S-a schimbat name și description.	48	1
+13	2016-09-01 08:17:30.762334+00	2	Semnalează o problemă în oraș	2	S-a schimbat parent și description.	48	1
+14	2016-09-01 08:19:27.899011+00	1	Consultanție Juridica	2	S-a schimbat name și description.	48	1
+15	2016-09-01 08:20:23.299001+00	1	Consultanție Juridică	2	S-a schimbat name și description.	48	1
+16	2016-09-01 08:20:41.995661+00	1	Consultanție Juridică	2	S-a schimbat description.	48	1
+17	2016-09-02 14:50:08.667981+00	1	Consultare juridică	2	S-a schimbat name și description.	48	1
+18	2016-09-02 20:00:47.46567+00	7	NEW!	1	Adăugat.	48	1
+19	2016-09-02 20:01:41.956662+00	7	NEW!	3		48	1
+20	2016-09-05 07:13:38.947853+00	8	NEW!	1	Adăugat.	48	1
+21	2016-09-05 07:15:50.594769+00	9	FRESH	1	Adăugat.	48	1
+22	2016-09-05 07:27:44.220991+00	8	NEW!	3		48	1
+23	2016-09-05 07:27:44.235284+00	9	FRESH	3		48	1
+24	2016-09-05 08:03:05.635148+00	11	q4	3		49	1
+25	2016-09-05 08:03:05.681345+00	5	User2 Q	3		49	1
+26	2016-09-05 08:03:05.718623+00	2	Intrebare #2	3		49	1
+27	2016-09-05 08:03:05.756838+00	9	Some	3		49	1
 \.
 
 
@@ -1958,7 +2685,7 @@ COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, cha
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('django_admin_log_id_seq', 1, false);
+SELECT pg_catalog.setval('django_admin_log_id_seq', 27, true);
 
 
 --
@@ -2010,6 +2737,20 @@ COPY django_content_type (id, app_label, model) FROM stdin;
 45	resources	resourcepagerelateddocument
 46	resources	resourcepage
 47	resources	resourcesindexpage
+48	forum	forum
+49	forum_conversation	topic
+50	forum_conversation	post
+51	forum_attachments	attachment
+52	forum_polls	topicpoll
+53	forum_polls	topicpolloption
+54	forum_polls	topicpollvote
+55	forum_tracking	forumreadtrack
+56	forum_tracking	topicreadtrack
+57	forum_member	forumprofile
+58	forum_permission	forumpermission
+59	forum_permission	groupforumpermission
+60	forum_permission	userforumpermission
+61	home	redirectpage
 \.
 
 
@@ -2017,7 +2758,7 @@ COPY django_content_type (id, app_label, model) FROM stdin;
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('django_content_type_id_seq', 47, true);
+SELECT pg_catalog.setval('django_content_type_id_seq', 61, true);
 
 
 --
@@ -2133,6 +2874,24 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 110	resources	0001_initial	2016-07-28 10:06:17.539148+00
 111	resources	0002_auto_20160728_1047	2016-07-28 10:47:31.981165+00
 112	resources	0003_resourcesindexpage	2016-07-28 11:00:35.963531+00
+113	forum	0001_initial	2016-08-31 16:33:14.213298+00
+114	forum	0002_auto_20150725_0512	2016-08-31 16:33:14.22998+00
+115	forum	0003_remove_forum_is_active	2016-08-31 16:33:14.255435+00
+116	forum_conversation	0001_initial	2016-08-31 16:33:14.634006+00
+117	forum_attachments	0001_initial	2016-08-31 16:33:14.863802+00
+118	forum_conversation	0002_post_anonymous_key	2016-08-31 16:33:14.922781+00
+119	forum_conversation	0003_auto_20160228_2051	2016-08-31 16:33:14.985779+00
+120	forum_conversation	0004_auto_20160427_0502	2016-08-31 16:33:15.143278+00
+121	forum_conversation	0005_auto_20160607_0455	2016-08-31 16:33:15.275482+00
+122	forum_member	0001_initial	2016-08-31 16:33:15.36743+00
+123	forum_member	0002_auto_20160225_0515	2016-08-31 16:33:15.430469+00
+124	forum_member	0003_auto_20160227_2122	2016-08-31 16:33:15.521683+00
+125	forum_permission	0001_initial	2016-08-31 16:33:15.973001+00
+126	forum_permission	0002_auto_20160607_0500	2016-08-31 16:33:16.415237+00
+127	forum_polls	0001_initial	2016-08-31 16:33:16.837857+00
+128	forum_polls	0002_auto_20151105_0029	2016-08-31 16:33:16.994309+00
+129	forum_tracking	0001_initial	2016-08-31 16:33:17.490221+00
+130	forum_tracking	0002_auto_20160607_0502	2016-08-31 16:33:17.648926+00
 \.
 
 
@@ -2140,7 +2899,7 @@ COPY django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('django_migrations_id_seq', 112, true);
+SELECT pg_catalog.setval('django_migrations_id_seq', 131, true);
 
 
 --
@@ -2149,9 +2908,311 @@ SELECT pg_catalog.setval('django_migrations_id_seq', 112, true);
 
 COPY django_session (session_key, session_data, expire_date) FROM stdin;
 rso0uhiajrs9ruf1yk02kben3vl5fwn5	OTg3ZTkwYmVmNDBiOWNiZGYyOGI0N2JkODc2ODFlMTBhM2Y5NWM5Yzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyMGIyM2QwMTdjNzBkMmNlYjJiMTJkODkzZGJmZmE3ZWI4YjY3YjRmIn0=	2016-08-05 17:06:34.286913+00
-d9gsn2dzr4s86zr3fmib7styyw6apfqu	NzcwOTI3YjI4N2NkNzdlNjYyY2FhOTE5ZjYxM2NmMmExMWQ5YmM1ZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2hhc2giOiIyMGIyM2QwMTdjNzBkMmNlYjJiMTJkODkzZGJmZmE3ZWI4YjY3YjRmIn0=	2016-08-12 09:43:22.516399+00
-wejfa8cwscryxrric2g4e5k7w5kla4jk	ZTFhYTJlMDdlMTVlZmMyZmM2OTU4NDkwZjUwZDBhNTUwMTdkYWZiNjp7Il9hdXRoX3VzZXJfaGFzaCI6IjIwYjIzZDAxN2M3MGQyY2ViMmIxMmQ4OTNkYmZmYTdlYjhiNjdiNGYiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2016-08-15 08:28:52.902525+00
+l6noc0tm8537jeog3n5mya17ri21sgtc	ZTFhYTJlMDdlMTVlZmMyZmM2OTU4NDkwZjUwZDBhNTUwMTdkYWZiNjp7Il9hdXRoX3VzZXJfaGFzaCI6IjIwYjIzZDAxN2M3MGQyY2ViMmIxMmQ4OTNkYmZmYTdlYjhiNjdiNGYiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2016-08-18 07:46:47.294939+00
+b53vb9kfxhiqhwgdgb93ujpcoh1xsyn3	ODc1MWRmNDc2OTUzODBkYzc3OTg5M2I1ZWU5NWUwMTQ0MjQ5YzhjZDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjBiMjNkMDE3YzcwZDJjZWIyYjEyZDg5M2RiZmZhN2ViOGI2N2I0ZiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2016-08-24 16:54:14.62019+00
+sxt6ybkkv21ax530k9373eb1nhku8m0i	Y2RmNTliYTVhYzIzMWNhY2YzN2IzODk1ZDA4MjMyMGJjMjZmZWRlNDp7Il9hbm9ueW1vdXNfZm9ydW1fa2V5IjoiNjUzODVlZGQ0MjM5NDZlODgzYzZjMTk5M2JkYWU1M2EiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjBiMjNkMDE3YzcwZDJjZWIyYjEyZDg5M2RiZmZhN2ViOGI2N2I0ZiJ9	2016-09-16 17:38:04.161207+00
+uz4jn2aoks0cc0cglu2vf46t3fxcnseg	NjJhZGYxNWUxNjhiN2I2ZWFjMDcyMzg2YzgyYzAzZjIzNGQ3MDY4Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyMGIyM2QwMTdjNzBkMmNlYjJiMTJkODkzZGJmZmE3ZWI4YjY3YjRmIiwiX2Fub255bW91c19mb3J1bV9rZXkiOiJmZThjZTE3NTZkYzc0ODIyOGZhNGE3MDMxODAwY2ZhMyJ9	2016-09-19 07:59:48.046715+00
+ywjgvnspizfmra362ft4sx15genxwgz9	YmMwYTcwM2I1YzM2M2EwMzIwZTgzODBjZTBhNTI1NjQ2ZjFlNWQ5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMjBiMjNkMDE3YzcwZDJjZWIyYjEyZDg5M2RiZmZhN2ViOGI2N2I0ZiIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-09-16 19:41:35.69251+00
 \.
+
+
+--
+-- Data for Name: forum_attachments_attachment; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_attachments_attachment (id, file, comment, post_id) FROM stdin;
+\.
+
+
+--
+-- Name: forum_attachments_attachment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_attachments_attachment_id_seq', 1, true);
+
+
+--
+-- Data for Name: forum_conversation_post; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_conversation_post (id, created, updated, poster_ip, subject, content, username, approved, update_reason, updates_count, _content_rendered, poster_id, topic_id, updated_by_id, anonymous_key) FROM stdin;
+1	2016-08-31 16:48:55.326757+00	2016-08-31 16:48:55.326818+00	172.21.0.1	Q1	##### Text\r\n**Text**	\N	t	\N	0	<h5>Text</h5>\n<p><strong>Text</strong></p>	1	1	\N	\N
+8	2016-09-01 10:46:32.213228+00	2016-09-01 10:47:10.404626+00	172.21.0.1	Poll test	Mesaj	\N	t		1	<p>Mesaj</p>	1	3	1	\N
+9	2016-09-01 10:54:11.199163+00	2016-09-02 15:02:55.187997+00	172.21.0.1	Re: Poll test	Interesant!	Ilie	t	\N	0	<p>Interesant!</p>	\N	3	\N	65385edd423946e883c6c1993bdae53a
+10	2016-09-02 14:58:20.430398+00	2016-09-02 15:03:03.417295+00	172.21.0.1	Problema #1	Mesaj	Cineva	t	\N	0	<p>Mesaj</p>	\N	4	\N	d5ad96f93f0d42edb6bba35acaf49e49
+12	2016-09-02 19:40:42.52115+00	2016-09-02 19:42:27.268036+00	172.21.0.1	Moderat	Moderat	Moderat	t	\N	0	<p>Moderat</p>	\N	6	\N	7f9b99ed2fed424784ad9720f1c541b5
+13	2016-09-05 06:43:21.854331+00	2016-09-05 06:48:38.781071+00	172.21.0.1	Q3	Message	An	t	\N	0	<p>Message</p>	\N	7	\N	72e6622ff5e6480bbb75982e1178d80c
+14	2016-09-05 06:51:26.022557+00	2016-09-05 06:51:26.022621+00	172.21.0.1	Q5	q5	\N	t	\N	0	<p>q5</p>	4	8	\N	\N
+16	2016-09-05 06:55:41.252331+00	2016-09-05 06:56:34.915678+00	172.21.0.1	Q4	q	An	t	\N	0	<p>q</p>	\N	10	\N	30d7076933a940339bf3d2210343e786
+18	2016-09-05 07:04:44.209674+00	2016-09-05 08:01:33.766127+00	172.21.0.1	Tema #1	text	\N	t		1	<p>text</p>	1	12	1	\N
+19	2016-09-05 07:05:17.067941+00	2016-09-05 08:02:11.653175+00	172.21.0.1	Re: Tema	Reply	\N	t		1	<p>Reply</p>	1	12	1	\N
+\.
+
+
+--
+-- Name: forum_conversation_post_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_conversation_post_id_seq', 21, true);
+
+
+--
+-- Data for Name: forum_conversation_topic; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_conversation_topic (id, created, updated, subject, slug, type, status, approved, posts_count, views_count, last_post_on, forum_id, poster_id) FROM stdin;
+8	2016-09-05 06:51:25.947983+00	2016-09-05 06:51:26.08904+00	Q5	q5	0	0	t	1	7	2016-09-05 06:51:26.022557+00	1	4
+10	2016-09-05 06:55:41.234988+00	2016-09-05 06:56:34.99927+00	Q4	q4	0	0	t	1	2	2016-09-05 06:55:41.252331+00	1	\N
+7	2016-09-05 06:43:21.777524+00	2016-09-05 06:48:38.856157+00	Q3	q3	0	0	t	1	2	2016-09-05 06:43:21.854331+00	1	\N
+1	2016-08-31 16:48:55.17544+00	2016-09-05 08:06:33.771434+00	Q1	q1	0	0	t	1	29	2016-08-31 16:48:55.326757+00	1	1
+12	2016-09-05 07:04:44.135555+00	2016-09-05 08:02:11.752075+00	Tema #1	tema	0	0	t	2	5	2016-09-05 07:05:17.067941+00	6	5
+3	2016-09-01 10:46:32.162922+00	2016-09-02 15:02:55.259188+00	Poll test	poll-test	0	1	t	2	23	2016-09-01 10:54:11.199163+00	6	1
+6	2016-09-02 19:40:42.498545+00	2016-09-02 19:42:27.337648+00	Moderat	moderat	0	0	t	1	5	2016-09-02 19:40:42.52115+00	6	\N
+4	2016-09-02 14:58:20.406846+00	2016-09-02 15:03:03.513375+00	Problema #1	problema-1	0	0	t	1	11	2016-09-02 14:58:20.430398+00	2	\N
+\.
+
+
+--
+-- Name: forum_conversation_topic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_conversation_topic_id_seq', 14, true);
+
+
+--
+-- Data for Name: forum_conversation_topic_subscribers; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_conversation_topic_subscribers (id, topic_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Name: forum_conversation_topic_subscribers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_conversation_topic_subscribers_id_seq', 2, true);
+
+
+--
+-- Data for Name: forum_forum; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_forum (id, created, updated, name, slug, description, image, link, link_redirects, type, posts_count, topics_count, link_redirects_count, last_post_on, display_sub_forum_list, _description_rendered, lft, rght, tree_id, level, parent_id) FROM stdin;
+6	2016-09-01 08:16:02.716658+00	2016-09-05 08:02:11.84321+00	Teme Urbane	teme-urbane				f	0	6	4	0	2016-09-05 07:05:17.067941+00	t		2	3	4	1	5
+5	2016-09-01 08:10:11.617717+00	2016-09-05 08:02:11.909652+00	Forum General	forum-general				f	1	7	5	0	2016-09-05 07:05:17.067941+00	t		1	8	4	0	\N
+1	2016-08-31 16:47:14.687232+00	2016-09-05 08:06:33.825489+00	Consultare juridică	consultare-juridica	Jurist urban			f	0	4	4	0	2016-09-05 06:55:41.252331+00	t	<p>Jurist urban</p>	2	3	3	1	3
+3	2016-09-01 07:56:49.356926+00	2016-09-05 08:06:33.892929+00	Consultare	consultare				f	1	4	4	0	2016-09-05 06:55:41.252331+00	t		1	4	3	0	\N
+2	2016-09-01 07:56:02.141796+00	2016-09-02 15:03:03.676343+00	Semnalează o problemă în oraș	semnaleaza-o-problema-in-oras				f	0	1	1	0	2016-09-02 14:58:20.430398+00	t		4	5	4	1	5
+\.
+
+
+--
+-- Name: forum_forum_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_forum_id_seq', 9, true);
+
+
+--
+-- Data for Name: forum_member_forumprofile; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_member_forumprofile (id, avatar, signature, posts_count, _signature_rendered, user_id) FROM stdin;
+4		\N	2	\N	5
+5		\N	0	\N	6
+3		\N	1	\N	4
+2	machina/avatar_images/new_size_smaller_C5txNwV.png	Signature	0	<p>Signature</p>	2
+1		\N	2	\N	1
+\.
+
+
+--
+-- Name: forum_member_forumprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_member_forumprofile_id_seq', 5, true);
+
+
+--
+-- Data for Name: forum_permission_forumpermission; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_permission_forumpermission (id, codename, name, is_global, is_local) FROM stdin;
+1	can_see_forum	Can see forum	t	t
+2	can_read_forum	Can read forum	t	t
+3	can_start_new_topics	Can start new topics	t	t
+4	can_reply_to_topics	Can reply to topics	t	t
+5	can_post_announcements	Can post announcements	t	t
+6	can_post_stickies	Can post stickies	t	t
+7	can_delete_own_posts	Can delete own posts	t	t
+8	can_edit_own_posts	Can edit own posts	t	t
+9	can_post_without_approval	Can post without approval	t	t
+10	can_create_polls	Can create polls	t	t
+11	can_vote_in_polls	Can vote in polls	t	t
+12	can_attach_file	Can attach file	t	t
+13	can_download_file	Can download file	t	t
+14	can_lock_topics	Can lock topics	f	t
+15	can_move_topics	Can move topics	f	t
+16	can_edit_posts	Can edit posts	f	t
+17	can_delete_posts	Can delete posts	f	t
+18	can_approve_posts	Can approve posts	f	t
+19	can_reply_to_locked_topics	Can add posts in locked topics	f	t
+\.
+
+
+--
+-- Name: forum_permission_forumpermission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_permission_forumpermission_id_seq', 19, true);
+
+
+--
+-- Data for Name: forum_permission_groupforumpermission; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_permission_groupforumpermission (id, has_perm, forum_id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: forum_permission_groupforumpermission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_permission_groupforumpermission_id_seq', 1, false);
+
+
+--
+-- Data for Name: forum_permission_userforumpermission; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_permission_userforumpermission (id, has_perm, anonymous_user, forum_id, permission_id, user_id) FROM stdin;
+1	t	t	1	1	\N
+2	t	t	1	2	\N
+3	t	t	1	8	\N
+5	t	t	1	11	\N
+6	t	t	1	4	\N
+4	t	t	1	7	\N
+7	t	t	\N	8	\N
+13	t	t	\N	3	\N
+9	t	t	\N	11	\N
+12	t	t	\N	1	\N
+10	t	t	\N	4	\N
+14	t	t	\N	12	\N
+8	t	t	\N	2	\N
+11	t	t	\N	7	\N
+15	t	t	\N	13	\N
+\.
+
+
+--
+-- Name: forum_permission_userforumpermission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_permission_userforumpermission_id_seq', 15, true);
+
+
+--
+-- Data for Name: forum_polls_topicpoll; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_polls_topicpoll (id, created, updated, question, duration, max_options, user_changes, topic_id) FROM stdin;
+1	2016-08-31 16:48:55.48584+00	2016-08-31 16:48:55.498467+00		0	1	f	1
+3	2016-09-01 10:46:32.529557+00	2016-09-01 10:47:10.675708+00	Q1	0	1	t	3
+5	2016-09-05 06:51:26.242548+00	2016-09-05 06:51:26.257809+00		0	1	f	8
+8	2016-09-05 07:04:44.500082+00	2016-09-05 08:01:33.98295+00		0	1	f	12
+\.
+
+
+--
+-- Name: forum_polls_topicpoll_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_polls_topicpoll_id_seq', 10, true);
+
+
+--
+-- Data for Name: forum_polls_topicpolloption; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_polls_topicpolloption (id, text, poll_id) FROM stdin;
+1	A	3
+2	B	3
+3	C	3
+\.
+
+
+--
+-- Name: forum_polls_topicpolloption_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_polls_topicpolloption_id_seq', 3, true);
+
+
+--
+-- Data for Name: forum_polls_topicpollvote; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_polls_topicpollvote (id, "timestamp", poll_option_id, voter_id, anonymous_key) FROM stdin;
+2	2016-09-01 10:47:19.948165+00	2	1	\N
+4	2016-09-01 10:48:34.769079+00	2	\N	65385edd423946e883c6c1993bdae53a
+\.
+
+
+--
+-- Name: forum_polls_topicpollvote_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_polls_topicpollvote_id_seq', 4, true);
+
+
+--
+-- Data for Name: forum_tracking_forumreadtrack; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_tracking_forumreadtrack (id, mark_time, forum_id, user_id) FROM stdin;
+5	2016-09-02 15:03:18.994173+00	2	1
+6	2016-09-02 19:20:01.187473+00	1	2
+7	2016-09-02 19:20:01.290822+00	3	2
+8	2016-09-02 19:20:54.234547+00	6	2
+10	2016-09-02 19:22:02.513034+00	2	2
+9	2016-09-02 19:22:02.570961+00	5	2
+4	2016-09-02 19:57:45.211424+00	6	1
+13	2016-09-05 06:50:28.327938+00	2	4
+14	2016-09-05 06:51:26.580201+00	1	4
+15	2016-09-05 06:51:26.762618+00	3	4
+11	2016-09-05 06:54:12.181491+00	6	4
+16	2016-09-05 07:05:17.534134+00	6	5
+17	2016-09-05 07:05:17.606657+00	5	5
+12	2016-09-05 07:14:24.727999+00	5	4
+3	2016-09-05 07:15:55.019902+00	5	1
+1	2016-09-05 08:04:32.909955+00	1	1
+2	2016-09-05 08:04:32.968417+00	3	1
+\.
+
+
+--
+-- Name: forum_tracking_forumreadtrack_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_tracking_forumreadtrack_id_seq', 21, true);
+
+
+--
+-- Data for Name: forum_tracking_topicreadtrack; Type: TABLE DATA; Schema: public; Owner: urbana_db_user
+--
+
+COPY forum_tracking_topicreadtrack (id, mark_time, topic_id, user_id) FROM stdin;
+24	2016-09-05 08:02:12.095065+00	12	1
+\.
+
+
+--
+-- Name: forum_tracking_topicreadtrack_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
+--
+
+SELECT pg_catalog.setval('forum_tracking_topicreadtrack_id_seq', 27, true);
 
 
 --
@@ -2177,7 +3238,7 @@ COPY home_standardindexpage (page_ptr_id, intro) FROM stdin;
 --
 
 COPY home_standardpage (page_ptr_id, body) FROM stdin;
-34	[]
+37	[]
 \.
 
 
@@ -2186,6 +3247,8 @@ COPY home_standardpage (page_ptr_id, body) FROM stdin;
 --
 
 COPY home_universalblogindexpage (page_ptr_id, intro) FROM stdin;
+38	<p>Scurt sumar al ședințelor CMC + Ședințele Serviciilor Primăriei</p>
+39	
 \.
 
 
@@ -2194,10 +3257,9 @@ COPY home_universalblogindexpage (page_ptr_id, intro) FROM stdin;
 --
 
 COPY home_universalblogpage (page_ptr_id, body, date, feed_image_id) FROM stdin;
-31	[]	2016-07-29	2
-32	[]	2016-07-29	2
-33	[]	2016-07-28	\N
-35	[{"value": {"alignment": "normal", "html": "<p  style=\\" margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;\\">   <a title=\\"View Ghidul Participantilor SIVAIP on Scribd\\" href=\\"https://www.scribd.com/document/318723660/Ghidul-Participantilor-SIVAIP#from_embed\\"  style=\\"text-decoration: underline;\\" >Ghidul Participantilor SIVAIP</a> by <a title=\\"View Oberliht's profile on Scribd\\" href=\\"https://www.scribd.com/user/324370701/Oberliht#from_embed\\"  style=\\"text-decoration: underline;\\" >Oberliht</a> on Scribd</p><iframe class=\\"scribd_iframe_embed\\" src=\\"https://www.scribd.com/embeds/318723660/content?start_page=1&view_mode=scroll&access_key=key-qRdwJMefiTX21zFDeTyI&show_recommendations=true&show_upsell=true\\" data-auto-height=\\"false\\" data-aspect-ratio=\\"1.414442700156986\\" scrolling=\\"no\\" id=\\"doc_18206\\" width=\\"100%\\" height=\\"600\\" frameborder=\\"0\\"></iframe>"}, "type": "aligned_html"}]	2016-08-27	\N
+31	[]	2016-07-14	\N
+35	[]	2016-09-06	\N
+36	[]	2016-09-06	\N
 \.
 
 
@@ -2257,7 +3319,6 @@ COPY resources_resourcepage (page_ptr_id, description) FROM stdin;
 COPY resources_resourcepagerelateddocument (id, sort_order, document_id, page_id) FROM stdin;
 1	0	1	25
 2	1	2	25
-3	0	1	30
 \.
 
 
@@ -2265,7 +3326,7 @@ COPY resources_resourcepagerelateddocument (id, sort_order, document_id, page_id
 -- Name: resources_resourcepagerelateddocument_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('resources_resourcepagerelateddocument_id_seq', 3, true);
+SELECT pg_catalog.setval('resources_resourcepagerelateddocument_id_seq', 2, true);
 
 
 --
@@ -2321,7 +3382,7 @@ COPY wagtailcore_collection (id, path, depth, numchild, name) FROM stdin;
 -- Name: wagtailcore_collection_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailcore_collection_id_seq', 1, true);
+SELECT pg_catalog.setval('wagtailcore_collection_id_seq', 2, true);
 
 
 --
@@ -2374,29 +3435,30 @@ SELECT pg_catalog.setval('wagtailcore_grouppagepermission_id_seq', 6, true);
 
 COPY wagtailcore_page (id, path, depth, numchild, title, slug, live, has_unpublished_changes, url_path, seo_title, show_in_menus, search_description, go_live_at, expire_at, expired, content_type_id, owner_id, locked, latest_revision_created_at, first_published_at) FROM stdin;
 1	0001	1	1	Root	root	t	f	/		f		\N	\N	f	1	\N	f	\N	\N
-21	000100010003	3	2	Resurse	resurse	t	f	/home/resurse/		t		\N	\N	f	44	1	f	2016-07-27 18:03:24.746376+00	2016-07-27 17:44:45.100132+00
+38	0001000100030007	4	0	Transparența Administrației Publice Locale	transparenta-administratiei-publice-locale	t	f	/home/resurse/transparenta-administratiei-publice-locale/		t		\N	\N	f	37	1	f	2016-09-05 07:44:43.111562+00	2016-09-05 07:44:43.335338+00
+21	000100010003	3	4	Resurse	resurse	t	f	/home/resurse/		t		\N	\N	f	44	1	f	2016-07-27 18:03:24.746376+00	2016-07-27 17:44:45.100132+00
+39	0001000100030008	4	0	Publicații ale Rețelei	publicatii-ale-retelei	t	f	/home/resurse/publicatii-ale-retelei/		t		\N	\N	f	37	1	f	2016-09-05 07:52:18.430051+00	2016-09-05 07:51:46.756564+00
+30	00010001000300060001	5	0	Ghid #1	ghid-1	t	f	/home/resurse/ghiduri-pentru-activisti/ghid-1/		f		\N	\N	f	46	1	f	2016-07-28 11:08:57.713376+00	2016-07-28 11:08:57.874245+00
+29	0001000100030006	4	1	Ghiduri pentru activiști	ghiduri-pentru-activisti	t	f	/home/resurse/ghiduri-pentru-activisti/		t		\N	\N	f	47	1	f	2016-07-28 11:11:47.500995+00	2016-07-28 11:08:15.02512+00
+12	0001000100020003	4	1	Membri	membri	t	f	/home/despre/membri/		t		\N	\N	f	40	1	f	2016-07-23 16:15:26.661035+00	2016-07-23 16:13:45.117959+00
+6	000100010001	3	1	Știri Urbane	stiri-urbane	t	f	/home/stiri-urbane/		t		\N	\N	f	11	1	f	2016-07-22 17:29:20.548832+00	2016-07-22 17:28:34.933561+00
+31	0001000100010001	4	0	Post	post	t	t	/home/stiri-urbane/post/		f		\N	\N	f	8	1	f	2016-09-01 10:10:46.348133+00	2016-07-29 11:17:28.388662+00
+28	0001000100030005	4	1	Modele de acte și scrisori	index-nou	t	f	/home/resurse/index-nou/		t		\N	\N	f	47	1	f	2016-07-28 11:06:38.834276+00	2016-07-28 11:00:58.806743+00
+25	00010001000300050001	5	0	Model #1	doc-1	t	f	/home/resurse/index-nou/doc-1/		f		\N	\N	f	46	1	f	2016-07-28 10:22:42.3627+00	2016-07-28 10:09:23.800133+00
 3	00010001	2	2	Homepage	home	t	f	/home/		f		\N	\N	f	4	\N	f	\N	\N
+13	00010001000200030001	5	0	Ilie Postolachi	ilie-postolachi	t	f	/home/despre/membri/ilie-postolachi/		f		\N	\N	f	41	1	f	2016-07-23 16:18:05.544139+00	2016-07-23 16:14:26.145825+00
+37	0001000100020002	4	0	Istoric	istoric	t	f	/home/despre/istoric/		t		\N	\N	f	10	1	f	2016-09-05 07:38:19.610758+00	2016-09-05 07:37:25.045245+00
+5	0001000100020001	4	1	Știrile rețelei	stirile-retelei	t	f	/home/despre/stirile-retelei/		t		\N	\N	f	13	1	f	2016-07-22 17:33:35.452308+00	2016-07-22 17:26:56.847194+00
+36	00010001000200010001	5	0	Post #1	post-1	t	f	/home/despre/stirile-retelei/post-1/		f		\N	\N	f	8	1	f	2016-09-05 07:35:27.672967+00	2016-09-05 07:35:27.840335+00
+4	000100010002	3	6	Despre	despre	t	f	/home/despre/		t		\N	\N	f	12	1	f	2016-07-22 17:07:15.479153+00	2016-07-22 17:07:15.619947+00
+7	0001000100020005	4	1	Inițiativele rețelei	initiativele-retelei	t	f	/home/despre/initiativele-retelei/		t		\N	\N	f	14	1	f	2016-07-22 17:33:59.04321+00	2016-07-22 17:33:09.226067+00
+35	00010001000200050001	5	0	Inițiativa #1	initiativa-1	t	f	/home/despre/initiativele-retelei/initiativa-1/		f		\N	\N	f	8	1	f	2016-09-05 07:33:39.644353+00	2016-09-05 07:33:39.966813+00
+14	0001000100020004	4	5	Evenimente în curând	evenimente	t	f	/home/despre/evenimente/		t		\N	\N	f	42	1	f	2016-07-27 13:50:21.547598+00	2016-07-25 16:44:19.296875+00
 15	00010001000200040001	5	0	Eveniment #1	eveniment-1	t	f	/home/despre/evenimente/eveniment-1/		f		\N	\N	f	43	1	f	2016-07-27 13:33:43.615246+00	2016-07-25 17:14:33.045101+00
 17	00010001000200040003	5	0	May past event	may-past-event	t	f	/home/despre/evenimente/may-past-event/		f		\N	\N	f	43	1	f	2016-07-27 13:36:37.731173+00	2016-07-27 13:36:37.9699+00
-14	0001000100020004	4	5	Evenimente în curând	evenimente	t	f	/home/despre/evenimente/		t		\N	\N	f	42	1	f	2016-07-27 13:50:21.547598+00	2016-07-25 16:44:19.296875+00
 16	00010001000200040002	5	0	Eveniment #2	eveniment-2	t	f	/home/despre/evenimente/eveniment-2/		f	Descriere vizibila la pagina de index	\N	\N	f	43	1	f	2016-07-25 17:44:21.039744+00	2016-07-25 17:14:33.045101+00
-29	0001000100030006	4	1	Ghiduri pentru activiști	ghiduri-pentru-activisti	t	f	/home/resurse/ghiduri-pentru-activisti/		t		\N	\N	f	47	1	f	2016-07-28 11:11:47.500995+00	2016-07-28 11:08:15.02512+00
 19	00010001000200040005	5	0	Eveniment nou	28-check	t	f	/home/despre/evenimente/28-check/		f		\N	\N	f	43	1	f	2016-07-27 17:35:47.260214+00	2016-07-27 17:14:35.652609+00
 18	00010001000200040004	5	0	Eveniment 2 days long	ev3	t	f	/home/despre/evenimente/ev3/		f		\N	\N	f	43	1	f	2016-07-27 17:36:23.059583+00	2016-07-27 14:57:31.806757+00
-35	0001000100010002	4	0	Scribd test	scribd-test	t	f	/home/stiri-urbane/scribd-test/		f		\N	\N	f	8	1	f	2016-08-01 08:42:52.991558+00	2016-08-01 08:42:53.068947+00
-31	0001000100010001	4	0	Post urban #1	post-urban-1	t	f	/home/stiri-urbane/post-urban-1/		f		\N	\N	f	8	1	f	2016-07-29 09:55:35.098642+00	2016-07-29 09:48:27.113054+00
-7	0001000100020002	4	1	Inițiativele rețelei	initiativele-retelei	t	f	/home/despre/initiativele-retelei/		t		\N	\N	f	14	1	f	2016-07-22 17:33:59.04321+00	2016-07-22 17:33:09.226067+00
-30	00010001000300060001	5	0	Ghid #1	ghid-1	t	f	/home/resurse/ghiduri-pentru-activisti/ghid-1/		f		\N	\N	f	46	1	f	2016-08-04 12:09:32.917469+00	2016-07-28 11:08:57.874245+00
-32	00010001000200020001	5	0	Initiativa #1	initiativa-1	t	f	/home/despre/initiativele-retelei/initiativa-1/		f		\N	\N	f	8	1	f	2016-07-29 09:56:24.964123+00	2016-07-29 09:56:25.015416+00
-5	0001000100020001	4	1	Știrile rețelei	stirile-retelei	t	f	/home/despre/stirile-retelei/		t		\N	\N	f	13	1	f	2016-07-22 17:33:35.452308+00	2016-07-22 17:26:56.847194+00
-33	00010001000200010001	5	0	Noutati #1	noutati-1	t	f	/home/despre/stirile-retelei/noutati-1/		f		\N	\N	f	8	1	f	2016-07-29 09:57:40.175925+00	2016-07-29 09:57:40.198888+00
-4	000100010002	3	6	Despre	despre	t	f	/home/despre/		t		\N	\N	f	12	1	f	2016-07-22 17:07:15.479153+00	2016-07-22 17:07:15.619947+00
-34	0001000100020006	4	0	Istoric	istoric	t	f	/home/despre/istoric/		t		\N	\N	f	10	1	f	2016-07-29 12:48:00.908759+00	2016-07-29 12:48:00.942534+00
-12	0001000100020005	4	1	Membri	membri	t	f	/home/despre/membri/		t		\N	\N	f	40	1	f	2016-07-23 16:15:26.661035+00	2016-07-23 16:13:45.117959+00
-13	00010001000200050001	5	0	Ilie Postolachi	ilie-postolachi	t	f	/home/despre/membri/ilie-postolachi/		f		\N	\N	f	41	1	f	2016-07-23 16:18:05.544139+00	2016-07-23 16:14:26.145825+00
-28	0001000100030005	4	1	Modele de acte și scrisori	modele-de-acte	t	f	/home/resurse/modele-de-acte/		t		\N	\N	f	47	1	f	2016-08-01 08:30:14.787284+00	2016-07-28 11:00:58.806743+00
-25	00010001000300050001	5	0	Model #1	doc-1	t	f	/home/resurse/modele-de-acte/doc-1/		f		\N	\N	f	46	1	f	2016-07-28 10:22:42.3627+00	2016-07-28 10:09:23.800133+00
-6	000100010001	3	2	Știri Urbane	stiri-urbane	t	f	/home/stiri-urbane/		t		\N	\N	f	11	1	f	2016-07-22 17:29:20.548832+00	2016-07-22 17:28:34.933561+00
 \.
 
 
@@ -2404,7 +3466,7 @@ COPY wagtailcore_page (id, path, depth, numchild, title, slug, live, has_unpubli
 -- Name: wagtailcore_page_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailcore_page_id_seq', 35, true);
+SELECT pg_catalog.setval('wagtailcore_page_id_seq', 39, true);
 
 
 --
@@ -2434,45 +3496,47 @@ COPY wagtailcore_pagerevision (id, submitted_for_moderation, created_at, content
 47	f	2016-07-25 17:40:35.640134+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #2", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:40:09.123Z", "search_description": "", "pk": 16, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-2", "depth": 5, "date_to": null, "time_to": null, "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-2/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040002", "expired": false}	\N	16	1
 58	f	2016-07-27 14:57:31.480555+00	{"time_from": "16:00:00", "location": "some", "expired": false, "feed_image": null, "body": "[]", "go_live_at": null, "title": "Ev3", "latest_revision_created_at": null, "path": "00010001000200040004", "date_from": "2016-07-26", "content_type": 43, "date_to": "2016-07-28", "has_unpublished_changes": false, "live": true, "slug": "ev3", "expire_at": null, "time_to": "18:00:00", "signup_link": "", "owner": 1, "numchild": 0, "show_in_menus": false, "first_published_at": null, "depth": 5, "url_path": "/home/despre/evenimente/ev3/", "seo_title": "", "locked": false, "pk": 18, "search_description": ""}	\N	18	1
 37	f	2016-07-25 17:19:33.648909+00	{"feed_image": 1, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:14:32.679Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": null, "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
+98	f	2016-09-05 07:44:43.111562+00	{"slug": "transparenta-administratiei-publice-locale", "depth": 4, "pk": 38, "go_live_at": null, "locked": false, "title": "Transparen\\u021ba Administra\\u021biei Publice Locale", "expire_at": null, "seo_title": "", "live": true, "path": "0001000100030007", "numchild": 0, "has_unpublished_changes": false, "latest_revision_created_at": null, "expired": false, "intro": "<p>Scurt sumar al \\u0219edin\\u021belor CMC + \\u0218edin\\u021bele Serviciilor Prim\\u0103riei</p>", "search_description": "", "first_published_at": null, "url_path": "/home/resurse/transparenta-administratiei-publice-locale/", "show_in_menus": true, "owner": 1, "content_type": 37}	\N	38	1
+80	f	2016-07-28 11:08:57.713376+00	{"go_live_at": null, "related_documents": [], "live": true, "content_type": 46, "expired": false, "pk": 30, "latest_revision_created_at": null, "seo_title": "", "numchild": 0, "owner": 1, "has_unpublished_changes": false, "title": "Ghid #1", "path": "00010001000300060001", "depth": 5, "locked": false, "show_in_menus": false, "url_path": "/home/resurse/ghiduri-pentru-activisti/ghid-1/", "slug": "ghid-1", "expire_at": null, "search_description": "", "first_published_at": null, "description": "<h5>Info text</h5>"}	\N	30	1
 48	f	2016-07-25 17:44:21.039744+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #2", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:40:35.640Z", "search_description": "Descriere vizibila la pagina de index", "pk": 16, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-2", "depth": 5, "date_to": null, "time_to": null, "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-2/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040002", "expired": false}	\N	16	1
 59	f	2016-07-27 15:01:12.013454+00	{"time_from": "16:00:00", "location": "some", "expired": false, "feed_image": null, "body": "[]", "go_live_at": null, "title": "Eveniment loooong title", "latest_revision_created_at": "2016-07-27T14:57:31.480Z", "path": "00010001000200040004", "date_from": "2016-07-26", "content_type": 43, "date_to": "2016-07-28", "has_unpublished_changes": false, "live": true, "slug": "ev3", "expire_at": null, "time_to": "18:00:00", "signup_link": "", "owner": 1, "numchild": 0, "show_in_menus": false, "first_published_at": "2016-07-27T14:57:31.806Z", "depth": 5, "url_path": "/home/despre/evenimente/ev3/", "seo_title": "", "locked": false, "pk": 18, "search_description": ""}	\N	18	1
+99	f	2016-09-05 07:51:46.60052+00	{"slug": "publicatii-ale-retelei", "depth": 4, "pk": 39, "go_live_at": null, "locked": false, "title": "Publica\\u021bii ale Re\\u021belei", "expire_at": null, "seo_title": "", "live": true, "path": "0001000100030008", "numchild": 0, "has_unpublished_changes": false, "latest_revision_created_at": null, "expired": false, "intro": "", "search_description": "", "first_published_at": null, "url_path": "/home/resurse/publicatii-ale-retelei/", "show_in_menus": false, "owner": 1, "content_type": 37}	\N	39	1
 60	f	2016-07-27 17:14:35.487556+00	{"title": "28 check", "live": true, "feed_image": null, "latest_revision_created_at": null, "signup_link": "", "expire_at": null, "expired": false, "slug": "28-check", "locked": false, "show_in_menus": false, "first_published_at": null, "body": "[]", "date_to": null, "has_unpublished_changes": false, "numchild": 0, "url_path": "/home/despre/evenimente/28-check/", "time_to": null, "owner": 1, "content_type": 43, "path": "00010001000200040005", "time_from": null, "date_from": "2016-07-28", "pk": 19, "search_description": "", "go_live_at": null, "seo_title": "", "depth": 5, "location": "loc"}	\N	19	1
 49	f	2016-07-25 17:46:44.189823+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:40:09.123Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": "21:00:00", "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
 53	f	2016-07-27 13:33:43.615246+00	{"path": "00010001000200040001", "latest_revision_created_at": "2016-07-25T17:51:22.516Z", "expired": false, "location": "Undeva", "locked": false, "owner": 1, "slug": "eveniment-1", "feed_image": 2, "pk": 15, "show_in_menus": false, "content_type": 43, "url_path": "/home/despre/evenimente/eveniment-1/", "go_live_at": null, "signup_link": "http://urbana.md", "search_description": "", "expire_at": null, "title": "Eveniment #1", "body": "[{\\"type\\": \\"aligned_image\\", \\"value\\": {\\"image\\": 2, \\"caption\\": \\"<p>\\\\u00a0</p>\\", \\"alignment\\": \\"mid\\"}}, {\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "first_published_at": "2016-07-25T17:14:33.045Z", "has_unpublished_changes": false, "depth": 5, "time_to": "21:00:00", "date_from": "2016-08-25", "date_to": null, "seo_title": "", "live": true, "numchild": 0, "time_from": "09:00:00"}	\N	15	1
 38	f	2016-07-25 17:22:28.390858+00	{"locked": false, "owner": 1, "title": "Evenimente", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": false, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T16:50:46.495Z", "search_description": "", "pk": 14, "intro": "<h1>Evenimente \\u00een cur\\u00e2nd</h1>", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
 67	f	2016-07-27 18:03:24.746376+00	{"numchild": 1, "has_unpublished_changes": false, "expired": false, "search_description": "", "slug": "resurse", "locked": false, "url_path": "/home/resurse/", "latest_revision_created_at": "2016-07-27T17:44:44.925Z", "depth": 3, "go_live_at": null, "path": "000100010003", "owner": 1, "expire_at": null, "live": true, "title": "Resurse", "pk": 21, "intro": "", "seo_title": "", "first_published_at": "2016-07-27T17:44:45.100Z", "show_in_menus": true, "content_type": 44}	\N	21	1
 81	f	2016-07-28 11:11:47.500995+00	{"url_path": "/home/resurse/ghiduri-pentru-activisti/", "title": "Ghiduri pentru activi\\u0219ti", "go_live_at": null, "has_unpublished_changes": false, "path": "0001000100030006", "depth": 4, "live": true, "show_in_menus": true, "content_type": 47, "slug": "ghiduri-pentru-activisti", "expire_at": null, "search_description": "", "expired": false, "first_published_at": "2016-07-28T11:08:15.025Z", "pk": 29, "latest_revision_created_at": "2016-07-28T11:08:14.866Z", "seo_title": "", "numchild": 1, "locked": false, "owner": 1}	\N	29	1
+83	f	2016-09-01 10:10:39.966363+00	{"expire_at": null, "latest_revision_created_at": "2016-07-29T11:17:27.991Z", "show_in_menus": false, "first_published_at": "2016-07-29T11:17:28.388Z", "path": "0001000100010001", "feed_image": null, "live": true, "depth": 4, "go_live_at": null, "related_links": [], "owner": 1, "title": "Post", "search_description": "", "expired": false, "slug": "post", "locked": false, "body": "[]", "tagged_items": [], "pk": 31, "date": "2016-07-14", "content_type": 8, "url_path": "/home/stiri-urbane/post/", "seo_title": "", "numchild": 0, "has_unpublished_changes": false}	\N	31	1
+94	f	2016-09-05 07:33:39.644353+00	{"slug": "initiativa-1", "depth": 5, "pk": 35, "locked": false, "feed_image": null, "live": true, "path": "00010001000200020001", "tagged_items": [], "has_unpublished_changes": false, "first_published_at": null, "body": "[]", "title": "Ini\\u021biativa #1", "expire_at": null, "latest_revision_created_at": null, "search_description": "", "seo_title": "", "date": "2016-09-06", "owner": 1, "go_live_at": null, "expired": false, "numchild": 0, "url_path": "/home/despre/initiativele-retelei/initiativa-1/", "show_in_menus": false, "related_links": [], "content_type": 8}	\N	35	1
 54	f	2016-07-27 13:36:37.731173+00	{"path": "00010001000200040003", "latest_revision_created_at": null, "expired": false, "location": "somewhere", "locked": false, "owner": 1, "slug": "may-past-event", "feed_image": null, "pk": 17, "show_in_menus": false, "content_type": 43, "url_path": "/home/despre/evenimente/may-past-event/", "go_live_at": null, "signup_link": "", "search_description": "", "expire_at": null, "title": "May past event", "body": "[]", "first_published_at": null, "has_unpublished_changes": false, "depth": 5, "time_to": null, "date_from": "2016-05-18", "date_to": "2016-05-26", "seo_title": "", "live": true, "numchild": 0, "time_from": null}	\N	17	1
+82	f	2016-07-29 11:17:27.991886+00	{"tagged_items": [], "latest_revision_created_at": null, "depth": 4, "related_links": [], "numchild": 0, "live": true, "has_unpublished_changes": false, "url_path": "/home/stiri-urbane/post/", "slug": "post", "first_published_at": null, "seo_title": "", "go_live_at": null, "feed_image": null, "expired": false, "owner": 1, "date": "2016-07-14", "body": "[]", "locked": false, "search_description": "", "expire_at": null, "path": "0001000100010001", "show_in_menus": false, "content_type": 8, "title": "Post", "pk": 31}	\N	31	1
 61	f	2016-07-27 17:15:41.742705+00	{"title": "28 check", "live": true, "feed_image": null, "latest_revision_created_at": "2016-07-27T17:14:35.487Z", "signup_link": "", "expire_at": null, "expired": false, "slug": "28-check", "locked": false, "show_in_menus": false, "first_published_at": "2016-07-27T17:14:35.652Z", "body": "[]", "date_to": null, "has_unpublished_changes": false, "numchild": 0, "url_path": "/home/despre/evenimente/28-check/", "time_to": null, "owner": 1, "content_type": 43, "path": "00010001000200040005", "time_from": null, "date_from": "2016-07-27", "pk": 19, "search_description": "", "go_live_at": null, "seo_title": "", "depth": 5, "location": "loc"}	\N	19	1
 50	f	2016-07-25 17:49:23.69016+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:46:44.189Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": "21:00:00", "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5><p><b><embed alt=\\\\\\"Collab\\\\\\" embedtype=\\\\\\"image\\\\\\" format=\\\\\\"left\\\\\\" id=\\\\\\"2\\\\\\"/><br/></b></p>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
+84	f	2016-09-01 10:10:46.348133+00	{"expire_at": null, "latest_revision_created_at": "2016-09-01T10:10:39.966Z", "show_in_menus": false, "first_published_at": "2016-07-29T11:17:28.388Z", "path": "0001000100010001", "feed_image": null, "live": true, "depth": 4, "go_live_at": null, "related_links": [], "owner": 1, "title": "Post", "search_description": "", "expired": false, "slug": "post", "locked": false, "body": "[]", "tagged_items": [], "pk": 31, "date": "2016-07-14", "content_type": 8, "url_path": "/home/stiri-urbane/post/", "seo_title": "", "numchild": 0, "has_unpublished_changes": true}	\N	31	1
 39	f	2016-07-25 17:23:17.837447+00	{"locked": false, "owner": 1, "title": "Evenimente", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": false, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:22:28.390Z", "search_description": "", "pk": 14, "intro": "<p>Evenimente \\u00een cur\\u00e2nd</p>", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
+100	f	2016-09-05 07:52:18.430051+00	{"slug": "publicatii-ale-retelei", "depth": 4, "pk": 39, "go_live_at": null, "locked": false, "title": "Publica\\u021bii ale Re\\u021belei", "expire_at": null, "seo_title": "", "live": true, "path": "0001000100030008", "numchild": 0, "has_unpublished_changes": false, "latest_revision_created_at": "2016-09-05T07:51:46.600Z", "expired": false, "intro": "", "search_description": "", "first_published_at": "2016-09-05T07:51:46.756Z", "url_path": "/home/resurse/publicatii-ale-retelei/", "show_in_menus": true, "owner": 1, "content_type": 37}	\N	39	1
+95	f	2016-09-05 07:35:27.672967+00	{"slug": "post-1", "depth": 5, "pk": 36, "locked": false, "feed_image": null, "live": true, "path": "00010001000200010001", "tagged_items": [], "has_unpublished_changes": false, "first_published_at": null, "body": "[]", "title": "Post #1", "expire_at": null, "latest_revision_created_at": null, "search_description": "", "seo_title": "", "date": "2016-09-06", "owner": 1, "go_live_at": null, "expired": false, "numchild": 0, "url_path": "/home/despre/stirile-retelei/post-1/", "show_in_menus": false, "related_links": [], "content_type": 8}	\N	36	1
 51	f	2016-07-25 17:50:49.198417+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:49:23.690Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": "21:00:00", "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"aligned_image\\", \\"value\\": {\\"image\\": 2, \\"caption\\": \\"<p>Caption</p>\\", \\"alignment\\": \\"mid\\"}}, {\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
 55	f	2016-07-27 13:42:53.061082+00	{"numchild": 3, "content_type": 42, "search_description": "", "latest_revision_created_at": "2016-07-25T17:25:24.467Z", "has_unpublished_changes": false, "title": "Evenimente \\u00een cur\\u00e2nd", "first_published_at": "2016-07-25T16:44:19.296Z", "owner": 1, "path": "0001000100020004", "intro": "<p>Descriere index (optional)</p>", "expired": false, "locked": false, "depth": 4, "slug": "evenimente", "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "seo_title": "", "go_live_at": null, "live": true, "pk": 14}	\N	14	1
 62	f	2016-07-27 17:35:47.260214+00	{"depth": 5, "date_to": null, "time_from": null, "pk": 19, "locked": false, "signup_link": "", "first_published_at": "2016-07-27T17:14:35.652Z", "has_unpublished_changes": false, "feed_image": null, "expired": false, "seo_title": "", "date_from": "2016-07-27", "numchild": 0, "body": "[]", "content_type": 43, "slug": "28-check", "go_live_at": null, "show_in_menus": false, "latest_revision_created_at": "2016-07-27T17:15:41.742Z", "path": "00010001000200040005", "owner": 1, "url_path": "/home/despre/evenimente/28-check/", "live": true, "time_to": null, "expire_at": null, "search_description": "", "location": "loc", "title": "Eveniment nou"}	\N	19	1
+77	f	2016-07-28 11:00:58.62319+00	{"has_unpublished_changes": false, "content_type": 47, "live": true, "search_description": "", "slug": "index-nou", "numchild": 0, "url_path": "/home/resurse/index-nou/", "title": "Index nou", "latest_revision_created_at": null, "owner": 1, "pk": 28, "seo_title": "", "depth": 4, "first_published_at": null, "expired": false, "show_in_menus": true, "go_live_at": null, "locked": false, "expire_at": null, "path": "0001000100030005"}	\N	28	1
 71	f	2016-07-28 10:09:23.605695+00	{"expire_at": null, "has_unpublished_changes": false, "path": "00010001000300030001", "seo_title": "", "live": true, "url_path": "/home/resurse/modele-de-acte-si-scrisori/doc-1/", "show_in_menus": false, "numchild": 0, "content_type": 46, "expired": false, "latest_revision_created_at": null, "locked": false, "owner": 1, "pk": 25, "related_documents": [{"pk": 1, "page": 25, "sort_order": 0, "link_document": 1}], "depth": 5, "search_description": "", "first_published_at": null, "description": "", "go_live_at": null, "title": "Doc #1", "slug": "doc-1"}	\N	25	1
+96	f	2016-09-05 07:37:24.870434+00	{"slug": "istoric", "depth": 4, "pk": 37, "go_live_at": null, "locked": false, "title": "Istoric", "expire_at": null, "seo_title": "", "live": true, "body": "[]", "path": "0001000100020005", "numchild": 0, "has_unpublished_changes": false, "latest_revision_created_at": null, "expired": false, "search_description": "", "first_published_at": null, "url_path": "/home/despre/istoric/", "show_in_menus": false, "owner": 1, "content_type": 10}	\N	37	1
 40	f	2016-07-25 17:24:28.651024+00	{"locked": false, "owner": 1, "title": "Evenimente \\u00een cur\\u00e2nd", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": false, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:23:17.837Z", "search_description": "", "pk": 14, "intro": "<p><br/></p>", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
 41	f	2016-07-25 17:24:45.859409+00	{"locked": false, "owner": 1, "title": "Evenimente \\u00een cur\\u00e2nd", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:24:28.651Z", "search_description": "", "pk": 14, "intro": "<p><br/></p>", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
 63	f	2016-07-27 17:36:23.059583+00	{"depth": 5, "date_to": "2016-07-28", "time_from": "16:00:00", "pk": 18, "locked": false, "signup_link": "", "first_published_at": "2016-07-27T14:57:31.806Z", "has_unpublished_changes": false, "feed_image": null, "expired": false, "seo_title": "", "date_from": "2016-07-26", "numchild": 0, "body": "[]", "content_type": 43, "slug": "ev3", "go_live_at": null, "show_in_menus": false, "latest_revision_created_at": "2016-07-27T15:01:12.013Z", "path": "00010001000200040004", "owner": 1, "url_path": "/home/despre/evenimente/ev3/", "live": true, "time_to": "18:00:00", "expire_at": null, "search_description": "", "location": "some", "title": "Eveniment 2 days long"}	\N	18	1
 52	f	2016-07-25 17:51:22.516848+00	{"feed_image": 2, "owner": 1, "time_from": "09:00:00", "title": "Eveniment #1", "numchild": 0, "seo_title": "", "show_in_menus": false, "latest_revision_created_at": "2016-07-25T17:50:49.198Z", "search_description": "", "pk": 15, "locked": false, "date_from": "2016-07-26", "slug": "eveniment-1", "depth": 5, "date_to": null, "time_to": "21:00:00", "expire_at": null, "go_live_at": null, "url_path": "/home/despre/evenimente/eveniment-1/", "signup_link": "http://urbana.md", "first_published_at": "2016-07-25T17:14:33.045Z", "live": true, "body": "[{\\"type\\": \\"aligned_image\\", \\"value\\": {\\"image\\": 2, \\"caption\\": \\"<p>\\\\u00a0</p>\\", \\"alignment\\": \\"mid\\"}}, {\\"type\\": \\"paragraph\\", \\"value\\": \\"<h5><b>Some content</b></h5>\\"}]", "location": "Undeva", "has_unpublished_changes": false, "content_type": 43, "path": "00010001000200040001", "expired": false}	\N	15	1
 72	f	2016-07-28 10:22:42.3627+00	{"title": "Model #1", "expire_at": null, "locked": false, "description": "<p>Descriere pentru model #1</p>", "latest_revision_created_at": "2016-07-28T10:09:23.605Z", "numchild": 0, "has_unpublished_changes": false, "path": "00010001000300030001", "show_in_menus": false, "seo_title": "", "go_live_at": null, "live": true, "pk": 25, "depth": 5, "search_description": "", "url_path": "/home/resurse/modele-de-acte-si-scrisori/doc-1/", "first_published_at": "2016-07-28T10:09:23.800Z", "expired": false, "slug": "doc-1", "content_type": 46, "related_documents": [{"link_document": 1, "sort_order": 0, "page": 25, "pk": 1}, {"link_document": 2, "sort_order": 1, "page": 25, "pk": null}], "owner": 1}	\N	25	1
+97	f	2016-09-05 07:38:19.610758+00	{"slug": "istoric", "depth": 4, "pk": 37, "go_live_at": null, "locked": false, "title": "Istoric", "expire_at": null, "seo_title": "", "live": true, "body": "[]", "path": "0001000100020006", "numchild": 0, "has_unpublished_changes": false, "latest_revision_created_at": "2016-09-05T07:37:24.870Z", "expired": false, "search_description": "", "first_published_at": "2016-09-05T07:37:25.045Z", "url_path": "/home/despre/istoric/", "show_in_menus": true, "owner": 1, "content_type": 10}	\N	37	1
+78	f	2016-07-28 11:06:38.834276+00	{"url_path": "/home/resurse/index-nou/", "title": "Modele de acte \\u0219i scrisori", "go_live_at": null, "has_unpublished_changes": false, "path": "0001000100030005", "depth": 4, "live": true, "show_in_menus": true, "content_type": 47, "slug": "index-nou", "expire_at": null, "search_description": "", "expired": false, "first_published_at": "2016-07-28T11:00:58.806Z", "pk": 28, "latest_revision_created_at": "2016-07-28T11:00:58.623Z", "seo_title": "", "numchild": 0, "locked": false, "owner": 1}	\N	28	1
 31	f	2016-07-23 16:15:26.661035+00	{"title": "Membri", "owner": 1, "slug": "membri", "expired": false, "show_in_menus": true, "content_type": 40, "expire_at": null, "pk": 12, "live": true, "go_live_at": null, "seo_title": "", "search_description": "", "numchild": 1, "first_published_at": "2016-07-23T16:13:45.117Z", "url_path": "/home/despre/membri/", "depth": 4, "locked": false, "latest_revision_created_at": "2016-07-23T16:13:44.943Z", "path": "0001000100020003", "has_unpublished_changes": false}	\N	12	1
 42	f	2016-07-25 17:25:24.467487+00	{"locked": false, "owner": 1, "title": "Evenimente \\u00een cur\\u00e2nd", "numchild": 1, "go_live_at": null, "content_type": 42, "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "latest_revision_created_at": "2016-07-25T17:24:45.859Z", "search_description": "", "pk": 14, "intro": "", "live": true, "seo_title": "", "first_published_at": "2016-07-25T16:44:19.296Z", "expired": false, "has_unpublished_changes": false, "slug": "evenimente", "path": "0001000100020004", "depth": 4}	\N	14	1
-77	f	2016-07-28 11:00:58.62319+00	{"has_unpublished_changes": false, "content_type": 47, "live": true, "search_description": "", "slug": "index-nou", "numchild": 0, "url_path": "/home/resurse/index-nou/", "title": "Index nou", "latest_revision_created_at": null, "owner": 1, "pk": 28, "seo_title": "", "depth": 4, "first_published_at": null, "expired": false, "show_in_menus": true, "go_live_at": null, "locked": false, "expire_at": null, "path": "0001000100030005"}	\N	28	1
 57	f	2016-07-27 13:50:21.547598+00	{"numchild": 3, "content_type": 42, "search_description": "", "latest_revision_created_at": "2016-07-27T13:49:43.154Z", "has_unpublished_changes": false, "title": "Evenimente \\u00een cur\\u00e2nd", "first_published_at": "2016-07-25T16:44:19.296Z", "owner": 1, "path": "0001000100020004", "intro": "", "expired": false, "locked": false, "depth": 4, "slug": "evenimente", "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "seo_title": "", "go_live_at": null, "live": true, "pk": 14}	\N	14	1
 33	f	2016-07-23 16:18:05.544139+00	{"title": "Ilie Postolachi", "expired": false, "show_in_menus": false, "pk": 13, "live": true, "description": "<p>Descriere</p>", "go_live_at": null, "email": "ilia.postolachi@gmail.com", "numchild": 0, "intro": "intro", "depth": 5, "latest_revision_created_at": "2016-07-23T16:17:43.378Z", "telephone": "", "owner": 1, "slug": "ilie-postolachi", "content_type": 41, "expire_at": null, "image": 1, "first_published_at": "2016-07-23T16:14:26.145Z", "search_description": "", "last_name": "Postolachi", "seo_title": "", "first_name": "Ilie", "url_path": "/home/despre/membri/ilie-postolachi/", "has_unpublished_changes": false, "path": "00010001000200030001", "locked": false}	\N	13	1
 32	f	2016-07-23 16:17:43.378843+00	{"title": "Ilie Postolachi", "expired": false, "show_in_menus": false, "pk": 13, "live": true, "description": "<p>Descriere</p>", "go_live_at": null, "email": "ilia.postolachi@gmail.com", "numchild": 0, "intro": "intro", "depth": 5, "latest_revision_created_at": "2016-07-23T16:14:25.993Z", "telephone": "", "owner": 1, "slug": "ilie-postolachi", "content_type": 41, "expire_at": null, "image": null, "first_published_at": "2016-07-23T16:14:26.145Z", "search_description": "", "last_name": "Postolachi", "seo_title": "", "first_name": "Ilie", "url_path": "/home/despre/membri/ilie-postolachi/", "has_unpublished_changes": false, "path": "00010001000200030001", "locked": false}	\N	13	1
 56	f	2016-07-27 13:49:43.154474+00	{"numchild": 3, "content_type": 42, "search_description": "", "latest_revision_created_at": "2016-07-27T13:42:53.061Z", "has_unpublished_changes": false, "title": "Evenimente \\u00een cur\\u00e2nd", "first_published_at": "2016-07-25T16:44:19.296Z", "owner": 1, "path": "0001000100020004", "intro": "<p><br/></p>", "expired": false, "locked": false, "depth": 4, "slug": "evenimente", "expire_at": null, "show_in_menus": true, "url_path": "/home/despre/evenimente/", "seo_title": "", "go_live_at": null, "live": true, "pk": 14}	\N	14	1
 30	f	2016-07-23 16:14:25.993293+00	{"title": "Ilie Postolachi", "expired": false, "show_in_menus": false, "pk": 13, "live": true, "description": "", "go_live_at": null, "email": "ilia.postolachi@gmail.com", "numchild": 0, "intro": "", "depth": 5, "latest_revision_created_at": null, "telephone": "", "owner": 1, "slug": "ilie-postolachi", "content_type": 41, "expire_at": null, "image": null, "first_published_at": null, "search_description": "", "last_name": "Postolachi", "seo_title": "", "first_name": "Ilie", "url_path": "/home/despre/membri/ilie-postolachi/", "has_unpublished_changes": false, "path": "00010001000200030001", "locked": false}	\N	13	1
-82	f	2016-07-29 09:48:27.065294+00	{"tagged_items": [], "owner": 1, "depth": 4, "related_links": [], "path": "0001000100010001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "post-urban-1", "show_in_menus": false, "latest_revision_created_at": null, "first_published_at": null, "title": "Post urban #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": null, "search_description": "", "live": true, "url_path": "/home/stiri-urbane/post-urban-1/", "expired": false, "pk": 31, "numchild": 0, "expire_at": null, "date": "2016-07-29"}	\N	31	1
-83	f	2016-07-29 09:55:35.098642+00	{"tagged_items": [], "owner": 1, "depth": 4, "related_links": [], "path": "0001000100010001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "post-urban-1", "show_in_menus": false, "latest_revision_created_at": "2016-07-29T09:48:27.065Z", "first_published_at": "2016-07-29T09:48:27.113Z", "title": "Post urban #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": 2, "search_description": "", "live": true, "url_path": "/home/stiri-urbane/post-urban-1/", "expired": false, "pk": 31, "numchild": 0, "expire_at": null, "date": "2016-07-29"}	\N	31	1
-78	f	2016-07-28 11:06:38.834276+00	{"url_path": "/home/resurse/index-nou/", "title": "Modele de acte \\u0219i scrisori", "go_live_at": null, "has_unpublished_changes": false, "path": "0001000100030005", "depth": 4, "live": true, "show_in_menus": true, "content_type": 47, "slug": "index-nou", "expire_at": null, "search_description": "", "expired": false, "first_published_at": "2016-07-28T11:00:58.806Z", "pk": 28, "latest_revision_created_at": "2016-07-28T11:00:58.623Z", "seo_title": "", "numchild": 0, "locked": false, "owner": 1}	\N	28	1
-84	f	2016-07-29 09:56:24.964123+00	{"tagged_items": [], "owner": 1, "depth": 5, "related_links": [], "path": "00010001000200020001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "initiativa-1", "show_in_menus": false, "latest_revision_created_at": null, "first_published_at": null, "title": "Initiativa #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": 2, "search_description": "", "live": true, "url_path": "/home/despre/initiativele-retelei/initiativa-1/", "expired": false, "pk": 32, "numchild": 0, "expire_at": null, "date": "2016-07-29"}	\N	32	1
-87	f	2016-08-01 08:30:14.787284+00	{"url_path": "/home/resurse/index-nou/", "slug": "modele-de-acte", "seo_title": "", "owner": 1, "live": true, "numchild": 1, "depth": 4, "expired": false, "first_published_at": "2016-07-28T11:00:58.806Z", "latest_revision_created_at": "2016-07-28T11:06:38.834Z", "expire_at": null, "go_live_at": null, "search_description": "", "locked": false, "path": "0001000100030005", "title": "Modele de acte \\u0219i scrisori", "pk": 28, "has_unpublished_changes": false, "show_in_menus": true, "content_type": 47}	\N	28	1
-85	f	2016-07-29 09:57:40.175925+00	{"tagged_items": [], "owner": 1, "depth": 5, "related_links": [], "path": "00010001000200010001", "locked": false, "seo_title": "", "go_live_at": null, "slug": "noutati-1", "show_in_menus": false, "latest_revision_created_at": null, "first_published_at": null, "title": "Noutati #1", "has_unpublished_changes": false, "content_type": 8, "body": "[]", "feed_image": null, "search_description": "", "live": true, "url_path": "/home/despre/stirile-retelei/noutati-1/", "expired": false, "pk": 33, "numchild": 0, "expire_at": null, "date": "2016-07-28"}	\N	33	1
-86	f	2016-07-29 12:48:00.908759+00	{"url_path": "/home/despre/istoric/", "slug": "istoric", "body": "[]", "seo_title": "", "owner": 1, "live": true, "numchild": 0, "depth": 4, "expired": false, "first_published_at": null, "latest_revision_created_at": null, "expire_at": null, "go_live_at": null, "search_description": "", "locked": false, "path": "0001000100020005", "title": "Istoric", "pk": 34, "has_unpublished_changes": false, "show_in_menus": true, "content_type": 10}	\N	34	1
-88	f	2016-08-01 08:42:52.991558+00	{"feed_image": null, "url_path": "/home/stiri-urbane/scribd-test/", "slug": "scribd-test", "tagged_items": [], "numchild": 0, "depth": 4, "related_links": [], "title": "Scribd test", "pk": 35, "has_unpublished_changes": false, "seo_title": "", "owner": 1, "live": true, "first_published_at": null, "show_in_menus": false, "expired": false, "latest_revision_created_at": null, "expire_at": null, "date": "2016-08-27", "search_description": "", "locked": false, "go_live_at": null, "path": "0001000100010002", "body": "[{\\"value\\": {\\"alignment\\": \\"normal\\", \\"html\\": \\"<p  style=\\\\\\" margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;\\\\\\">   <a title=\\\\\\"View Ghidul Participantilor SIVAIP on Scribd\\\\\\" href=\\\\\\"https://www.scribd.com/document/318723660/Ghidul-Participantilor-SIVAIP#from_embed\\\\\\"  style=\\\\\\"text-decoration: underline;\\\\\\" >Ghidul Participantilor SIVAIP</a> by <a title=\\\\\\"View Oberliht's profile on Scribd\\\\\\" href=\\\\\\"https://www.scribd.com/user/324370701/Oberliht#from_embed\\\\\\"  style=\\\\\\"text-decoration: underline;\\\\\\" >Oberliht</a> on Scribd</p><iframe class=\\\\\\"scribd_iframe_embed\\\\\\" src=\\\\\\"https://www.scribd.com/embeds/318723660/content?start_page=1&view_mode=scroll&access_key=key-qRdwJMefiTX21zFDeTyI&show_recommendations=true&show_upsell=true\\\\\\" data-auto-height=\\\\\\"false\\\\\\" data-aspect-ratio=\\\\\\"1.414442700156986\\\\\\" scrolling=\\\\\\"no\\\\\\" id=\\\\\\"doc_18206\\\\\\" width=\\\\\\"100%\\\\\\" height=\\\\\\"600\\\\\\" frameborder=\\\\\\"0\\\\\\"></iframe>\\"}, \\"type\\": \\"aligned_html\\"}]", "content_type": 8}	\N	35	1
-80	f	2016-07-28 11:08:57.713376+00	{"go_live_at": null, "related_documents": [], "live": true, "content_type": 46, "expired": false, "pk": 30, "latest_revision_created_at": null, "seo_title": "", "numchild": 0, "owner": 1, "has_unpublished_changes": false, "title": "Ghid #1", "path": "00010001000300060001", "depth": 5, "locked": false, "show_in_menus": false, "url_path": "/home/resurse/ghiduri-pentru-activisti/ghid-1/", "slug": "ghid-1", "expire_at": null, "search_description": "", "first_published_at": null, "description": "<h5>Info text</h5>"}	\N	30	1
-89	f	2016-08-04 12:09:32.917469+00	{"url_path": "/home/resurse/ghiduri-pentru-activisti/ghid-1/", "slug": "ghid-1", "title": "Ghid #1", "numchild": 0, "expired": false, "owner": 1, "search_description": "", "content_type": 46, "related_documents": [{"pk": null, "page": 30, "sort_order": 0, "document": 1}], "locked": false, "pk": 30, "path": "00010001000300060001", "depth": 5, "seo_title": "", "latest_revision_created_at": "2016-07-28T11:08:57.713Z", "expire_at": null, "show_in_menus": false, "has_unpublished_changes": false, "go_live_at": null, "live": true, "first_published_at": "2016-07-28T11:08:57.874Z", "description": "<h5>Info text</h5>"}	\N	30	1
 \.
 
 
@@ -2480,7 +3544,7 @@ COPY wagtailcore_pagerevision (id, submitted_for_moderation, created_at, content
 -- Name: wagtailcore_pagerevision_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailcore_pagerevision_id_seq', 89, true);
+SELECT pg_catalog.setval('wagtailcore_pagerevision_id_seq', 100, true);
 
 
 --
@@ -2519,8 +3583,8 @@ SELECT pg_catalog.setval('wagtailcore_site_id_seq', 2, true);
 --
 
 COPY wagtaildocs_document (id, title, file, created_at, uploaded_by_user_id, collection_id) FROM stdin;
-2	Amsterdam doc	documents/Pact-of-Amsterdam_v7_WEB.pdf	2016-07-28 10:22:33.445534+00	1	1
 1	Document #1	documents/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf	2016-07-27 18:05:45.929773+00	1	1
+2	Amsterdam doc	documents/Pact-of-Amsterdam_v7_WEB.pdf	2016-07-28 10:22:33.445534+00	1	1
 \.
 
 
@@ -2591,8 +3655,8 @@ SELECT pg_catalog.setval('wagtailimages_filter_id_seq', 10, true);
 --
 
 COPY wagtailimages_image (id, title, file, width, height, created_at, focal_point_x, focal_point_y, focal_point_width, focal_point_height, uploaded_by_user_id, file_size, collection_id) FROM stdin;
-2	Collab	original_images/collab_econ.png	711	341	2016-07-25 17:39:59.37184+00	\N	\N	\N	\N	1	108844	1
 1	Ilia	original_images/new_size_smaller.png	674	576	2016-07-23 13:39:32.443436+00	258	351	334	318	1	583059	1
+2	Collab	original_images/collab_econ.png	711	341	2016-07-25 17:39:59.37184+00	\N	\N	\N	\N	1	\N	1
 \.
 
 
@@ -2608,12 +3672,17 @@ SELECT pg_catalog.setval('wagtailimages_image_id_seq', 2, true);
 --
 
 COPY wagtailimages_rendition (id, file, width, height, focal_point_key, filter_id, image_id) FROM stdin;
-17	images/collab_econ.max-165x165.png	165	79		1	2
-18	images/new_size_smaller.max-165x165.png	165	141		1	1
-19	images/new_size_smaller.width-230.png	230	196		8	1
-20	images/collab_econ.width-150.png	150	71		6	2
-21	images/new_size_smaller.width-300.png	300	256		4	1
-22	images/collab_econ.width-1280.png	711	341		10	2
+6	images/new_size_smaller.max-165x165.png	165	141		1	1
+7	images/new_size_smaller.width-50.png	50	42		5	1
+8	images/new_size_smaller.width-300.png	300	256		4	1
+9	images/new_size_smaller.width-150.png	150	128		6	1
+10	images/new_size_smaller.width-200.png	200	170		7	1
+11	images/new_size_smaller.width-230.png	230	196		8	1
+12	images/collab_econ.max-165x165.png	165	79		1	2
+13	images/collab_econ.width-150.png	150	71		6	2
+14	images/collab_econ.max-800x600.png	711	341		3	2
+15	images/collab_econ.width-500.png	500	239		9	2
+16	images/collab_econ.width-1280.png	711	341		10	2
 \.
 
 
@@ -2621,7 +3690,7 @@ COPY wagtailimages_rendition (id, file, width, height, focal_point_key, filter_i
 -- Name: wagtailimages_rendition_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailimages_rendition_id_seq', 22, true);
+SELECT pg_catalog.setval('wagtailimages_rendition_id_seq', 16, true);
 
 
 --
@@ -2689,6 +3758,8 @@ SELECT pg_catalog.setval('wagtailsearch_querydailyhits_id_seq', 1, false);
 --
 
 COPY wagtailusers_userprofile (id, submitted_notifications, approved_notifications, rejected_notifications, user_id) FROM stdin;
+1	t	t	t	1
+2	t	t	t	2
 \.
 
 
@@ -2696,7 +3767,7 @@ COPY wagtailusers_userprofile (id, submitted_notifications, approved_notificatio
 -- Name: wagtailusers_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: urbana_db_user
 --
 
-SELECT pg_catalog.setval('wagtailusers_userprofile_id_seq', 1, false);
+SELECT pg_catalog.setval('wagtailusers_userprofile_id_seq', 2, true);
 
 
 --
@@ -2889,6 +3960,182 @@ ALTER TABLE ONLY django_migrations
 
 ALTER TABLE ONLY django_session
     ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: forum_attachments_attachment_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_attachments_attachment
+    ADD CONSTRAINT forum_attachments_attachment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_conversation_post_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_post
+    ADD CONSTRAINT forum_conversation_post_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_conversation_topic_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic
+    ADD CONSTRAINT forum_conversation_topic_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_conversation_topic_subscribers_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic_subscribers
+    ADD CONSTRAINT forum_conversation_topic_subscribers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_conversation_topic_subscribers_topic_id_b2c961d5_uniq; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic_subscribers
+    ADD CONSTRAINT forum_conversation_topic_subscribers_topic_id_b2c961d5_uniq UNIQUE (topic_id, user_id);
+
+
+--
+-- Name: forum_forum_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_forum
+    ADD CONSTRAINT forum_forum_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_member_forumprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_member_forumprofile
+    ADD CONSTRAINT forum_member_forumprofile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_member_forumprofile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_member_forumprofile
+    ADD CONSTRAINT forum_member_forumprofile_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: forum_permission_forumpermission_codename_key; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_forumpermission
+    ADD CONSTRAINT forum_permission_forumpermission_codename_key UNIQUE (codename);
+
+
+--
+-- Name: forum_permission_forumpermission_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_forumpermission
+    ADD CONSTRAINT forum_permission_forumpermission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_permission_groupforumpermissi_permission_id_a1e477c8_uniq; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_groupforumpermission
+    ADD CONSTRAINT forum_permission_groupforumpermissi_permission_id_a1e477c8_uniq UNIQUE (permission_id, forum_id, group_id);
+
+
+--
+-- Name: forum_permission_groupforumpermission_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_groupforumpermission
+    ADD CONSTRAINT forum_permission_groupforumpermission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_permission_userforumpermissio_permission_id_024a3693_uniq; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_userforumpermission
+    ADD CONSTRAINT forum_permission_userforumpermissio_permission_id_024a3693_uniq UNIQUE (permission_id, forum_id, user_id);
+
+
+--
+-- Name: forum_permission_userforumpermission_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_userforumpermission
+    ADD CONSTRAINT forum_permission_userforumpermission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_polls_topicpoll_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpoll
+    ADD CONSTRAINT forum_polls_topicpoll_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_polls_topicpoll_topic_id_key; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpoll
+    ADD CONSTRAINT forum_polls_topicpoll_topic_id_key UNIQUE (topic_id);
+
+
+--
+-- Name: forum_polls_topicpolloption_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpolloption
+    ADD CONSTRAINT forum_polls_topicpolloption_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_polls_topicpollvote_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpollvote
+    ADD CONSTRAINT forum_polls_topicpollvote_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_tracking_forumreadtrack_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_forumreadtrack
+    ADD CONSTRAINT forum_tracking_forumreadtrack_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_tracking_forumreadtrack_user_id_3e64777a_uniq; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_forumreadtrack
+    ADD CONSTRAINT forum_tracking_forumreadtrack_user_id_3e64777a_uniq UNIQUE (user_id, forum_id);
+
+
+--
+-- Name: forum_tracking_topicreadtrack_pkey; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_topicreadtrack
+    ADD CONSTRAINT forum_tracking_topicreadtrack_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_tracking_topicreadtrack_user_id_6fe3e105_uniq; Type: CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_topicreadtrack
+    ADD CONSTRAINT forum_tracking_topicreadtrack_user_id_6fe3e105_uniq UNIQUE (user_id, topic_id);
 
 
 --
@@ -3354,6 +4601,307 @@ CREATE INDEX django_session_de54fa62 ON django_session USING btree (expire_date)
 --
 
 CREATE INDEX django_session_session_key_c0390e0f_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: forum_attachments_attachment_f3aa1999; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_attachments_attachment_f3aa1999 ON forum_attachments_attachment USING btree (post_id);
+
+
+--
+-- Name: forum_conversation_post_19b4d727; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_post_19b4d727 ON forum_conversation_post USING btree (topic_id);
+
+
+--
+-- Name: forum_conversation_post_9b86e5fe; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_post_9b86e5fe ON forum_conversation_post USING btree (poster_id);
+
+
+--
+-- Name: forum_conversation_post_9ccf0ba6; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_post_9ccf0ba6 ON forum_conversation_post USING btree (updated_by_id);
+
+
+--
+-- Name: forum_conversation_post_approved_a1090910_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_post_approved_a1090910_uniq ON forum_conversation_post USING btree (approved);
+
+
+--
+-- Name: forum_conversation_topic_19bc3ff1; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_19bc3ff1 ON forum_conversation_topic USING btree (forum_id);
+
+
+--
+-- Name: forum_conversation_topic_2dbcba41; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_2dbcba41 ON forum_conversation_topic USING btree (slug);
+
+
+--
+-- Name: forum_conversation_topic_599dcce2; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_599dcce2 ON forum_conversation_topic USING btree (type);
+
+
+--
+-- Name: forum_conversation_topic_9acb4454; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_9acb4454 ON forum_conversation_topic USING btree (status);
+
+
+--
+-- Name: forum_conversation_topic_9b86e5fe; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_9b86e5fe ON forum_conversation_topic USING btree (poster_id);
+
+
+--
+-- Name: forum_conversation_topic_approved_ad3fcbf9_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_approved_ad3fcbf9_uniq ON forum_conversation_topic USING btree (approved);
+
+
+--
+-- Name: forum_conversation_topic_slug_c74ce2cc_like; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_slug_c74ce2cc_like ON forum_conversation_topic USING btree (slug varchar_pattern_ops);
+
+
+--
+-- Name: forum_conversation_topic_subscribers_19b4d727; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_subscribers_19b4d727 ON forum_conversation_topic_subscribers USING btree (topic_id);
+
+
+--
+-- Name: forum_conversation_topic_subscribers_e8701ad4; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_conversation_topic_subscribers_e8701ad4 ON forum_conversation_topic_subscribers USING btree (user_id);
+
+
+--
+-- Name: forum_forum_2dbcba41; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_2dbcba41 ON forum_forum USING btree (slug);
+
+
+--
+-- Name: forum_forum_3cfbd988; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_3cfbd988 ON forum_forum USING btree (rght);
+
+
+--
+-- Name: forum_forum_599dcce2; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_599dcce2 ON forum_forum USING btree (type);
+
+
+--
+-- Name: forum_forum_656442a0; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_656442a0 ON forum_forum USING btree (tree_id);
+
+
+--
+-- Name: forum_forum_6be37982; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_6be37982 ON forum_forum USING btree (parent_id);
+
+
+--
+-- Name: forum_forum_c9e9a848; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_c9e9a848 ON forum_forum USING btree (level);
+
+
+--
+-- Name: forum_forum_caf7cc51; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_caf7cc51 ON forum_forum USING btree (lft);
+
+
+--
+-- Name: forum_forum_slug_b9acc50d_like; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_forum_slug_b9acc50d_like ON forum_forum USING btree (slug varchar_pattern_ops);
+
+
+--
+-- Name: forum_permission_forumpermission_codename_78cffcaf_like; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_forumpermission_codename_78cffcaf_like ON forum_permission_forumpermission USING btree (codename varchar_pattern_ops);
+
+
+--
+-- Name: forum_permission_forumpermission_is_global_5772ce17_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_forumpermission_is_global_5772ce17_uniq ON forum_permission_forumpermission USING btree (is_global);
+
+
+--
+-- Name: forum_permission_forumpermission_is_local_92cef3ca_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_forumpermission_is_local_92cef3ca_uniq ON forum_permission_forumpermission USING btree (is_local);
+
+
+--
+-- Name: forum_permission_groupforumpermission_0e939a4f; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_groupforumpermission_0e939a4f ON forum_permission_groupforumpermission USING btree (group_id);
+
+
+--
+-- Name: forum_permission_groupforumpermission_19bc3ff1; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_groupforumpermission_19bc3ff1 ON forum_permission_groupforumpermission USING btree (forum_id);
+
+
+--
+-- Name: forum_permission_groupforumpermission_8373b171; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_groupforumpermission_8373b171 ON forum_permission_groupforumpermission USING btree (permission_id);
+
+
+--
+-- Name: forum_permission_groupforumpermission_has_perm_48cae01d_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_groupforumpermission_has_perm_48cae01d_uniq ON forum_permission_groupforumpermission USING btree (has_perm);
+
+
+--
+-- Name: forum_permission_userforumpermissi_anonymous_user_8aabbd9d_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_userforumpermissi_anonymous_user_8aabbd9d_uniq ON forum_permission_userforumpermission USING btree (anonymous_user);
+
+
+--
+-- Name: forum_permission_userforumpermission_19bc3ff1; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_userforumpermission_19bc3ff1 ON forum_permission_userforumpermission USING btree (forum_id);
+
+
+--
+-- Name: forum_permission_userforumpermission_8373b171; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_userforumpermission_8373b171 ON forum_permission_userforumpermission USING btree (permission_id);
+
+
+--
+-- Name: forum_permission_userforumpermission_e8701ad4; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_userforumpermission_e8701ad4 ON forum_permission_userforumpermission USING btree (user_id);
+
+
+--
+-- Name: forum_permission_userforumpermission_has_perm_1b5ee7ac_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_permission_userforumpermission_has_perm_1b5ee7ac_uniq ON forum_permission_userforumpermission USING btree (has_perm);
+
+
+--
+-- Name: forum_polls_topicpolloption_582e9e5a; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_polls_topicpolloption_582e9e5a ON forum_polls_topicpolloption USING btree (poll_id);
+
+
+--
+-- Name: forum_polls_topicpollvote_49fb0f8b; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_polls_topicpollvote_49fb0f8b ON forum_polls_topicpollvote USING btree (voter_id);
+
+
+--
+-- Name: forum_polls_topicpollvote_cca085ab; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_polls_topicpollvote_cca085ab ON forum_polls_topicpollvote USING btree (poll_option_id);
+
+
+--
+-- Name: forum_tracking_forumreadtrack_19bc3ff1; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_tracking_forumreadtrack_19bc3ff1 ON forum_tracking_forumreadtrack USING btree (forum_id);
+
+
+--
+-- Name: forum_tracking_forumreadtrack_e8701ad4; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_tracking_forumreadtrack_e8701ad4 ON forum_tracking_forumreadtrack USING btree (user_id);
+
+
+--
+-- Name: forum_tracking_forumreadtrack_mark_time_72eec39e_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_tracking_forumreadtrack_mark_time_72eec39e_uniq ON forum_tracking_forumreadtrack USING btree (mark_time);
+
+
+--
+-- Name: forum_tracking_topicreadtrack_19b4d727; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_tracking_topicreadtrack_19b4d727 ON forum_tracking_topicreadtrack USING btree (topic_id);
+
+
+--
+-- Name: forum_tracking_topicreadtrack_e8701ad4; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_tracking_topicreadtrack_e8701ad4 ON forum_tracking_topicreadtrack USING btree (user_id);
+
+
+--
+-- Name: forum_tracking_topicreadtrack_mark_time_7dafc483_uniq; Type: INDEX; Schema: public; Owner: urbana_db_user
+--
+
+CREATE INDEX forum_tracking_topicreadtrack_mark_time_7dafc483_uniq ON forum_tracking_topicreadtrack USING btree (mark_time);
 
 
 --
@@ -3842,6 +5390,198 @@ ALTER TABLE ONLY django_admin_log
 
 ALTER TABLE ONLY django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: f_permission_id_2475fe70_fk_forum_permission_forumpermission_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_groupforumpermission
+    ADD CONSTRAINT f_permission_id_2475fe70_fk_forum_permission_forumpermission_id FOREIGN KEY (permission_id) REFERENCES forum_permission_forumpermission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: f_permission_id_9090e930_fk_forum_permission_forumpermission_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_userforumpermission
+    ADD CONSTRAINT f_permission_id_9090e930_fk_forum_permission_forumpermission_id FOREIGN KEY (permission_id) REFERENCES forum_permission_forumpermission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_attachment_post_id_0476a843_fk_forum_conversation_post_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_attachments_attachment
+    ADD CONSTRAINT forum_attachment_post_id_0476a843_fk_forum_conversation_post_id FOREIGN KEY (post_id) REFERENCES forum_conversation_post(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversa_topic_id_34ebca87_fk_forum_conversation_topic_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic_subscribers
+    ADD CONSTRAINT forum_conversa_topic_id_34ebca87_fk_forum_conversation_topic_id FOREIGN KEY (topic_id) REFERENCES forum_conversation_topic(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversa_topic_id_f6aaa418_fk_forum_conversation_topic_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_post
+    ADD CONSTRAINT forum_conversa_topic_id_f6aaa418_fk_forum_conversation_topic_id FOREIGN KEY (topic_id) REFERENCES forum_conversation_topic(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversation_post_poster_id_19c4e995_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_post
+    ADD CONSTRAINT forum_conversation_post_poster_id_19c4e995_fk_auth_user_id FOREIGN KEY (poster_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversation_post_updated_by_id_86093355_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_post
+    ADD CONSTRAINT forum_conversation_post_updated_by_id_86093355_fk_auth_user_id FOREIGN KEY (updated_by_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversation_topic_forum_id_e9cfe592_fk_forum_forum_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic
+    ADD CONSTRAINT forum_conversation_topic_forum_id_e9cfe592_fk_forum_forum_id FOREIGN KEY (forum_id) REFERENCES forum_forum(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversation_topic_poster_id_0dd4fa07_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic
+    ADD CONSTRAINT forum_conversation_topic_poster_id_0dd4fa07_fk_auth_user_id FOREIGN KEY (poster_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_conversation_topic_subsc_user_id_7e386a79_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_conversation_topic_subscribers
+    ADD CONSTRAINT forum_conversation_topic_subsc_user_id_7e386a79_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_forum_parent_id_22edea05_fk_forum_forum_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_forum
+    ADD CONSTRAINT forum_forum_parent_id_22edea05_fk_forum_forum_id FOREIGN KEY (parent_id) REFERENCES forum_forum(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_member_forumprofile_user_id_9d6b9b6b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_member_forumprofile
+    ADD CONSTRAINT forum_member_forumprofile_user_id_9d6b9b6b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_permission_groupforum_forum_id_d59d5cac_fk_forum_forum_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_groupforumpermission
+    ADD CONSTRAINT forum_permission_groupforum_forum_id_d59d5cac_fk_forum_forum_id FOREIGN KEY (forum_id) REFERENCES forum_forum(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_permission_groupforump_group_id_b515635b_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_groupforumpermission
+    ADD CONSTRAINT forum_permission_groupforump_group_id_b515635b_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_permission_userforump_forum_id_f781f4d6_fk_forum_forum_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_userforumpermission
+    ADD CONSTRAINT forum_permission_userforump_forum_id_f781f4d6_fk_forum_forum_id FOREIGN KEY (forum_id) REFERENCES forum_forum(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_permission_userforumperm_user_id_8106d02d_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_permission_userforumpermission
+    ADD CONSTRAINT forum_permission_userforumperm_user_id_8106d02d_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_poll_option_id_a075b665_fk_forum_polls_topicpolloption_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpollvote
+    ADD CONSTRAINT forum_poll_option_id_a075b665_fk_forum_polls_topicpolloption_id FOREIGN KEY (poll_option_id) REFERENCES forum_polls_topicpolloption(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_polls_to_topic_id_1b827b83_fk_forum_conversation_topic_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpoll
+    ADD CONSTRAINT forum_polls_to_topic_id_1b827b83_fk_forum_conversation_topic_id FOREIGN KEY (topic_id) REFERENCES forum_conversation_topic(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_polls_topicp_poll_id_a54cbd58_fk_forum_polls_topicpoll_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpolloption
+    ADD CONSTRAINT forum_polls_topicp_poll_id_a54cbd58_fk_forum_polls_topicpoll_id FOREIGN KEY (poll_id) REFERENCES forum_polls_topicpoll(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_polls_topicpollvote_voter_id_0a287559_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_polls_topicpollvote
+    ADD CONSTRAINT forum_polls_topicpollvote_voter_id_0a287559_fk_auth_user_id FOREIGN KEY (voter_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_tracking_forumreadtra_forum_id_bbd3fb47_fk_forum_forum_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_forumreadtrack
+    ADD CONSTRAINT forum_tracking_forumreadtra_forum_id_bbd3fb47_fk_forum_forum_id FOREIGN KEY (forum_id) REFERENCES forum_forum(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_tracking_forumreadtrack_user_id_932d4605_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_forumreadtrack
+    ADD CONSTRAINT forum_tracking_forumreadtrack_user_id_932d4605_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_tracking_topic_id_9a53bd45_fk_forum_conversation_topic_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_topicreadtrack
+    ADD CONSTRAINT forum_tracking_topic_id_9a53bd45_fk_forum_conversation_topic_id FOREIGN KEY (topic_id) REFERENCES forum_conversation_topic(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: forum_tracking_topicreadtrack_user_id_2762562b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: urbana_db_user
+--
+
+ALTER TABLE ONLY forum_tracking_topicreadtrack
+    ADD CONSTRAINT forum_tracking_topicreadtrack_user_id_2762562b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

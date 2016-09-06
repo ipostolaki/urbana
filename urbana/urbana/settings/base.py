@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     'modelcluster',
     'taggit',
+    'bootstrapform',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -161,6 +162,9 @@ WAGTAIL_SITE_NAME = "urbana"
 BASE_URL = 'http://urbana.md'
 
 
+LOGIN_REDIRECT_URL = '/'
+
+
 CACHES = {
   'default': {
     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -186,11 +190,11 @@ MACHINA_DEFAULT_AUTHENTICATED_USER_FORUM_PERMISSIONS = [
     'can_read_forum',
     'can_start_new_topics',
     'can_reply_to_topics',
-    'can_delete_own_posts'
-    'can_edit_own_posts',
     'can_post_without_approval',
     'can_create_polls',
     'can_vote_in_polls',
     'can_download_file',
-    'can_attach_file'
+    'can_attach_file',
+    'can_edit_own_posts',
+    'can_delete_own_posts'
 ]

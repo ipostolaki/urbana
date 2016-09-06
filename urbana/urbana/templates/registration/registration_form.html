@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap %}
+
+{% block heading %}<!--empty-->{% endblock %}
+{% block content %}
+<p style="padding-top:25px" class="lead text-center">{% trans 'Înregistrare' %}</p><hr>
+<div class="center-block" style="width:450px;">
+    <form action="{% url 'auth:registration_register' %}" method="post">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+        <button type="submit" class="btn btn-primary btn-block">{% trans 'Login' %}</button>
+    </form>
+</div>
+{% endblock %}

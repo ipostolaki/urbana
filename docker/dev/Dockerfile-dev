@@ -9,7 +9,10 @@ RUN apt-get update && apt-get -y install netcat
 RUN pip install django==1.9.7
 RUN pip install wagtail==1.5.3
 RUN pip install psycopg2==2.6.1
+RUN pip install django-bootstrap-form==3.2.1
+RUN pip install django-registration==2.1.2
+RUN pip install django-machina==0.3.0
+
+# Dev only
 RUN pip install livereload==2.4.1
 RUN pip install django-debug-toolbar==1.5
-
-RUN pip install django-machina==0.3.0

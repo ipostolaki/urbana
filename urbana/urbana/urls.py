@@ -13,6 +13,9 @@ from about import views as about_views
 from machina.app import board
 
 
+from registration.backends.simple import urls as registration_urls
+
+
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
 
@@ -23,11 +26,13 @@ urlpatterns = [
 
     url(r'calendar-data/', about_views.get_calendar_data),
 
-    # machina forum
-    url(r'^markdown/', include( 'django_markdown.urls')),
+    url(r'^auth/', include(registration_urls, namespace='auth')),
+
+    # django-machina forum
+    url(r'^markdown/', include('django_markdown.urls')),
     url(r'^forum/', include(board.urls)),
 
-    url(r'', include(wagtail_urls)),
+    url(r'', include(wagtail_urls))
 ]
 
 if settings.DEBUG:
