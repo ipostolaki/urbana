@@ -27,7 +27,7 @@ class TopMenuPage(Page):
 
     description = models.CharField(
         max_length=800,
-        help_text="RCU descriere", # TODO localize
+        help_text="RCU descriere",  # TODO localize
         default=default_desc_string
     )
 

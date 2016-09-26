@@ -6,6 +6,7 @@
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from taggit.models import TaggedItemBase
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -138,6 +139,12 @@ class UniversalBlogPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    intro = models.TextField(
+        verbose_name=_('intro'),
+        max_length=650,
+        help_text=_("Text which will be visible as short description of the post"),
+        blank=True
+    )
 
     search_fields = Page.search_fields + (
         index.SearchField('body'),
@@ -156,6 +163,7 @@ class UniversalBlogPage(Page):
     content_panels = [
         FieldPanel('title', classname="full title"),
         FieldPanel('date'),
+        FieldPanel('intro'),
         StreamFieldPanel('body'),
         InlinePanel('related_links', label="Related links"),
     ]

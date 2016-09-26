@@ -10,7 +10,7 @@
             {% if self.time_from %}{{ self.time_from }}{% endif %}
             {% if self.time_to %} - {{ self.time_to }}{% endif %}
         </p>
-        <p><strong>{% trans 'Locație' %}: </strong>{{ self.location }}</p>
+        <span><strong>{% trans 'Locație' %}: </strong>{{ self.location }}</span>
 
         {% if self.signup_link %}
             <p><strong>{% trans 'Registrare' %}: </strong>
