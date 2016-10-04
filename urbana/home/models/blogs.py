@@ -122,14 +122,8 @@ class UniversalBlogPagesTag(TaggedItemBase):
 class UniversalBlogPage(Page):
     """
     Blog page model used for different blog index models.
-    i.e. instance of this model may become child of any blog index.
+    i.e. instance of this model may be child of any blog index.
     """
-    """
-    TOOO: limit parent pages types to blogs only ?
-    Not possible for AbstractBlogIndexPage
-    Conflict with future blogs
-    """
-
     body = StreamField(FullStreamBlock())
     date = models.DateField("Post date")
     feed_image = models.ForeignKey(
@@ -151,6 +145,9 @@ class UniversalBlogPage(Page):
     )
 
     tags = ClusterTaggableManager(through=UniversalBlogPagesTag, blank=True)
+
+    parent_page_types = ['home.UniversalBlogIndexPage', 'about.NetworkNewsBlogIndexPage',
+                         'home.UrbanBlogIndexPage', 'about.InitiativesBlogIndexPage']
 
     @property
     def blog_index(self):
@@ -176,6 +173,6 @@ class UniversalBlogPage(Page):
 
 class UniversalBlogIndexPage(AbstractBlogIndexPage):
     """
-    Used by moderators to add new blogs to the site.
+    Used by editors to add new blogs to the site.
     """
 

@@ -7,17 +7,14 @@ from home.models import AbstractBlogIndexPage
 
 
 class TopMenuPage(Page):
-
-    # TODO rename class / add explanation visible in admin panel
-    # (should be clear that this type of page is needed for About site section)
-
     """
-    Despre(About) - Page visible in top menu.
-    This page should contain generated listing of all sub pages.
+    Despre(About) - index page visible in top menu.
+    This page should display:
+     - styled introduction with description of the site (default_desc_string)
+     - generated listing of all sub pages.
     """
 
     parent_page_types = ['home.HomePage']
-    # subpage_types = ['home.StandardPage', 'home.UniversalBlogIndexPage']
 
     # TODO localize?
     default_desc_string = "Este o structură-umbrelă organizată pe orizontală care " \
@@ -35,6 +32,11 @@ class TopMenuPage(Page):
         FieldPanel('description')
     ]
 
+    is_creatable = False  # part of initial structure: this page should not be created by editor
+
+    class Meta:
+        verbose_name = 'Despre Index Page'
+
 
 class NetworkNewsBlogIndexPage(AbstractBlogIndexPage):
     """
@@ -42,8 +44,8 @@ class NetworkNewsBlogIndexPage(AbstractBlogIndexPage):
     Index page, visible in menu drop down
     Contains listing of posts
     """
-    parent_page_types = ['about.TopMenuPage']  # TODO: created programmatically, should not be
-    # created by editor
+    is_creatable = False  # part of initial structure: this page should not be created by editor
+    parent_page_types = ['about.TopMenuPage']
 
 
 class InitiativesBlogIndexPage(AbstractBlogIndexPage):
@@ -52,4 +54,5 @@ class InitiativesBlogIndexPage(AbstractBlogIndexPage):
     Index page, visible in menu drop down
     Contains listing of posts
     """
-    parent_page_types = ['about.TopMenuPage']  # TODO: created programmatically, should not be created by editor
+    is_creatable = False  # part of initial structure: this page should not be created by editor
+    parent_page_types = ['about.TopMenuPage']

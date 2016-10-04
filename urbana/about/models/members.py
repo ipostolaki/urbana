@@ -21,6 +21,8 @@ class MembersIndexPage(Page):
 
     subpage_types = ['about.MemberPage']
 
+    is_creatable = False  # part of initial structure: this page should not be created by editor
+
 
 class MemberPage(Page):
     first_name = models.CharField(max_length=255)

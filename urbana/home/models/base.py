@@ -22,8 +22,7 @@ class HomePage(Page):
         FieldPanel('body', classname="full")
     ]
 
-    #  TODO: check that with empty system
-    parent_page_types = []  # this page should be not be added to other pages
+    is_creatable = False  # part of initial structure: this page should not be created by editor
 
 
 class AbstractStreamfieldPage(Page):
@@ -61,7 +60,8 @@ class UrbanBlogIndexPage(AbstractBlogIndexPage):
     Index page, visible in menu
     Contains listing of posts
     """
-    parent_page_types = ['home.HomePage']  # TODO: created programmatically, should not be created by editor
+    is_creatable = False  # part of initial structure: this page should not be created by editor
+    parent_page_types = ['home.HomePage']
 
 
 class StandardIndexPage(Page):
