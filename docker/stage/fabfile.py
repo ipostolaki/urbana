@@ -13,7 +13,7 @@ def deploy():
 
 def pull():
     # Pull updates from the central repo
-    run("cd /home/ubuntu/urbana/ && git reset --hard origin/master")
+    run("cd /home/ubuntu/urbana/ && git fetch && git reset --hard origin/master")
 
 
 def start():
