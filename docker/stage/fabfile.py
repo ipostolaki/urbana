@@ -1,7 +1,6 @@
 from fabric.api import run, env
 
-env.key_filename = "/safe/aws_micro_key.pem"
-env.host_string = "ubuntu@ec2-52-59-31-9.eu-central-1.compute.amazonaws.com"
+env.host_string = "urbana@160.153.224.236"
 
 
 def deploy():
@@ -13,18 +12,18 @@ def deploy():
 
 def pull():
     # Pull updates from the central repo
-    run("cd /home/ubuntu/urbana/ && git fetch && git reset --hard origin/master")
+    run("cd /home/urbana/urbana/ && git fetch && git reset --hard origin/master")
 
 
 def start():
-    run("cd /home/ubuntu/urbana/docker/stage && make run-detached")
+    run("cd /home/urbana/urbana/docker/stage && make run-detached")
 
 
 def build():
     # Rebuild django container, to install there new pip reqs
-    run("cd /home/ubuntu/urbana/docker/stage && make build")
+    run("cd /home/urbana/urbana/docker/stage && make build")
 
 
 def stop():
     # Stop running containers
-    run("cd /home/ubuntu/urbana/docker/stage && make stop")
+    run("cd /home/urbana/urbana/docker/stage && make stop")

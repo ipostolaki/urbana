@@ -51,3 +51,9 @@ pg-dump:
 
 pg-restore:
 	docker-compose exec pg_database bash -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f ./dumps/latest.sql'
+
+pg-surefire-drop-restore-db:
+    # drop existing database, recreate it, and then restore its content from backup.
+	-docker-compose exec pg_database bash -c 'dropdb -h localhost -U "$$POSTGRES_USER" "$$POSTGRES_DB"'
+	docker-compose exec pg_database bash -c 'createdb -h localhost -U "$$POSTGRES_USER" "$$POSTGRES_DB"'
+	make pg-restore
