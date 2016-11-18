@@ -39,7 +39,7 @@ django-shell:
 logs:
 	docker-compose logs -f --tail=500
 
-pg-run:
+pg-run-detached:
     # start pg service
 	docker-compose up -d pg_database
 

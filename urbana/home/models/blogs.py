@@ -71,7 +71,7 @@ class AbstractBlogIndexPage(Page):
             posts = paginator.page(paginator.num_pages)
 
         # Update template context
-        context = super().get_context(request)
+        context = super(AbstractBlogIndexPage, self).get_context(request)
 
         context['posts'] = posts
         return context
