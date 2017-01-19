@@ -10,7 +10,7 @@ run:
 run-detached:
 	docker-compose up -d
 
-restart-django-detached:
+django-restart-detached:
 	docker-compose stop django
 	docker-compose up -d django
 

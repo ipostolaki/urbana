@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'haystack',
     'widget_tweaks',
     'django_markdown',
+    # UMAP
+    'umap', 'leaflet_storage', 'django.contrib.gis', 'compressor'
 ] + get_machina_apps()
 
 MIDDLEWARE_CLASSES = [
@@ -86,6 +88,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(PROJECT_DIR, 'templates'),
             os.path.join(PROJECT_DIR, 'templates/machina'),  # overridden forum templates
+            os.path.join(PROJECT_DIR, 'templates/urbana'),  # overridden forum templates
             MACHINA_MAIN_TEMPLATE_DIR  # vendor forum templates
         ],
         'APP_DIRS': True,
@@ -96,7 +99,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'urbana.shared_context_processors.environment_processor',
-                'machina.core.context_processors.metadata'
+                'machina.core.context_processors.metadata',
+                'django.core.context_processors.static'
             ],
         },
     },
@@ -107,7 +111,8 @@ WSGI_APPLICATION = 'urbana.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('POSTGRES_DB'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
@@ -121,7 +126,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 # LANGUAGE_CODE = 'ro-ro'
-LANGUAGE_CODE = 'ro'
+LANGUAGE_CODE = 'en'
 
 
 TIME_ZONE = 'UTC'
@@ -139,6 +144,7 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 ]
 
 STATICFILES_DIRS = [
@@ -198,3 +204,16 @@ MACHINA_DEFAULT_AUTHENTICATED_USER_FORUM_PERMISSIONS = [
     'can_edit_own_posts',
     'can_delete_own_posts'
 ]
+
+
+# UMAP
+
+UMAP_EXCLUDE_DEFAULT_MAPS = False
+UMAP_MAPS_PER_PAGE = 5
+UMAP_MAPS_PER_PAGE_OWNER = 10
+UMAP_DEMO_SITE = True
+UMAP_USE_UNACCENT = False
+UMAP_FEEDBACK_LINK = "https://wiki.openstreetmap.org/wiki/UMap#Feedback_and_help"  # noqa
+
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True

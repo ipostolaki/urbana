@@ -12,6 +12,7 @@ from search import views as search_views
 from about import views as about_views
 from machina.app import board
 
+from django.conf.urls.i18n import i18n_patterns
 
 from registration.backends.simple import urls as registration_urls
 
@@ -31,9 +32,20 @@ urlpatterns = [
     # django-machina forum
     url(r'^markdown/', include('django_markdown.urls')),
     url(r'^forum/', include(board.urls)),
+    url(r'', include('leaflet_storage.urls')),
+    # umap
+    url(r'^umap/', include('umap.urls')),
 
-    url(r'', include(wagtail_urls))
-]
+
+] + i18n_patterns(url(r'^umap/', include('leaflet_storage.urls'))) + [url(r'', include(wagtail_urls))]
+
+# urlpatterns += i18n_patterns(
+#     # url(r'^umap/', include('leaflet_storage.urls'))
+#
+# )
+
+
+
 
 if settings.DEBUG:
     from django.conf.urls.static import static
