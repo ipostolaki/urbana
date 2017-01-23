@@ -149,7 +149,8 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
-    MACHINA_MAIN_STATIC_DIR
+    MACHINA_MAIN_STATIC_DIR,
+#os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/storage/')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -211,9 +212,18 @@ MACHINA_DEFAULT_AUTHENTICATED_USER_FORUM_PERMISSIONS = [
 UMAP_EXCLUDE_DEFAULT_MAPS = False
 UMAP_MAPS_PER_PAGE = 5
 UMAP_MAPS_PER_PAGE_OWNER = 10
-UMAP_DEMO_SITE = True
+UMAP_DEMO_SITE = False
 UMAP_USE_UNACCENT = False
 UMAP_FEEDBACK_LINK = "https://wiki.openstreetmap.org/wiki/UMap#Feedback_and_help"  # noqa
 
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False  # TODO: RTFM & enable??
 COMPRESS_OFFLINE = True
+
+LEAFLET_STORAGE_KEEP_VERSIONS = 10
+LEAFLET_STORAGE_EXTRA_URLS = {
+    'routing': 'http://www.openstreetmap.org/directions?engine=osrm_car&route={lat},{lng}&locale={locale}#map={zoom}/{lat}/{lng}',  # noqa
+    'ajax_proxy': '/ajax-proxy/?url={url}'
+}
+LEAFLET_STORAGE_ALLOW_ANONYMOUS = True
+SITE_NAME = 'Urbana'
+SITE_URL = 'localhost'

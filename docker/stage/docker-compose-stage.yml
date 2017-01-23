@@ -5,6 +5,7 @@ version: '2'
 volumes:
     pgdata:
     pglogs:
+    postgis_data:
 
 services:
 
@@ -24,12 +25,12 @@ services:
         env_file: stage.env
 
     pg_database:
-        image: postgres:9.5.3
+        image: mdillon/postgis
         # secret strings are in the file
         env_file: stage.env
         volumes:
             # override postgres image Dockerfile data volume
-            - pgdata:/var/lib/postgresql/data
+            - postgis_data:/var/lib/postgresql/data
             - pglogs:/var/log/postgresql
             - ../../dumps:/dumps  # volume mounted to get dump files out of container
         ports:

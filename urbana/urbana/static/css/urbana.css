@@ -30,7 +30,7 @@ including mobile collapsed navbar
 }
 
 .nav {
-    font-size: 15pt;
+    font-size: 13pt;
 }
 
 /*.nav > li > a {
@@ -109,5 +109,3 @@ a.list-group-item {
         clear: both;
     }
 }
-
-

@@ -1,9 +1,11 @@
-# Dockerfile for development environment
+# Dockerfile for the staging environment
 
 FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get -y install netcat
+# UMAP
+RUN apt-get -y install binutils libproj-dev gdal-bin
 
 # these instructions with pip installs will be cached, so they will not be executed on image rebuild
 RUN pip install django==1.9.7
@@ -12,3 +14,7 @@ RUN pip install psycopg2==2.6.1
 RUN pip install django-bootstrap-form==3.2.1
 RUN pip install django-registration==2.1.2
 RUN pip install django-machina==0.3.0
+
+RUN pip install umap
+RUN pip install django-leaflet-storage==0.8.0rc13
+RUN pip install django-compressor==2.1
