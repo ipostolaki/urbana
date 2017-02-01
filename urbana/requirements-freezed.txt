@@ -17,7 +17,7 @@ django-widget-tweaks==1.4.1
 djangorestframework==3.5.3
 html5lib==0.999999
 livereload==2.4.1
-Markdown==2.6.7
+Markdown==2.6.8
 olefile==0.44
 Pillow==4.0.0
 psycopg2==2.6.1
@@ -28,6 +28,6 @@ six==1.10.0
 sqlparse==0.2.2
 tornado==4.4.2
 umap==0.1.1
-Unidecode==0.4.19
+Unidecode==0.4.20
 wagtail==1.5.3
 Willow==0.3.1

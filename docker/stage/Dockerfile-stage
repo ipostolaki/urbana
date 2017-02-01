@@ -3,9 +3,8 @@
 FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get -y install netcat
-# UMAP
-RUN apt-get -y install binutils libproj-dev gdal-bin
+# install UMAP and UMAP dependencies
+RUN apt-get update && apt-get -y install netcat binutils libproj-dev gdal-bin
 
 # these instructions with pip installs will be cached, so they will not be executed on image rebuild
 RUN pip install django==1.9.7

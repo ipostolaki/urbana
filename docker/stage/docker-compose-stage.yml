@@ -25,7 +25,9 @@ services:
         env_file: stage.env
 
     pg_database:
-        image: mdillon/postgis
+        build:
+            context: ./../../
+            dockerfile: ./docker/common/postgis/Dockerfile-postgis
         # secret strings are in the file
         env_file: stage.env
         volumes:

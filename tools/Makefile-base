@@ -1,7 +1,10 @@
 default: build
 
-build:
+build-cached:
 	docker-compose build
+
+build:
+	docker-compose build --no-cache
 
 run:
 	docker-compose stop django  # for restart cases, when already running
