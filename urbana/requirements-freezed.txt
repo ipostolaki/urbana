@@ -14,7 +14,7 @@ django-registration==2.1.2
 django-taggit==0.18.3
 django-treebeard==4.1.0
 django-widget-tweaks==1.4.1
-djangorestframework==3.5.3
+djangorestframework==3.6.2
 html5lib==0.999999
 livereload==2.4.1
 Markdown==2.6.8
@@ -25,7 +25,7 @@ pytz==2016.10
 rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
-sqlparse==0.2.2
+sqlparse==0.2.3
 tornado==4.4.2
 umap==0.1.1
 Unidecode==0.4.20

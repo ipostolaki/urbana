@@ -18,3 +18,14 @@ DEBUG_TOOLBAR_CONFIG = {
     # needed to skip INTERNAL_IPS check, which depends on Docker machine ip
     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
 }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'pg_database',
+        'PORT': '5432',
+    }
+}

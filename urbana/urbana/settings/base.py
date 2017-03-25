@@ -108,24 +108,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'urbana.wsgi.application'
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'pg_database',
-        'PORT': '5432',
-    }
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-# LANGUAGE_CODE = 'ro-ro'
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'ro-ro'
 
 
 TIME_ZONE = 'UTC'
@@ -145,8 +131,6 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-print("deb")
-print(os.path.join(BASE_DIR, 'leaflet_storage/static'))
 
 # Django will search static files here, while collecting and while serving in debug mode
 STATICFILES_DIRS = [
@@ -161,6 +145,61 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+ADMINS = (('Ilia', 'ilia.postolachi@gmail.com'),)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(pathname)s:%(lineno)d %(message)s'
+        },
+        'simple': {
+            'format': '[%(levelname)s] %(module)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(os.path.join(BASE_DIR, 'logs'), "django.log"),
+            'maxBytes': 1024 * 1024 * 1,
+            'backupCount': 100,
+            'level': 'INFO',  # log file will not store debug level records
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'py.warnings': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins', 'file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',  # log everything, starting from INFO
+            'propagate': False,
+        },
+        'mail.intended': {
+            'handlers': ['mail_admins', 'file'],
+            'level': 'INFO',
+        },
+    }
+}
 
 
 # Wagtail settings

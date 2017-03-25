@@ -20,7 +20,7 @@ def start():
 
 
 def build():
-    # Rebuild django container, to install there new pip reqs
+    # Rebuild containers, to install there new dependencies
     run("cd /home/urbana/urbana/docker/stage && make build")
 
 

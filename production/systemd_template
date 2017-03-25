@@ -1,0 +1,18 @@
+# This file describes Daemon for gunicorn webserver, which will be started on system boot
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=urbana
+Group=www-data
+WorkingDirectory=/home/urbana/urbana/urbana
+Restart=always
+RestartSec=5
+EnvironmentFile=/home/urbana/urbana/production/production_sysd.env
+ExecStartPre=/usr/bin/python3 /home/urbana/urbana/urbana/manage.py collectstatic --noinput
+ExecStart=/home/urbana/.local/bin/gunicorn --workers 2 --bind unix:/home/urbana/urbana.sock urbana.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

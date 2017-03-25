@@ -1,0 +1,21 @@
+server {
+    listen 80;
+    server_name urbana.md;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias /home/urbana/urbana/urbana/collected_static/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/urbana/urbana.sock;
+    }
+
+    location /media  {
+        alias /home/urbana/urbana/urbana/media;
+        autoindex on;
+    }
+
+}

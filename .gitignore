@@ -6,3 +6,5 @@
 __pycache__/
 /urbana/media/
 /dumps
+*/collected_static
+*.log
