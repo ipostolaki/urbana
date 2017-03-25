@@ -1,6 +1,6 @@
 {% load leaflet_storage_tags %}
     <!--umap urbana custom-->
-    <div id="map" style="margin-top:65px;"></div>
+    <div id="map"></div>
     <script type="text/javascript">
         var MAP = new L.Storage.Map("map", {{ map_settings|notag|safe }});
     </script>

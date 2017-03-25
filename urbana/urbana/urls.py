@@ -34,10 +34,9 @@ urlpatterns = [
     url(r'^forum/', include(board.urls)),
     url(r'', include('leaflet_storage.urls')),
     # umap
-    url(r'^umap/', include('umap.urls')),
-
-
-] + i18n_patterns(url(r'^umap/', include('leaflet_storage.urls'))) + [url(r'', include(wagtail_urls))]
+    url(r'^umap/', include('umap.urls'))]\
+              + i18n_patterns(url(r'^umap/', include('leaflet_storage.urls')))\
+              + [url(r'', include(wagtail_urls))]
 
 # urlpatterns += i18n_patterns(
 #     # url(r'^umap/', include('leaflet_storage.urls'))

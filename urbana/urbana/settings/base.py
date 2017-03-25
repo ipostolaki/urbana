@@ -17,9 +17,9 @@ from machina import MACHINA_MAIN_TEMPLATE_DIR
 from machina import MACHINA_MAIN_STATIC_DIR
 
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # urbana/urbana/urbana
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(PROJECT_DIR)
+BASE_DIR = os.path.dirname(PROJECT_DIR)  # urbana/urbana
 
 OUTSIDE = os.environ.get('OUTSIDE')
 
@@ -55,13 +55,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # UMAP
+    'umap', 'leaflet_storage', 'django.contrib.gis', 'compressor',
     # Machina related apps:
     'mptt',
     'haystack',
     'widget_tweaks',
-    'django_markdown',
-    # UMAP
-    'umap', 'leaflet_storage', 'django.contrib.gis', 'compressor'
+    'django_markdown'
 ] + get_machina_apps()
 
 MIDDLEWARE_CLASSES = [
@@ -111,7 +111,6 @@ WSGI_APPLICATION = 'urbana.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('POSTGRES_DB'),
         'USER': os.environ.get('POSTGRES_USER'),
@@ -144,16 +143,20 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 ]
 
+print("deb")
+print(os.path.join(BASE_DIR, 'leaflet_storage/static'))
+
+# Django will search static files here, while collecting and while serving in debug mode
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
+    os.path.join(BASE_DIR, 'leaflet_storage/static'),
     MACHINA_MAIN_STATIC_DIR,
 #os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/storage/')
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -214,7 +217,7 @@ UMAP_MAPS_PER_PAGE = 5
 UMAP_MAPS_PER_PAGE_OWNER = 10
 UMAP_DEMO_SITE = False
 UMAP_USE_UNACCENT = False
-UMAP_FEEDBACK_LINK = "https://wiki.openstreetmap.org/wiki/UMap#Feedback_and_help"  # noqa
+UMAP_FEEDBACK_LINK = "https://wiki.openstreetmap.org/wiki/UMap#Feedback_and_help"
 
 COMPRESS_ENABLED = False  # TODO: RTFM & enable??
 COMPRESS_OFFLINE = True
