@@ -71,7 +71,7 @@ def breadcrumbs(context):
     'home/tags/blog_listing_inclusion.html',
     takes_context=True
 )
-def blog_listing_inclusion(context, kind_of_blog, panel_title, count=2):
+def blog_listing_inclusion(context, kind_of_blog, panel_title, count=5):
     """
     This inclusion is needed to render several recent posts from different blogs of the site
     """
