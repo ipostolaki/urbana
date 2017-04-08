@@ -2,7 +2,7 @@
 
 # freeze what was installed during Dockerfile build,
 # file will be saved to the docker-compose mounted volume
-pip freeze > requirements-freezed.txt
+# pip freeze > requirements-freezed.txt
 
 # Waiting for pg service is possible with official postgres docker image
 # pg container start to listen to connections, only when setup/start process is complete

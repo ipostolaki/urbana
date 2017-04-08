@@ -5,27 +5,41 @@
 {% block heading %}
   <div class="page-header">
 
-    <div class="pull-right">
-      {% for tag in self.tags.all %}
-        <a href="{% pageurl self.blog_index %}?tag={{ tag }}"
-           class="btn btn-primary btn-xs">
-          <i class="glyphicon glyphicon-tag"></i> {{ tag }}
-        </a>
-      {% endfor %}
+      <h3>
+      {{ self.title }}<br>
+      {% if self.date %}<small>{{ self.date }}</small>{% endif %}
+    </h3>
 
-        <div style="margin-bottom:5px">
+    <div class="row">
+
+    <div class="col-sm-9">
+
+          {% for tag in self.tags.all %}
+            <a href="{% pageurl self.blog_index %}?tag={{ tag }}"
+               class="btn btn-primary btn-xs">
+              <i class="glyphicon glyphicon-tag"></i> {{ tag }}
+            </a>
+          {% endfor %}
+
+    </div>
+
+
+    <div class="col-sm-3">
+
+      <div style="margin-bottom:5px; margin-top:8px">
             {% social_widget_render "facebook/share_button.html" href=request.build_absolute_uri layout="button" size="large" %}
         </div>
             {% social_widget_render "twitter/share_button.html" href=request.build_absolute_uri size="large" %}
 
     </div>
 
-    <h3>
-      {{ self.title }}<br>
-      {% if self.date %}<small>{{ self.date }}</small>{% endif %}
-    </h3>
+</div>
 
-  </div>
+
+
+      </div>
+
+
 
 {% endblock %}
 
