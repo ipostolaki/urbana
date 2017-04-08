@@ -61,7 +61,9 @@ INSTALLED_APPS = [
     'mptt',
     'haystack',
     'widget_tweaks',
-    'django_markdown'
+    'django_markdown',
+    # Other
+    'social_widgets',
 ] + get_machina_apps()
 
 MIDDLEWARE_CLASSES = [

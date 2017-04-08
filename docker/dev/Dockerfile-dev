@@ -17,6 +17,8 @@ RUN pip install django-machina==0.3.0
 RUN pip install umap
 RUN pip install django-leaflet-storage==0.8.0rc13
 RUN pip install django-compressor==2.1
+RUN pip install django-social-widgets==0.4.0
+
 
 # Dev only
 RUN pip install livereload==2.4.1
