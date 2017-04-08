@@ -1,5 +1,7 @@
 <!-- TODO: move to the home app ? -->
 {% load home_tags static wagtailuserbar %}
+{% load social_widgets wagtailcore_tags %}
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -53,12 +55,36 @@
 
             {% breadcrumbs %}
 
-            <!--TODO: check if needed -->
-            {% block heading %}
-                <div class="page-header">
-                    <h3>{{ self.title }}</h3>
-                </div>
-            {% endblock %}
+{% block heading %}
+<!--By default the heading includes social sharing buttons. This block is overridden in templates where sharing buttons are not required.-->
+<div class="page-header">
+    <div class="row" style="margin-top:-40px;">
+        <div class="col-sm-10">
+
+            <h4>
+              {{ self.title }}<br>
+              {% if self.date %}<small>{{ self.date }}</small>{% endif %}
+            </h4>
+
+              {% for tag in self.tags.all %}
+                <a href="{% pageurl self.blog_index %}?tag={{ tag }}"
+                   class="btn btn-primary btn-xs">
+                  <i class="glyphicon glyphicon-tag"></i> {{ tag }}
+                </a>
+              {% endfor %}
+
+        </div>
+
+        <div class="col-sm-2">
+            <div style="margin-bottom:5px; margin-top:15px;">
+                {% social_widget_render "facebook/share_button.html" href=request.build_absolute_uri layout="button" size="large" %}
+            </div>
+                {% social_widget_render "twitter/share_button.html" href=request.build_absolute_uri size="large" %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
 
             {% block content %}{% endblock %}
 

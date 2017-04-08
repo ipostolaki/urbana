@@ -1,6 +1,11 @@
 {% extends "base.html" %}
-
 {% load wagtailcore_tags %}
+
+{% block heading %}
+    <div class="page-header">
+        <h3>{{ self.title }}</h3>
+    </div>
+{% endblock %}
 
 {% block content %}
 

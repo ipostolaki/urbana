@@ -1,28 +1,6 @@
 {% extends "base.html" %}
 {% load home_tags wagtailcore_tags %}
 {% load i18n %}
-{% load social_widgets %}
-
-
-{% block heading %}
-  <div class="page-header">
-
-    <div class="pull-right">
-
-        <div style="margin-bottom:5px; margin-top:15px">
-            {% social_widget_render "facebook/share_button.html" href=request.build_absolute_uri layout="button" size="large" %}
-        </div>
-            {% social_widget_render "twitter/share_button.html" href=request.build_absolute_uri size="large" %}
-
-    </div>
-
-    <h3>
-      {{ self.title }}<br>
-    </h3>
-
-  </div>
-{% endblock %}
-
 
 {% block content %}
 
