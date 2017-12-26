@@ -1,8 +1,12 @@
+"""
+These settings are used to run Urbana site using Docker cobtainers
+"""
+
 from .base import *
 
-DEBUG = True
+DEBUG = False
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
