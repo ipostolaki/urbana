@@ -1,8 +1,3 @@
-# This file may be used by fabric installed and used by Python 2.7
-#  fab --version
-# Fabric 1.13.1
-# Paramiko 2.1.1
-
 from fabric.api import run, env
 
 env.host_string = "urbana@160.153.224.236"

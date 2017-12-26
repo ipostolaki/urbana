@@ -1,4 +1,4 @@
-This was written down while installing all the components of urbana.md on a clean Ubuntu 16.04.1 LTS.
+This was written down while installing all the components of Urbana site on a clean Ubuntu 16.04.1 LTS.
 
 ## 1 Install Postgres & PostGis
 
@@ -101,4 +101,4 @@ Then run
 
 # Deployment via fabric
 Fabric needs to be installed and used via Python 2.7, on the local development machine.
-Then from the `/production` folder, it is possible to use `fab deploy` command. This will deploy repository contents to the remote server. Fabric will use ssh host hardcoded in the file. OS default public key will be used for authentication.
+Then from the `/host-provision` folder, it is possible to use `fab deploy` command. This will deploy repository contents to the remote server. Fabric will use ssh host hardcoded in the file. OS default public key will be used for authentication.

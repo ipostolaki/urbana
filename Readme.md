@@ -30,10 +30,19 @@ Pip requirements are primarily written in the Dockerfile, which is used to build
 ##### Env files
 For each environment there is an env file, which is not stored in the git repo.
 It keeps secrets and should be copied to the server to define contained environment variables.
-##### Fabric
-Fabric is used to deploy code to the staging/production servers.  
+##### Fabric (for continuous deployment)
+Fabric is used to deploy new code to the staging/production servers.  
 Fabfile contains tasks to stop, rebuild and restart docker containers.
+Fabfile assumes that OS public key is available for SSH authentication.
 
+### Provisioning (first deployment)
+There are bootstrap files provided which allow to deploy site to the new server in two ways, described below.  
+
+##### Running all the site's components directly on the host machine OS
+Relevant bootstrap files are in the [host-provision](/host-provision) folder. Along with some useful template files – there's also a Fabfile which allows to deploy updated code, considering that site runs via `systemd` services. More detailed provisioning notes are in the [installation guide](/docs/install.md)
+
+##### Running the site via Docker containers
+For that it's possible to use the Makefile and other relevant files from the [docker](/docker) folder.
 
 ## Tools
 ### Livereload 
@@ -42,9 +51,3 @@ Livereload is used to update page in browser when watched files are changed.
 **Prerequisites:**  
 - JS code embedded in every page, when site is running locally  
 - Livereload server should be running on dev machine to watch files changes(installed via pip, started together with django dev server)  
-
-## Versions notes
-Docker versions used during development:  
-- docker-compose version 1.8.0, build f3628c7  
-- Docker version 1.12.0, build 8eab29e  
-- docker-machine version 0.8.0, build b85aac1 
