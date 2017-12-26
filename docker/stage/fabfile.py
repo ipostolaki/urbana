@@ -1,12 +1,13 @@
 from fabric.api import run, env
 
-env.host_string = "urbana@160.153.224.236"
+env.host_string = "root@163.172.166.127"
 
 
 def deploy():
     stop()
     pull()
     build()
+    collect_static()
     start()
 
 
@@ -27,3 +28,8 @@ def build():
 def stop():
     # Stop running containers
     run("cd /home/urbana/urbana/docker/stage && make stop")
+
+
+def collect_static():
+    # collect django apps static files
+    run("cd /home/urbana/urbana/docker/stage && make django-collect-static")
