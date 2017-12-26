@@ -1,35 +1,47 @@
 from fabric.api import run, env
+from fabric.context_managers import cd
+
 
 env.host_string = "root@163.172.166.127"
 
+stage_makefile_location = "/home/urbana/docker/stage"
+
 
 def deploy():
-    stop()
-    pull()
-    build()
-    collect_static()
-    start()
+    with cd(stage_makefile_location):
+        _stop()
+        _pull()
+        _start()
+        _collect_static()
 
 
-def pull():
-    # Pull updates from the central repo
-    run("cd /home/urbana/urbana/ && git fetch && git reset --hard origin/master")
+def build_and_deploy():
+        _stop()
+        _pull()
+        _build()
+        _collect_static()
+        _start()
+
+def _pull():
+    """Pull updates from the remote repository"""
+    run("git fetch && git reset --hard origin/master")
 
 
-def start():
-    run("cd /home/urbana/urbana/docker/stage && make run-detached")
+def _start():
+    run("make run-detached")
 
 
-def build():
-    # Rebuild containers, to install there new dependencies
-    run("cd /home/urbana/urbana/docker/stage && make build")
+def _build():
+    """Rebuild containers, to install there new dependencies"""
+    run("make build")
 
 
-def stop():
-    # Stop running containers
-    run("cd /home/urbana/urbana/docker/stage && make stop")
+def _stop():
+    """Stop running containers"""
+    run("make stop")
 
 
-def collect_static():
-    # collect django apps static files
-    run("cd /home/urbana/urbana/docker/stage && make django-collect-static")
+def _collect_static():
+    """Collect django apps' static files"""
+    run("make django-collect-static")
+
