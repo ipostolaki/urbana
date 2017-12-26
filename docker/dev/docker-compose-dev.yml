@@ -25,8 +25,8 @@ services:
 
     pg_database:
         build:
-            context: ./../../
-            dockerfile: ./docker/common/postgis/Dockerfile-postgis
+            context: ./../common/postgis/
+            dockerfile: Dockerfile-postgis
         # secret strings are in the file
         env_file: dev.env
         volumes:
